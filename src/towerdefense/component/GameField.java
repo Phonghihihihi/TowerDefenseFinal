@@ -10,7 +10,7 @@ public class GameField {
     private double height;
     private long tickCount;
 
-    public GameField(GameStage gameStage){
+    public GameField(GameStage gameStage) {
         this.gameEntities.addAll(gameStage.getGameEntities());
         this.width = gameStage.getWidth();
         this.height = gameStage.getHeight();

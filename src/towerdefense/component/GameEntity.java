@@ -2,10 +2,10 @@ package towerdefense.component;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import towerdefense.util.Vector2;
 
 public interface GameEntity {
-    double getPosX();
-    double getPosY();
+    Vector2 getPosition();
     double getWidth();
     double getHeight();
     Image getImage();

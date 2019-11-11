@@ -2,10 +2,10 @@ package towerdefense.component;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import towerdefense.util.Vector2;
 
 public abstract class AbstractEntity implements GameEntity {
-    private double posX;
-    private double posY;
+    private Vector2 position;
     private double width;
     private double height;
     private Image image;
@@ -21,16 +21,6 @@ public abstract class AbstractEntity implements GameEntity {
     }
 
     @Override
-    public double getPosX() {
-        return posX;
-    }
-
-    @Override
-    public double getPosY() {
-        return posY;
-    }
-
-    @Override
     public Image getImage() {
         return image;
     }
@@ -43,21 +33,12 @@ public abstract class AbstractEntity implements GameEntity {
         this.height = height;
     }
 
-    private void setPosX(double posX) {
-        this.posX = posX;
-    }
-
-    private void setPosY(double posY) {
-        this.posY = posY;
-    }
-
     private void setImage(Image image) {
         this.image = image;
     }
 
-    protected AbstractEntity(double posX, double posY, double width, double height, Image image) {
-        this.setPosX(posX);
-        this.setPosY(posY);
+    protected AbstractEntity(Vector2 position, double width, double height, Image image) {
+        this.position = position;
         this.setWidth(width);
         this.setHeight(height);
         this.setImage(image);

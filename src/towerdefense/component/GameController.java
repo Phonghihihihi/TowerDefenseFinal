@@ -46,14 +46,12 @@ public class GameController extends AnimationTimer {
             {"092","093","094","024","024","024","024","024","115","116","116","116","116","116","116","116","116","116","116","116",},
 
 
-
-
     };
 
     private void drawMap(){
         for (int i = 0; i < MAP_SPRITES.length; i++) {
             for (int j = 0; j < MAP_SPRITES[i].length; j++) {
-                graphicsContext.drawImage(new Image("file:src/AssetsKit_2/PNG/Default size/towerDefense_tile"
+                graphicsContext.drawImage(new Image("file:src/Assets/Tile/towerDefense_tile"
                         + MAP_SPRITES[i][j]  +".png" ), j * CommonFunc.TILE_SIZE, i * CommonFunc.TILE_SIZE);
             }
         }
