@@ -8,7 +8,7 @@ public abstract class AbstractEntity implements GameEntity {
     private Vector2 position;
     private double width;
     private double height;
-    private Image image;
+    protected Image image;
 
     @Override
     public double getWidth() {

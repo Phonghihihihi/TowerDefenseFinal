@@ -1,9 +1,13 @@
 package towerdefense.component.enemy;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import towerdefense.component.AbstractEntity;
-import towerdefense.util.Direction;
+import towerdefense.component.Map;
 import towerdefense.util.Vector2;
+
+import static towerdefense.component.CommonFunc.TILE_SIZE;
 
 public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     private Vector2 pos;
@@ -12,7 +16,8 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     private int armor;
     private int reward;
     private int speed;
-    private Direction direction;
+    private ImageView enemyV = new ImageView(image);
+
 
     private boolean destroyed = false;
 
@@ -54,10 +59,32 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     public void Destroy(){
 
     };
+    public void move (int[][] path) {
+        double speedX = 0;
+        double speedY = 0;
+        int tile_X = (int) (this.getPosition().getX() / TILE_SIZE);
+        int tile_Y = (int) (this.getPosition().getY() / TILE_SIZE);
+        if (path[tile_X][tile_Y] == 8) {
+            speedY = -this.getSpeed();
+        } else if (path[tile_X][tile_Y] == 2) {
+            speedY = this.getSpeed();
+        } else if (path[tile_X][tile_Y] == 4) {
+            speedX = -this.getSpeed();
 
-    public void move(double x, double y){
-        pos.setX(pos.getX() + x * speed);
-        pos.setY(pos.getY() + y * speed);
+        } else if (path[tile_X][tile_Y] == 6) {
+            speedX = this.getSpeed();
+        }
+        this.pos.setX(this.pos.getX() + speedX);
+        this.pos.setY(this.pos.getY() + speedY);
+    }
+    public void update()
+        {
+            Map map = new Map();
+            this.move(map.getMAP_PATH());
+        }
+    public void render(GraphicsContext graphicsContext)
+    {
+        enemyV.relocate(this.getPosition().getX(), this.getPosition().getY());
     }
 
     @Override
@@ -65,8 +92,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         return destroyed;
     }
 
-    @Override
-    public Direction getDirection() {
-        return direction;
-    }
+
+
+
 }

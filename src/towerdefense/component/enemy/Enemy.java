@@ -1,10 +1,7 @@
 package towerdefense.component.enemy;
 
 import towerdefense.component.GameEntity;
-import towerdefense.util.Direction;
 import towerdefense.util.Vector2;
-
-import java.util.Vector;
 
 public interface Enemy extends GameEntity {
     int getReward();
@@ -17,7 +14,7 @@ public interface Enemy extends GameEntity {
 
     boolean isDestroyed();
 
-    Direction getDirection();
+
 
 
 }

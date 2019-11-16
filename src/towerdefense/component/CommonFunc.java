@@ -6,7 +6,7 @@ public class CommonFunc {
     private static final long TILE_HORIZONTAL = 20;
     private static final long TILE_VERTICAL = 12;
 
-    public static final long UI_HORIZONTAL = 250;
+    public static final long UI_HORIZONTAL = 300;
 
     public static final long GAME_WIDTH = TILE_SIZE*TILE_HORIZONTAL;
     public static final long GAME_HEIGHT = TILE_SIZE*TILE_VERTICAL;
