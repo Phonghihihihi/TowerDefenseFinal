@@ -19,7 +19,6 @@ public class GameController extends AnimationTimer {
     private long height;
     private GameField gameField;
     private GameStage gameStage;
-    private TileMap map;
 
     long frames = 0;
     private long lastFramecountTimeNs = System.nanoTime();
@@ -35,7 +34,7 @@ public class GameController extends AnimationTimer {
 
         this.gameStage = new GameStage(CommonFunc.GAME_WIDTH, CommonFunc.GAME_HEIGHT, new ArrayList<GameEntity>());
         this.gameField = new GameField(gameStage);
-        this.map = new TileMap();
+
     }
 
     public void update(){
@@ -57,7 +56,7 @@ public class GameController extends AnimationTimer {
             lastFramecountTimeNs = currentTimeNs;
         }
 
-        map.drawMap(graphicsContext);
+
         Vector2 pos = new Vector2(70, 640);
         Image image1 = new Image("file:src/Assets/Enemy/Abstract Enemy/towerDefense_tile245.png");
         NormalEnemy e1 = new NormalEnemy(pos,1,1,image1,2,3,4,10);
@@ -69,6 +68,7 @@ public class GameController extends AnimationTimer {
         for (GameEntity entity : gameField.getGameEntities()){
             entity.render(this.graphicsContext);
         }
+
     }
 
     public void mouseHandler(MouseEvent mouseEvent){

@@ -8,6 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import towerdefense.component.CommonFunc;
 import towerdefense.component.GameController;
+import towerdefense.component.TileMap;
 
 public class TowerDefense extends Application {
 
@@ -33,6 +34,8 @@ public class TowerDefense extends Application {
         stage.setTitle(CommonFunc.GAME_NAME);
         stage.setScene(theScene);
 
+        TileMap map = new TileMap();
+        map.drawMap(gc);
         gameController.start();
         stage.show();
 
