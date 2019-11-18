@@ -14,6 +14,7 @@ public class TowerDefense extends Application {
 
     private double canvasMouseY;
     private double canvasMouseX;
+    public static Group root = new Group();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -25,15 +26,15 @@ public class TowerDefense extends Application {
 
         canvas.setOnMouseClicked(gameController::mouseHandler);
 
-        Group root = new Group();
+        //Group root = new Group();
         root.getChildren().add(canvas);
         Scene theScene = new Scene(root);
 
         stage.setTitle(CommonFunc.GAME_NAME);
         stage.setScene(theScene);
-        stage.show();
 
         gameController.start();
+        stage.show();
 
     }
 

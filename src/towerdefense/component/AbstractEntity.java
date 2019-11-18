@@ -37,6 +37,15 @@ public abstract class AbstractEntity implements GameEntity {
         this.image = image;
     }
 
+    @Override
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
+    }
+
     protected AbstractEntity(Vector2 position, double width, double height, Image image) {
         this.position = position;
         this.setWidth(width);

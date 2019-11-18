@@ -3,9 +3,9 @@ package towerdefense.component;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Map
+public class TileMap
 {
-    private int[][] MAP_PATH = new int[][] {
+    public static int[][] MAP_PATH = new int[][] {
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
             {0,0,0,0,0,6,6,6,6,2,0,0,0,0,0,0,0,0,0,0,},
             {0,0,0,0,0,8,0,0,0,2,0,0,0,0,0,0,0,0,0,0,},

@@ -4,13 +4,13 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import towerdefense.component.AbstractEntity;
-import towerdefense.component.Map;
+import towerdefense.component.TileMap;
 import towerdefense.util.Vector2;
 
 import static towerdefense.component.CommonFunc.TILE_SIZE;
 
 public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
-    private Vector2 pos;
+
     private Vector2 target;
     private int health;
     private int armor;
@@ -41,9 +41,8 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         return health;
     }
 
-    @Override
-    public Vector2 getPosition() {
-        return pos;
+    public ImageView getEnemyV() {
+        return enemyV;
     }
 
     @Override
@@ -62,8 +61,8 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     public void move (int[][] path) {
         double speedX = 0;
         double speedY = 0;
-        int tile_X = (int) (this.getPosition().getX() / TILE_SIZE);
-        int tile_Y = (int) (this.getPosition().getY() / TILE_SIZE);
+        int tile_Y = (int) (this.getPosition().getX() / TILE_SIZE);
+        int tile_X = (int) (this.getPosition().getY() / TILE_SIZE);
         if (path[tile_X][tile_Y] == 8) {
             speedY = -this.getSpeed();
         } else if (path[tile_X][tile_Y] == 2) {
@@ -74,17 +73,20 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         } else if (path[tile_X][tile_Y] == 6) {
             speedX = this.getSpeed();
         }
-        this.pos.setX(this.pos.getX() + speedX);
-        this.pos.setY(this.pos.getY() + speedY);
+        this.getPosition().setX(this.getPosition().getX() + speedX);
+        this.getPosition().setY(this.getPosition().getY() + speedY);
     }
     public void update()
         {
-            Map map = new Map();
-            this.move(map.getMAP_PATH());
+
+            this.move(TileMap.MAP_PATH);
         }
     public void render(GraphicsContext graphicsContext)
     {
-        enemyV.relocate(this.getPosition().getX(), this.getPosition().getY());
+        if (this.getPosition().getX() < 1216)
+        {
+            enemyV.relocate(this.getPosition().getX(), this.getPosition().getY());
+        }
     }
 
     @Override
