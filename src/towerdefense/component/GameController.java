@@ -6,7 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import towerdefense.component.enemy.NormalEnemy;
 import towerdefense.ui.TowerDefense;
-import towerdefense.util.Vector2;
 
 import java.util.ArrayList;
 
@@ -17,6 +16,11 @@ public class GameController extends AnimationTimer {
     private GraphicsContext graphicsContext;
     private long width;
     private long height;
+
+    public GameField getGameField() {
+        return gameField;
+    }
+
     private GameField gameField;
     private GameStage gameStage;
 
@@ -57,16 +61,17 @@ public class GameController extends AnimationTimer {
         }
 
 
-        Vector2 pos = new Vector2(70, 640);
-        Image image1 = new Image("file:src/Assets/Enemy/Abstract Enemy/towerDefense_tile245.png");
-        NormalEnemy e1 = new NormalEnemy(pos,1,1,image1,2,3,4,10);
-        TowerDefense.root.getChildren().add(e1.getEnemyV());
-        gameField.getGameEntities().add(e1);
-        for (GameEntity entity: gameField.getGameEntities()){
-            entity.update();}
+        //Image image1 = new Image("file:src/Assets/Enemy/Abstract Enemy/towerDefense_tile245.png");
+        //NormalEnemy e1 = new NormalEnemy(70,640,1,1,2,3,4,10);
+        //TowerDefense.root.getChildren().add(e1.getEnemyV());
+        //gameField.getGameEntities().add(e1);
+        //for (GameEntity entity: gameField.getGameEntities()){
+          //  entity.update();}
 
         for (GameEntity entity : gameField.getGameEntities()){
+            entity.update();
             entity.render(this.graphicsContext);
+
         }
 
     }

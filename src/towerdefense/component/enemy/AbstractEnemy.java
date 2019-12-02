@@ -6,24 +6,22 @@ import javafx.scene.image.ImageView;
 import towerdefense.component.AbstractEntity;
 import towerdefense.component.TileMap;
 import towerdefense.ui.TowerDefense;
-import towerdefense.util.Vector2;
 
 import static towerdefense.component.CommonFunc.TILE_SIZE;
 
 public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
 
-    private Vector2 target;
-    private int health;
-    private int armor;
-    private int reward;
-    private int speed;
-    private ImageView enemyV = new ImageView(image);
+    protected int health;
+    protected int armor;
+    protected int reward;
+    protected int speed;
+    protected ImageView enemyV ;
 
 
     private boolean destroyed = false;
 
-    public AbstractEnemy(Vector2 position, double width, double height, Image image, int health, int armor, int reward, int speed) {
-        super(position, width, height, image);
+    public AbstractEnemy(double posX, double posY, double width, double height, int health, int armor, int reward, int speed) {
+        super(posX, posY, width, height);
         this.health = health;
         this.armor = armor;
         this.reward = reward;
@@ -62,9 +60,9 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     public void move (int[][] path) {
         double speedX = 0;
         double speedY = 0;
-        int tile_Y = (int) (this.getPosition().getX() / TILE_SIZE);
-        int tile_X = (int) (this.getPosition().getY() / TILE_SIZE);
-        if (this.getPosition().getX() < 1216) {
+        int tile_Y = (int) (this.getPosX() / TILE_SIZE);
+        int tile_X = (int) (this.getPosY() / TILE_SIZE);
+        if (this.getPosX() < 1216) {
             if (path[tile_X][tile_Y] == 8) {
                 speedY = -this.getSpeed();
             } else if (path[tile_X][tile_Y] == 2) {
@@ -75,21 +73,20 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
             } else if (path[tile_X][tile_Y] == 6) {
                 speedX = this.getSpeed();
             }
-            this.getPosition().setX(this.getPosition().getX() + speedX);
-            this.getPosition().setY(this.getPosition().getY() + speedY);
+            this.setPosX(this.getPosX() + speedX);
+            this.setPosY(this.getPosY() + speedY);
         }
         else TowerDefense.root.getChildren().remove(this.getEnemyV());
     }
     public void update()
         {
-
             this.move(TileMap.MAP_PATH);
         }
     public void render(GraphicsContext graphicsContext)
     {
-        if (this.getPosition().getX() < 1216)
+        if (this.getPosX() < 1216)
         {
-            enemyV.relocate(this.getPosition().getX(), this.getPosition().getY());
+            enemyV.relocate(this.getPosX(), this.getPosY());
         }
     }
 

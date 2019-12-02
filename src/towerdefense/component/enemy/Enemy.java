@@ -1,7 +1,7 @@
 package towerdefense.component.enemy;
 
 import towerdefense.component.GameEntity;
-import towerdefense.util.Vector2;
+
 
 public interface Enemy extends GameEntity {
     int getReward();
@@ -10,7 +10,6 @@ public interface Enemy extends GameEntity {
 
     void move();
 
-    Vector2 getPosition();
 
     boolean isDestroyed();
 

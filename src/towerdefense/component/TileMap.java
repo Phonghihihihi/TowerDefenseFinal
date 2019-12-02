@@ -21,7 +21,7 @@ public class TileMap
 
 
     };
-    public String[][] MAP_SPRITES = new String[][] {
+    public static String[][] MAP_SPRITES = new String[][] {
             {"024","024","024","024","069","070","070","070","070","070","071","024","024","024","024","024","024","024","024","024",},
             {"024","024","024","024","092","093","093","093","093","093","094","024","024","024","024","024","024","024","024","024",},
             {"024","024","024","024","092","093","072","116","073","093","094","024","024","024","024","024","024","024","024","024",},
@@ -38,7 +38,7 @@ public class TileMap
 
     };
 
-    public void drawMap(GraphicsContext graphicsContext){
+    public static void drawMap(GraphicsContext graphicsContext){
         for (int i = 0; i < MAP_SPRITES.length; i++) {
             for (int j = 0; j < MAP_SPRITES[i].length; j++) {
                 graphicsContext.drawImage(new Image("file:src/Assets/Tile/towerDefense_tile"

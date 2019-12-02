@@ -8,7 +8,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import towerdefense.component.CommonFunc;
 import towerdefense.component.GameController;
+import towerdefense.component.GameField;
 import towerdefense.component.TileMap;
+import towerdefense.component.enemy.NormalEnemy;
 
 public class TowerDefense extends Application {
 
@@ -34,8 +36,10 @@ public class TowerDefense extends Application {
         stage.setTitle(CommonFunc.GAME_NAME);
         stage.setScene(theScene);
 
-        TileMap map = new TileMap();
-        map.drawMap(gc);
+        TileMap.drawMap(gc);
+        NormalEnemy e1 = new NormalEnemy(64,640,1,10,2,3,4,5);
+        root.getChildren().add(e1.getEnemyV());
+        gameController.getGameField().getGameEntities().add(e1);
         gameController.start();
         stage.show();
 
