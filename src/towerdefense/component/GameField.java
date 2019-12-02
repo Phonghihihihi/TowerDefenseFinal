@@ -1,10 +1,13 @@
 package towerdefense.component;
 
+import towerdefense.component.enemy.NormalEnemy;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameField {
     List<GameEntity> gameEntities = new ArrayList<GameEntity>(CommonFunc.MAP_TILE);
+    List<NormalEnemy> normalEnemies = new ArrayList<NormalEnemy>();
 
     private double width;
     private double height;

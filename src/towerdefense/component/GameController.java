@@ -4,6 +4,8 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import towerdefense.component.enemy.NormalEnemy;
+import towerdefense.ui.TowerDefense;
 
 import java.util.ArrayList;
 
@@ -14,12 +16,19 @@ public class GameController extends AnimationTimer {
     private GraphicsContext graphicsContext;
     private long width;
     private long height;
+
+    public GameField getGameField() {
+        return gameField;
+    }
+
     private GameField gameField;
     private GameStage gameStage;
 
     long frames = 0;
     private long lastFramecountTimeNs = System.nanoTime();
     private long lastTimeNs = System.nanoTime();
+
+
 
     public GameController(GraphicsContext graphicsContext){
         this.graphicsContext = graphicsContext;
@@ -29,36 +38,6 @@ public class GameController extends AnimationTimer {
 
         this.gameStage = new GameStage(CommonFunc.GAME_WIDTH, CommonFunc.GAME_HEIGHT, new ArrayList<GameEntity>());
         this.gameField = new GameField(gameStage);
-    }
-
-    public String[][] MAP_SPRITES = new String[][] {
-            {"024","024","024","024","069","070","070","070","070","070","071","024","024","024","024","024","024","024","024","024",},
-            {"024","024","024","024","092","093","093","093","093","093","094","024","024","024","024","024","024","024","024","024",},
-            {"024","024","024","024","092","093","072","116","073","093","094","024","024","024","024","024","024","024","024","024",},
-            {"024","024","024","024","092","093","094","024","092","093","094","024","024","024","024","024","024","024","024","024",},
-            {"024","024","024","024","092","093","094","024","092","093","094","024","024","024","024","024","024","024","024","024",},
-            {"069","070","070","070","096","093","094","024","092","093","094","024","024","024","024","024","024","024","024","024",},
-            {"092","093","093","093","093","093","094","024","092","093","094","024","024","024","024","024","024","024","024","024",},
-            {"092","093","072","116","116","116","117","024","092","093","094","024","024","024","024","024","024","024","024","024",},
-            {"092","093","094","024","024","024","024","024","092","093","094","024","024","024","024","024","024","024","024","024",},
-            {"092","093","094","024","024","024","024","024","092","093","095","070","070","070","070","070","070","070","070","070",},
-            {"092","093","094","024","024","024","024","024","092","093","093","093","093","093","093","093","093","093","093","093",},
-            {"092","093","094","024","024","024","024","024","115","116","116","116","116","116","116","116","116","116","116","116",},
-
-
-    };
-
-    private void drawMap(){
-        for (int i = 0; i < MAP_SPRITES.length; i++) {
-            for (int j = 0; j < MAP_SPRITES[i].length; j++) {
-                graphicsContext.drawImage(new Image("file:src/Assets/Tile/towerDefense_tile"
-                        + MAP_SPRITES[i][j]  +".png" ), j * CommonFunc.TILE_SIZE, i * CommonFunc.TILE_SIZE);
-            }
-        }
-    }
-
-    public void render(){
-        drawMap();
 
     }
 
@@ -81,10 +60,20 @@ public class GameController extends AnimationTimer {
             lastFramecountTimeNs = currentTimeNs;
         }
 
-        drawMap();
+
+        //Image image1 = new Image("file:src/Assets/Enemy/Abstract Enemy/towerDefense_tile245.png");
+        //NormalEnemy e1 = new NormalEnemy(70,640,1,1,2,3,4,10);
+        //TowerDefense.root.getChildren().add(e1.getEnemyV());
+        //gameField.getGameEntities().add(e1);
+        //for (GameEntity entity: gameField.getGameEntities()){
+          //  entity.update();}
+
         for (GameEntity entity : gameField.getGameEntities()){
+            entity.update();
             entity.render(this.graphicsContext);
+
         }
+
     }
 
     public void mouseHandler(MouseEvent mouseEvent){

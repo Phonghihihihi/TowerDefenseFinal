@@ -8,12 +8,16 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import towerdefense.component.CommonFunc;
 import towerdefense.component.GameController;
+import towerdefense.component.GameField;
+import towerdefense.component.TileMap;
+import towerdefense.component.enemy.NormalEnemy;
 
 public class TowerDefense extends Application {
 
 
     private double canvasMouseY;
     private double canvasMouseX;
+    public static Group root = new Group();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -25,15 +29,19 @@ public class TowerDefense extends Application {
 
         canvas.setOnMouseClicked(gameController::mouseHandler);
 
-        Group root = new Group();
+        //Group root = new Group();
         root.getChildren().add(canvas);
         Scene theScene = new Scene(root);
 
         stage.setTitle(CommonFunc.GAME_NAME);
         stage.setScene(theScene);
-        stage.show();
 
+        TileMap.drawMap(gc);
+        NormalEnemy e1 = new NormalEnemy(64,640,1,10,2,3,4,5);
+        root.getChildren().add(e1.getEnemyV());
+        gameController.getGameField().getGameEntities().add(e1);
         gameController.start();
+        stage.show();
 
     }
 

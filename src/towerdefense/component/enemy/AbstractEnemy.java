@@ -1,23 +1,27 @@
 package towerdefense.component.enemy;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import towerdefense.component.AbstractEntity;
-import towerdefense.util.Direction;
-import towerdefense.util.Vector2;
+import towerdefense.component.TileMap;
+import towerdefense.ui.TowerDefense;
+
+import static towerdefense.component.CommonFunc.TILE_SIZE;
 
 public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
-    private Vector2 pos;
-    private Vector2 target;
-    private int health;
-    private int armor;
-    private int reward;
-    private int speed;
-    private Direction direction;
+
+    protected int health;
+    protected int armor;
+    protected int reward;
+    protected int speed;
+    protected ImageView enemyV ;
+
 
     private boolean destroyed = false;
 
-    public AbstractEnemy(Vector2 position, double width, double height, Image image, int health, int armor, int reward, int speed) {
-        super(position, width, height, image);
+    public AbstractEnemy(double posX, double posY, double width, double height, int health, int armor, int reward, int speed) {
+        super(posX, posY, width, height);
         this.health = health;
         this.armor = armor;
         this.reward = reward;
@@ -36,9 +40,8 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         return health;
     }
 
-    @Override
-    public Vector2 getPosition() {
-        return pos;
+    public ImageView getEnemyV() {
+        return enemyV;
     }
 
     @Override
@@ -54,10 +57,37 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     public void Destroy(){
 
     };
+    public void move (int[][] path) {
+        double speedX = 0;
+        double speedY = 0;
+        int tile_Y = (int) (this.getPosX() / TILE_SIZE);
+        int tile_X = (int) (this.getPosY() / TILE_SIZE);
+        if (this.getPosX() < 1216) {
+            if (path[tile_X][tile_Y] == 8) {
+                speedY = -this.getSpeed();
+            } else if (path[tile_X][tile_Y] == 2) {
+                speedY = this.getSpeed();
+            } else if (path[tile_X][tile_Y] == 4) {
+                speedX = -this.getSpeed();
 
-    public void move(double x, double y){
-        pos.setX(pos.getX() + x * speed);
-        pos.setY(pos.getY() + y * speed);
+            } else if (path[tile_X][tile_Y] == 6) {
+                speedX = this.getSpeed();
+            }
+            this.setPosX(this.getPosX() + speedX);
+            this.setPosY(this.getPosY() + speedY);
+        }
+        else TowerDefense.root.getChildren().remove(this.getEnemyV());
+    }
+    public void update()
+        {
+            this.move(TileMap.MAP_PATH);
+        }
+    public void render(GraphicsContext graphicsContext)
+    {
+        if (this.getPosX() < 1216)
+        {
+            enemyV.relocate(this.getPosX(), this.getPosY());
+        }
     }
 
     @Override
@@ -65,8 +95,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         return destroyed;
     }
 
-    @Override
-    public Direction getDirection() {
-        return direction;
-    }
+
+
+
 }
