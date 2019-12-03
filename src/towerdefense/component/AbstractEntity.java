@@ -2,6 +2,7 @@ package towerdefense.component;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public abstract class AbstractEntity implements GameEntity {
     protected double posX;
@@ -20,10 +21,6 @@ public abstract class AbstractEntity implements GameEntity {
         return height;
     }
 
-    @Override
-    public Image getImage() {
-        return image;
-    }
 
     public void setWidth(double width) {
         this.width = width;

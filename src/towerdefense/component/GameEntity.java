@@ -2,6 +2,7 @@ package towerdefense.component;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public interface GameEntity {
     double getPosX();
@@ -10,7 +11,7 @@ public interface GameEntity {
     void setPosY(double posY);
     double getWidth();
     double getHeight();
-    Image getImage();
+    ImageView getImageV();
     void render(GraphicsContext graphicsContext);
     void update();
 

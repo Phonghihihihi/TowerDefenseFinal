@@ -9,7 +9,7 @@ import java.util.List;
 public class GameField {
     private int normalNumber = 5;
     private int enemyCounter = 0;
-    private int spawnRate = 50;
+    private int spawnRate = 30;
     private int timer = 0;
     private boolean isSpawning = true;
     List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
@@ -24,6 +24,11 @@ public class GameField {
     {
         this.isSpawning = isSpawning;
     }
+
+    public boolean isSpawning() {
+        return isSpawning;
+    }
+
     public void spawnEnemies()
     {
         if (this.enemyCounter <= normalNumber && isSpawning)
@@ -44,6 +49,7 @@ public class GameField {
         else if (enemyCounter > normalNumber)
         {
             enemyCounter = 0;
+            setSpawning(false);
         }
     }
 

@@ -39,7 +39,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         return health;
     }
 
-    public ImageView getEnemyV() {
+    public ImageView getImageV() {
         return enemyV;
     }
 
