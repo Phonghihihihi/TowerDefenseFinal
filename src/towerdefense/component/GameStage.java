@@ -3,30 +3,28 @@ package towerdefense.component;
 import java.util.List;
 
 public class GameStage {
-    private final long width;
-    private final long height;
 
     private boolean waveOver = false;
+    private long money = GameConfig.START_MONEY;
 
-    private final List<GameEntity> gameEntities;
+    public void setWaveOver(boolean waveOver) {
+        this.waveOver = waveOver;
+    }
 
-
-    public GameStage(long width, long height, List<GameEntity> gameEntities) {
-        this.width = width;
-        this.height = height;
-        this.gameEntities = gameEntities;
+    public boolean isWaveOver()
+    {
+        return waveOver;
     }
 
 
-    public List<GameEntity> getGameEntities() {
-        return gameEntities;
+
+
+    public GameStage() {
+
     }
 
-    public long getHeight() {
-        return height;
-    }
 
-    public long getWidth() {
-        return width;
-    }
+
+
+
 }

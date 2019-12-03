@@ -2,6 +2,7 @@ package towerdefense.component.enemy;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import towerdefense.ui.TowerDefense;
 
 
 public class NormalEnemy extends AbstractEnemy implements Enemy
@@ -10,6 +11,7 @@ public class NormalEnemy extends AbstractEnemy implements Enemy
         super( posX, posY, width, height, health, armor, reward, speed);
         this.image = new Image("file:src/Assets/Enemy/Abstract Enemy/towerDefense_tile245.png");
         this.enemyV = new ImageView(image);
+        TowerDefense.root.getChildren().add(enemyV);
 
     }
 

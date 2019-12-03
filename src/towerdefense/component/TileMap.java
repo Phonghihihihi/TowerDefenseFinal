@@ -42,7 +42,7 @@ public class TileMap
         for (int i = 0; i < MAP_SPRITES.length; i++) {
             for (int j = 0; j < MAP_SPRITES[i].length; j++) {
                 graphicsContext.drawImage(new Image("file:src/Assets/Tile/towerDefense_tile"
-                        + MAP_SPRITES[i][j]  +".png" ), j * CommonFunc.TILE_SIZE, i * CommonFunc.TILE_SIZE);
+                        + MAP_SPRITES[i][j]  +".png" ), j * GameConfig.TILE_SIZE, i * GameConfig.TILE_SIZE);
             }
         }
     }

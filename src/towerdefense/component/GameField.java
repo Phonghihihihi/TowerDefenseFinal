@@ -1,38 +1,58 @@
 package towerdefense.component;
 
+import towerdefense.component.enemy.Enemy;
 import towerdefense.component.enemy.NormalEnemy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameField {
-    List<GameEntity> gameEntities = new ArrayList<GameEntity>(CommonFunc.MAP_TILE);
-    List<NormalEnemy> normalEnemies = new ArrayList<NormalEnemy>();
+    private int normalNumber = 5;
+    private int enemyCounter = 0;
+    private int spawnRate = 50;
+    private int timer = 0;
+    private boolean isSpawning = true;
+    List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
+    List<Enemy> Enemies = new ArrayList<Enemy>();
 
-    private double width;
-    private double height;
-    private long tickCount;
 
-    public GameField(GameStage gameStage) {
-        this.gameEntities.addAll(gameStage.getGameEntities());
-        this.width = gameStage.getWidth();
-        this.height = gameStage.getHeight();
-        this.tickCount = 0;
+
+
+    public GameField()
+    {}
+    public void setSpawning(boolean isSpawning)
+    {
+        this.isSpawning = isSpawning;
+    }
+    public void spawnEnemies()
+    {
+        if (this.enemyCounter <= normalNumber && isSpawning)
+        {
+            if (timer < spawnRate)
+            {
+                timer ++;
+            }
+            else
+            {
+                NormalEnemy e1 = new NormalEnemy(64, 640, 1, 10, 2, 3, 4, 8);
+                gameEntities.add(e1);
+                this.enemyCounter++;
+                timer = 0;
+
+            }
+        }
+        else if (enemyCounter > normalNumber)
+        {
+            enemyCounter = 0;
+        }
     }
 
-    public double getHeight() {
-        return height;
-    }
 
-    public double getWidth() {
-        return width;
-    }
+
 
     public List<GameEntity> getGameEntities() {
         return gameEntities;
     }
 
-    public long getTickCount() {
-        return tickCount;
-    }
+
 }

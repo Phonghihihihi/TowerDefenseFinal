@@ -1,13 +1,12 @@
 package towerdefense.component.enemy;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import towerdefense.component.AbstractEntity;
 import towerdefense.component.TileMap;
 import towerdefense.ui.TowerDefense;
 
-import static towerdefense.component.CommonFunc.TILE_SIZE;
+import static towerdefense.component.GameConfig.TILE_SIZE;
 
 public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
 
@@ -62,7 +61,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         double speedY = 0;
         int tile_Y = (int) (this.getPosX() / TILE_SIZE);
         int tile_X = (int) (this.getPosY() / TILE_SIZE);
-        if (this.getPosX() < 1216) {
+        if (this.getPosX() < 1230) {
             if (path[tile_X][tile_Y] == 8) {
                 speedY = -this.getSpeed();
             } else if (path[tile_X][tile_Y] == 2) {
@@ -76,7 +75,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
             this.setPosX(this.getPosX() + speedX);
             this.setPosY(this.getPosY() + speedY);
         }
-        else TowerDefense.root.getChildren().remove(this.getEnemyV());
+
     }
     public void update()
         {
@@ -84,10 +83,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         }
     public void render(GraphicsContext graphicsContext)
     {
-        if (this.getPosX() < 1216)
-        {
-            enemyV.relocate(this.getPosX(), this.getPosY());
-        }
+        enemyV.relocate(this.getPosX(), this.getPosY());
     }
 
     @Override
