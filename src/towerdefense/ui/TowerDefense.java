@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import towerdefense.component.*;
 import towerdefense.component.enemy.NormalEnemy;
@@ -48,7 +49,7 @@ public class TowerDefense extends Application {
 
             }
         });
-//        root.getChildren().add(next_wave);
+        root.getChildren().add(next_wave);
         TileMap.drawMap(gc);
         //NormalEnemy e1 = new NormalEnemy(64,640,1,10,2,3,4,5);
         //gameField.getGameEntities().add(e1);
@@ -75,8 +76,17 @@ public class TowerDefense extends Application {
 
                 if (!gameField.isSpawning() && gameField.getGameEntities().isEmpty())
                 {
-                    this.stop();
-                    root.getChildren().add(next_wave);
+                    gameStage.setWaveOver(true);
+//                    this.stop();
+//                    root.getChildren().add(next_wave);
+                    next_wave.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            gameStage.setWaveOver(false);
+                            gameField.setSpawning(true);
+
+                        }
+                    });
 //                    gameStage.setWaveOver(true);
 //                    gameField.setSpawning(false);
                 }
@@ -87,6 +97,7 @@ public class TowerDefense extends Application {
     }
 
     public static void main(String[] args) {
+        System.out.println(GameConfig.CANVAS_WIDTH + "x" + GameConfig.CANVAS_HEIGHT);
         launch(args);
     }
 }

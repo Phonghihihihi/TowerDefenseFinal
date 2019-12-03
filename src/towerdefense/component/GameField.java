@@ -15,8 +15,9 @@ public class GameField {
     List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
     List<Enemy> Enemies = new ArrayList<Enemy>();
 
-
-
+    public void refreshSpawner(){
+        enemyCounter = 0;
+    }
 
     public GameField()
     {}
@@ -48,8 +49,8 @@ public class GameField {
         }
         else if (enemyCounter > normalNumber)
         {
-            enemyCounter = 0;
             setSpawning(false);
+            refreshSpawner();
         }
     }
 
