@@ -84,6 +84,10 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     public void render(GraphicsContext graphicsContext)
     {
         enemyV.relocate(this.getPosX(), this.getPosY());
+        if (this.getPosX() > 1210)
+        {
+            TowerDefense.root.getChildren().remove(enemyV);
+        }
     }
 
     @Override

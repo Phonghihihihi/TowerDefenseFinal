@@ -44,39 +44,44 @@ public class TowerDefense extends Application {
         next_wave.relocate(1300,400);
         next_wave.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent actionEvent) {
+            public void handle(ActionEvent actionEvent)  {
+                gameField.setSpawning(true);
+                next_wave.setDisable(true);
+                next_wave.setVisible(false);
+                System.out.println(2);
 
             }
         });
+
         root.getChildren().add(next_wave);
         TileMap.drawMap(gc);
-        //NormalEnemy e1 = new NormalEnemy(64,640,1,10,2,3,4,5);
-        //gameField.getGameEntities().add(e1);
-        //gameField.spawnEnemies();
 
         new AnimationTimer()
         {
             public void handle(long currentTimeNs)
             {
-                if(!gameStage.isWaveOver())
+                if(!gameField.isWaveOver())
                 {
                     gameField.spawnEnemies();
+                    next_wave.setVisible(false);
+                    next_wave.setDisable(true);
+                }
+                else
+                {
+                    next_wave.setDisable(false);
+                    next_wave.setVisible(true);
                 }
                 for (int i=0; i<gameField.getGameEntities().size(); i++)
                 {
                     gameField.getGameEntities().get(i).update();
                     gameField.getGameEntities().get(i).render(gc);
-                    if (gameField.getGameEntities().get(i).getPosX()  == 1220)
+                    if (gameField.getGameEntities().get(i).getPosX() > 1220)
                     {
                         gameField.getGameEntities().remove(i);
-
                     }
                 }
-                if (gameField.getGameEntities().isEmpty())
-                {
-                   // gameStage.setWaveOver(true);
-                    //gameField.setSpawning(false);
-                }
+
+
             }
         }.start();
         stage.show();

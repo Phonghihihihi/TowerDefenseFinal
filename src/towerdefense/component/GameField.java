@@ -11,22 +11,35 @@ public class GameField {
     private int enemyCounter = 0;
     private int spawnRate = 50;
     private int timer = 0;
-    private boolean isSpawning = true;
+    private boolean spawning = true;
     List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
     List<Enemy> Enemies = new ArrayList<Enemy>();
 
-
-
-
     public GameField()
     {}
+
+    public int getEnemyCounter() {
+        return enemyCounter;
+    }
+    public boolean isWaveOver()
+    {
+        return (gameEntities.isEmpty() && !spawning);
+    }
+    public void setEnemyCounter(int enemyCounter) {
+        this.enemyCounter = enemyCounter;
+    }
+
+    public boolean isSpawning() {
+        return spawning;
+    }
+
     public void setSpawning(boolean isSpawning)
     {
-        this.isSpawning = isSpawning;
+        this.spawning = isSpawning;
     }
     public void spawnEnemies()
     {
-        if (this.enemyCounter <= normalNumber && isSpawning)
+        if (this.enemyCounter < normalNumber && spawning)
         {
             if (timer < spawnRate)
             {
@@ -41,18 +54,20 @@ public class GameField {
 
             }
         }
-        else if (enemyCounter > normalNumber)
+        else if (enemyCounter >= normalNumber)
         {
+            spawning = false;
             enemyCounter = 0;
         }
     }
-
-
-
 
     public List<GameEntity> getGameEntities() {
         return gameEntities;
     }
 
+    public void setGameEntities(List<GameEntity> gameEntities)
+    {
+        this.gameEntities = gameEntities;
+    }
 
 }
