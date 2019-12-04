@@ -3,8 +3,10 @@ package towerdefense.component;
 public final class GameConfig {
     public static final String GAME_NAME = "Tower Defense";
     public static final long TILE_SIZE = 64;
-    private static final long TILE_HORIZONTAL = 18;
-    private static final long TILE_VERTICAL = 12;
+    public static final long TILE_HORIZONTAL = 18;
+    public static final long TILE_VERTICAL = 12;
+
+    public static final double PI_TO_DEGREE = 180/Math.PI;
 
     public static final long UI_HORIZONTAL = 200;
 
@@ -18,9 +20,9 @@ public final class GameConfig {
 
     public static final long START_MONEY = 50;
 
-    public static final int SPAWN_RATE = 50;
+    public static final int SPAWN_RATE = 30;
     public static final int NORMAL_ENEMY_WAVE_NUMBER = 5;
-    public static final int NORMAL_ENEMY_SPEED = 8;
+    public static final int NORMAL_ENEMY_SPEED = 2;
     public static final int NORMAL_ENEMY_ARMOR = 1;
     public static final int NORMAL_ENEMY_HEALTH = 1;
     public static final int NORMAL_ENEMY_REWARD = 1;

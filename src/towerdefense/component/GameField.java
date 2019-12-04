@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameField {
-    private int normalNumber = 5;
+    private int normalNumber = GameConfig.NORMAL_ENEMY_WAVE_NUMBER;
     private int enemyCounter = 0;
-    private int spawnRate = 30;
+    private int spawnRate = GameConfig.SPAWN_RATE;
     private int timer = 0;
     private boolean isSpawning = true;
     List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
@@ -49,7 +49,7 @@ public class GameField {
             }
             else
             {
-                NormalEnemy e1 = new NormalEnemy(64, 640, 1, 10, 2, 3, 4, 4);
+                NormalEnemy e1 = new NormalEnemy(64, 640, 1, 10);
                 gameEntities.add(e1);
                 this.enemyCounter++;
                 timer = 0;

@@ -65,12 +65,16 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         if (this.getPosX() < (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0) + 1) {
             if (path[tile_X][tile_Y] == 8) {
                 speedY = -this.getSpeed();
+                enemyV.setRotate(-90);
             } else if (path[tile_X][tile_Y] == 2) {
                 speedY = this.getSpeed();
+                enemyV.setRotate(90);
             } else if (path[tile_X][tile_Y] == 4) {
                 speedX = -this.getSpeed();
+                enemyV.setRotate(-180);
             } else if (path[tile_X][tile_Y] == 6) {
                 speedX = this.getSpeed();
+                enemyV.setRotate(0);
             }
             this.setPosX(this.getPosX() + speedX);
             this.setPosY(this.getPosY() + speedY);
