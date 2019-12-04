@@ -7,11 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameField {
-    private int normalNumber = 5;
     private int enemyCounter = 0;
-    private int spawnRate = 50;
     private int timer = 0;
     private boolean spawning = true;
+    private boolean placingTower = false;
     List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
     List<Enemy> Enemies = new ArrayList<Enemy>();
 
@@ -39,22 +38,22 @@ public class GameField {
     }
     public void spawnEnemies()
     {
-        if (this.enemyCounter < normalNumber && spawning)
+        if (this.enemyCounter < GameConfig.NORMAL_ENEMY_WAVE_NUMBER && spawning)
         {
-            if (timer < spawnRate)
+            if (timer < GameConfig.SPAWN_RATE)
             {
                 timer ++;
             }
             else
             {
-                NormalEnemy e1 = new NormalEnemy(64, 640, 1, 10, 2, 3, 4, 8);
+                NormalEnemy e1 = new NormalEnemy(64, 640, 1, 10);
                 gameEntities.add(e1);
                 this.enemyCounter++;
                 timer = 0;
 
             }
         }
-        else if (enemyCounter >= normalNumber)
+        else if (enemyCounter >= GameConfig.NORMAL_ENEMY_WAVE_NUMBER)
         {
             spawning = false;
             enemyCounter = 0;

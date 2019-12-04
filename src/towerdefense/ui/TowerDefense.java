@@ -75,7 +75,7 @@ public class TowerDefense extends Application {
                 {
                     gameField.getGameEntities().get(i).update();
                     gameField.getGameEntities().get(i).render(gc);
-                    if (gameField.getGameEntities().get(i).getPosX() > 1220)
+                    if (gameField.getGameEntities().get(i).getPosX() > (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0))
                     {
                         gameField.getGameEntities().remove(i);
                     }
