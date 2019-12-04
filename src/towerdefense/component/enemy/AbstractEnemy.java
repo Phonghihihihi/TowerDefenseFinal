@@ -49,14 +49,17 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         health -= Math.max((damage - armor), 0);
         if (health<=0){
             destroyed = true;
-            Destroy();
+            destroyEnemy();
         }
 
     }
 
-    public void Destroy(){
+    @Override
+    public void destroyEnemy() {
+        TowerDefense.root.getChildren().remove(enemyV);
+    }
 
-    };
+
     public void move (int[][] path) {
         double speedX = 0;
         double speedY = 0;

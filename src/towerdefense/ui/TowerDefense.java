@@ -62,11 +62,15 @@ public class TowerDefense extends Application {
             {
                 gameField.getReinforcements().update();
                 gameField.getReinforcements().render(gc);
+                System.out.println(gameField.getReinforcements().getPosX());
 
 
                 if(!gameStage.isWaveOver())
                 {
                     gameField.spawnEnemies();
+                }
+                if (gameField.getReinforcements().getPosX() >(GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0)){
+                    gameField.getReinforcements().destroyReinforcements();
                 }
                 for (int i=0; i<gameField.getGameEntities().size(); i++)
                 {
