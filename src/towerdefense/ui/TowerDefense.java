@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import towerdefense.component.*;
 import towerdefense.component.enemy.NormalEnemy;
@@ -41,47 +42,61 @@ public class TowerDefense extends Application {
         GameField gameField = new GameField();
 
         Button next_wave = new Button("Next Wave");
-        next_wave.relocate(1300,400);
+        next_wave.relocate(GameConfig.GAME_WIDTH + GameConfig.UI_HORIZONTAL/2.0,400);
         next_wave.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent actionEvent)  {
-                gameField.setSpawning(true);
-                next_wave.setDisable(true);
-                next_wave.setVisible(false);
-                System.out.println(2);
+            public void handle(ActionEvent actionEvent) {
 
             }
         });
-
         root.getChildren().add(next_wave);
+        next_wave.setVisible(false);
         TileMap.drawMap(gc);
+        //NormalEnemy e1 = new NormalEnemy(64,640,1,10,2,3,4,5);
+        //gameField.getGameEntities().add(e1);
+        //gameField.spawnEnemies();
 
         new AnimationTimer()
         {
             public void handle(long currentTimeNs)
             {
-                if(!gameField.isWaveOver())
+                gameField.getReinforcements().update();
+                gameField.getReinforcements().render(gc);
+
+
+                if(!gameStage.isWaveOver())
                 {
                     gameField.spawnEnemies();
-                    next_wave.setVisible(false);
-                    next_wave.setDisable(true);
-                }
-                else
-                {
-                    next_wave.setDisable(false);
-                    next_wave.setVisible(true);
                 }
                 for (int i=0; i<gameField.getGameEntities().size(); i++)
                 {
                     gameField.getGameEntities().get(i).update();
                     gameField.getGameEntities().get(i).render(gc);
-                    if (gameField.getGameEntities().get(i).getPosX() > (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0))
+                    if (gameField.getGameEntities().get(i).getPosX()  == (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0))
                     {
+                        root.getChildren().remove(gameField.getGameEntities().get(i).getImageV());
                         gameField.getGameEntities().remove(i);
                     }
                 }
 
+                if (!gameField.isSpawning() && gameField.getGameEntities().isEmpty())
+                {
+                    gameStage.setWaveOver(true);
+//                    this.stop();
+//                    root.getChildren().add(next_wave);
+                    next_wave.setVisible(true);
+                    next_wave.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            gameStage.setWaveOver(false);
+                            gameField.setSpawning(true);
+                            next_wave.setVisible(false);
 
+                        }
+                    });
+//                    gameStage.setWaveOver(true);
+//                    gameField.setSpawning(false);
+                }
             }
         }.start();
         stage.show();
@@ -89,6 +104,7 @@ public class TowerDefense extends Application {
     }
 
     public static void main(String[] args) {
+        System.out.println(GameConfig.CANVAS_WIDTH + "x" + GameConfig.CANVAS_HEIGHT);
         launch(args);
     }
 }

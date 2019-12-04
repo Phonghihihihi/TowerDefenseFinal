@@ -4,17 +4,20 @@ import java.util.List;
 
 public class GameStage {
 
-    private int waveCount = 0;
+    private boolean waveOver = false;
     private long money = GameConfig.START_MONEY;
 
-    public int getWaveCount()
-    {
-        return this.waveCount;
+    public void setWaveOver(boolean waveOver) {
+        this.waveOver = waveOver;
     }
-    public void setWaveCount(int waveCount)
+
+    public boolean isWaveOver()
     {
-        this.waveCount = waveCount;
+        return waveOver;
     }
+
+
+
 
 
     public GameStage() {

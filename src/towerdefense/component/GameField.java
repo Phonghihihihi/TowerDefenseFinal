@@ -7,66 +7,68 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameField {
+    private int normalNumber = 5;
     private int enemyCounter = 0;
+    private int spawnRate = 30;
     private int timer = 0;
-    private boolean spawning = true;
-    private boolean placingTower = false;
+    private boolean isSpawning = true;
     List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
+    Reinforcements reinforcements = new Reinforcements(0, 400, 64, 64);
     List<Enemy> Enemies = new ArrayList<Enemy>();
+
+    public void refreshSpawner(){
+        enemyCounter = 0;
+    }
+
+    public Reinforcements getReinforcements() {
+        return reinforcements;
+    }
+
+    public void spawnReinforcements(){
+
+    }
 
     public GameField()
     {}
-
-    public int getEnemyCounter() {
-        return enemyCounter;
-    }
-    public boolean isWaveOver()
+    public void setSpawning(boolean isSpawning)
     {
-        return (gameEntities.isEmpty() && !spawning);
-    }
-    public void setEnemyCounter(int enemyCounter) {
-        this.enemyCounter = enemyCounter;
+        this.isSpawning = isSpawning;
     }
 
     public boolean isSpawning() {
-        return spawning;
+        return isSpawning;
     }
 
-    public void setSpawning(boolean isSpawning)
-    {
-        this.spawning = isSpawning;
-    }
     public void spawnEnemies()
     {
-        if (this.enemyCounter < GameConfig.NORMAL_ENEMY_WAVE_NUMBER && spawning)
+        if (this.enemyCounter <= normalNumber && isSpawning)
         {
-            if (timer < GameConfig.SPAWN_RATE)
+            if (timer < spawnRate)
             {
                 timer ++;
             }
             else
             {
-                NormalEnemy e1 = new NormalEnemy(64, 640, 1, 10);
+                NormalEnemy e1 = new NormalEnemy(64, 640, 1, 10, 2, 3, 4, 4);
                 gameEntities.add(e1);
                 this.enemyCounter++;
                 timer = 0;
 
             }
         }
-        else if (enemyCounter >= GameConfig.NORMAL_ENEMY_WAVE_NUMBER)
+        else if (enemyCounter > normalNumber)
         {
-            spawning = false;
-            enemyCounter = 0;
+            setSpawning(false);
+            refreshSpawner();
         }
     }
+
+
+
 
     public List<GameEntity> getGameEntities() {
         return gameEntities;
     }
 
-    public void setGameEntities(List<GameEntity> gameEntities)
-    {
-        this.gameEntities = gameEntities;
-    }
 
 }

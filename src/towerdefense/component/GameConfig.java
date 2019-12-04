@@ -6,7 +6,7 @@ public final class GameConfig {
     private static final long TILE_HORIZONTAL = 18;
     private static final long TILE_VERTICAL = 12;
 
-    public static final long UI_HORIZONTAL = 300;
+    public static final long UI_HORIZONTAL = 200;
 
     public static final long GAME_WIDTH = TILE_SIZE*TILE_HORIZONTAL;
     public static final long GAME_HEIGHT = TILE_SIZE*TILE_VERTICAL;
@@ -29,8 +29,14 @@ public final class GameConfig {
 
     private final double SHOT_FADE_TIME =1.;
 
+    //ENEMY
+    public static final double ENEMY_SPAWN = 7;
+
     //UI CONTROL
     public static volatile int UI_CUR = 1;
+
+    //Reinforcement
+    public static final int PLANE_SPEED = 4;
 
 
 
