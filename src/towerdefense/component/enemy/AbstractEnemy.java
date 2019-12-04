@@ -57,6 +57,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
 
     };
     public void move (int[][] path) {
+        enemyV.setRotate(0);
         double speedX = 0;
         double speedY = 0;
         int tile_Y = (int) (this.getPosX() / TILE_SIZE);
@@ -64,10 +65,13 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         if (this.getPosX() < 1230) {
             if (path[tile_X][tile_Y] == 8) {
                 speedY = -this.getSpeed();
+                enemyV.setRotate(-90);
             } else if (path[tile_X][tile_Y] == 2) {
                 speedY = this.getSpeed();
+                enemyV.setRotate(90);
             } else if (path[tile_X][tile_Y] == 4) {
                 speedX = -this.getSpeed();
+                enemyV.setRotate(-180);
 
             } else if (path[tile_X][tile_Y] == 6) {
                 speedX = this.getSpeed();

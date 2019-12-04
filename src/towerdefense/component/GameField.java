@@ -13,10 +13,19 @@ public class GameField {
     private int timer = 0;
     private boolean isSpawning = true;
     List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
+    Reinforcements reinforcements = new Reinforcements(0, 400, 64, 64);
     List<Enemy> Enemies = new ArrayList<Enemy>();
 
     public void refreshSpawner(){
         enemyCounter = 0;
+    }
+
+    public Reinforcements getReinforcements() {
+        return reinforcements;
+    }
+
+    public void spawnReinforcements(){
+
     }
 
     public GameField()
@@ -40,7 +49,7 @@ public class GameField {
             }
             else
             {
-                NormalEnemy e1 = new NormalEnemy(64, 640, 1, 10, 2, 3, 4, 8);
+                NormalEnemy e1 = new NormalEnemy(64, 640, 1, 10, 2, 3, 4, 4);
                 gameEntities.add(e1);
                 this.enemyCounter++;
                 timer = 0;

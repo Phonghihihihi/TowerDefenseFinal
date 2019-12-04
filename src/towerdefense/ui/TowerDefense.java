@@ -50,6 +50,7 @@ public class TowerDefense extends Application {
             }
         });
         root.getChildren().add(next_wave);
+        next_wave.setVisible(false);
         TileMap.drawMap(gc);
         //NormalEnemy e1 = new NormalEnemy(64,640,1,10,2,3,4,5);
         //gameField.getGameEntities().add(e1);
@@ -59,6 +60,10 @@ public class TowerDefense extends Application {
         {
             public void handle(long currentTimeNs)
             {
+                gameField.getReinforcements().update();
+                gameField.getReinforcements().render(gc);
+
+
                 if(!gameStage.isWaveOver())
                 {
                     gameField.spawnEnemies();
@@ -79,11 +84,13 @@ public class TowerDefense extends Application {
                     gameStage.setWaveOver(true);
 //                    this.stop();
 //                    root.getChildren().add(next_wave);
+                    next_wave.setVisible(true);
                     next_wave.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent mouseEvent) {
                             gameStage.setWaveOver(false);
                             gameField.setSpawning(true);
+                            next_wave.setVisible(false);
 
                         }
                     });

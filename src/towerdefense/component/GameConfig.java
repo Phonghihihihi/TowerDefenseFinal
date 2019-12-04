@@ -26,6 +26,9 @@ public class GameConfig {
     //UI CONTROL
     public static volatile int UI_CUR = 1;
 
+    //Reinforcement
+    public static final int PLANE_SPEED = 4;
+
 
 
     public static final int UI_BASE = 0;
