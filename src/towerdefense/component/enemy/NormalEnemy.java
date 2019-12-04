@@ -14,9 +14,9 @@ public class NormalEnemy extends AbstractEnemy implements Enemy
         this.armor = GameConfig.NORMAL_ENEMY_ARMOR;
         this.speed = GameConfig.NORMAL_ENEMY_SPEED;
         this.reward = GameConfig.NORMAL_ENEMY_REWARD;
-        this.image = new Image("file:src/Assets/Enemy/Abstract Enemy/towerDefense_tile245.png");
-        this.enemyV = new ImageView(image);
-        TowerDefense.root.getChildren().add(enemyV);
+        this.image = new Image(GameConfig.NORMAL_ENEMY_IMAGE_URL);
+        this.imageV = new ImageView(image);
+        TowerDefense.root.getChildren().add(imageV);
     }
 
     @Override

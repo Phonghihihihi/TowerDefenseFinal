@@ -7,6 +7,8 @@ import javafx.scene.image.ImageView;
 public interface GameEntity {
     double getPosX();
     double getPosY();
+    double getCenterPosX();
+    double getCenterPosY();
     void setPosX(double posX);
     void setPosY(double posY);
     double getWidth();

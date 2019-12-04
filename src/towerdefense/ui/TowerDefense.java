@@ -9,10 +9,14 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import towerdefense.component.*;
 import towerdefense.component.enemy.NormalEnemy;
+import towerdefense.component.tower.MachineGunTower;
+import towerdefense.component.tower.NormalTower;
 
 public class TowerDefense extends Application {
 
@@ -27,11 +31,6 @@ public class TowerDefense extends Application {
 
         Canvas canvas = new Canvas(GameConfig.CANVAS_WIDTH, GameConfig.CANVAS_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        //GameController gameController = new GameController(gc);
-
-        //canvas.setOnMouseClicked(gameController::mouseHandler);
-
-        //Group root = new Group();
         root.getChildren().add(canvas);
         Scene theScene = new Scene(root);
 
@@ -43,18 +42,54 @@ public class TowerDefense extends Application {
 
         Button next_wave = new Button("Next Wave");
         next_wave.relocate(GameConfig.GAME_WIDTH + GameConfig.UI_HORIZONTAL/2.0,400);
-        next_wave.setOnAction(new EventHandler<ActionEvent>() {
+
+        Button buy_normal_tower = new Button ("", new ImageView(new Image(GameConfig.NORMAL_TOWER_IMAGE_URL)));
+        buy_normal_tower.relocate(1200,250);
+        buy_normal_tower.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                gameField.setPlacingNormalTower(true);
+            }
+        });
+
+        Button buy_machine_gun_tower = new Button ("", new ImageView(new Image(GameConfig.MACHINE_GUN_TOWER_IMAGE_URL)));
+        buy_machine_gun_tower.relocate(1200,150);
+        buy_machine_gun_tower.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                gameField.setPlacingMachinGunTower(true);
+            }
+        });
+
+        canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+
+                int tileX = (int)(mouseEvent.getX() / GameConfig.TILE_SIZE);
+                int tileY = (int)(mouseEvent.getY() / GameConfig.TILE_SIZE);
+                if (TileMap.MAP_PATH[tileY][tileX] == 0) {
+                    if (gameField.isPlacingNormalTower()) {
+                        NormalTower t1 = new NormalTower(tileX * GameConfig.TILE_SIZE, tileY * GameConfig.TILE_SIZE, 1, 1);
+                        t1.render(gc);
+                        gameField.getTowers().add(t1);
+                        gameField.setPlacingNormalTower(false);
+                    }
+                    else if (gameField.isPlacingMachinGunTower())
+                    {
+                        MachineGunTower t2 = new MachineGunTower(tileX * GameConfig.TILE_SIZE, tileY * GameConfig.TILE_SIZE, 1, 1);
+                        t2.render(gc);
+                        gameField.getTowers().add(t2);
+                        gameField.setPlacingMachinGunTower(false);
+                    }
+                }
 
             }
         });
-        root.getChildren().add(next_wave);
+
+
+        root.getChildren().addAll(next_wave, buy_normal_tower, buy_machine_gun_tower);
         next_wave.setVisible(false);
         TileMap.drawMap(gc);
-        //NormalEnemy e1 = new NormalEnemy(64,640,1,10,2,3,4,5);
-        //gameField.getGameEntities().add(e1);
-        //gameField.spawnEnemies();
 
         new AnimationTimer()
         {
@@ -72,7 +107,7 @@ public class TowerDefense extends Application {
                 {
                     gameField.getGameEntities().get(i).update();
                     gameField.getGameEntities().get(i).render(gc);
-                    if (gameField.getGameEntities().get(i).getPosX()  == (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0))
+                    if (gameField.getGameEntities().get(i).getPosX() >= (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0) -30)
                     {
                         root.getChildren().remove(gameField.getGameEntities().get(i).getImageV());
                         gameField.getGameEntities().remove(i);
@@ -82,8 +117,6 @@ public class TowerDefense extends Application {
                 if (!gameField.isSpawning() && gameField.getGameEntities().isEmpty())
                 {
                     gameStage.setWaveOver(true);
-//                    this.stop();
-//                    root.getChildren().add(next_wave);
                     next_wave.setVisible(true);
                     next_wave.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
@@ -94,8 +127,6 @@ public class TowerDefense extends Application {
 
                         }
                     });
-//                    gameStage.setWaveOver(true);
-//                    gameField.setSpawning(false);
                 }
             }
         }.start();

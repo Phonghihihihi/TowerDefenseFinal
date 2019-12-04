@@ -15,7 +15,6 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     protected int armor;
     protected int reward;
     protected int speed;
-    protected ImageView enemyV ;
 
 
     private boolean destroyed = false;
@@ -40,10 +39,6 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         return health;
     }
 
-    public ImageView getEnemyV() {
-        return enemyV;
-    }
-
     @Override
     public void takeDamage(int damage) {
         health -= Math.max((damage - armor), 0);
@@ -62,19 +57,19 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         double speedY = 0;
         int tile_Y = (int) (this.getPosX() / TILE_SIZE);
         int tile_X = (int) (this.getPosY() / TILE_SIZE);
-        if (this.getPosX() < (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0) + 1) {
+        if (this.getPosX() < (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0)) {
             if (path[tile_X][tile_Y] == 8) {
                 speedY = -this.getSpeed();
-                enemyV.setRotate(-90);
+                imageV.setRotate(-90);
             } else if (path[tile_X][tile_Y] == 2) {
                 speedY = this.getSpeed();
-                enemyV.setRotate(90);
+                imageV.setRotate(90);
             } else if (path[tile_X][tile_Y] == 4) {
                 speedX = -this.getSpeed();
-                enemyV.setRotate(-180);
+                imageV.setRotate(-180);
             } else if (path[tile_X][tile_Y] == 6) {
                 speedX = this.getSpeed();
-                enemyV.setRotate(0);
+                imageV.setRotate(0);
             }
             this.setPosX(this.getPosX() + speedX);
             this.setPosY(this.getPosY() + speedY);
@@ -87,10 +82,10 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         }
     public void render(GraphicsContext graphicsContext)
     {
-        enemyV.relocate(this.getPosX(), this.getPosY());
-        if (this.getPosX() > (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0))
+        imageV.relocate(this.getPosX(), this.getPosY());
+        if (this.getPosX() > (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0 -20))
         {
-            TowerDefense.root.getChildren().remove(enemyV);
+            TowerDefense.root.getChildren().remove(imageV);
         }
     }
 

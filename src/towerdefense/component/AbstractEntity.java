@@ -10,6 +10,7 @@ public abstract class AbstractEntity implements GameEntity {
     protected double width;
     protected double height;
     protected Image image;
+    protected ImageView imageV;
 
     @Override
     public double getWidth() {
@@ -39,6 +40,16 @@ public abstract class AbstractEntity implements GameEntity {
 
     public double getPosY() {
         return posY;
+    }
+
+    public double getCenterPosX()
+    {
+        return this.getPosX() + this.width/2;
+    }
+
+    public double getCenterPosY()
+    {
+        return this.getPosY() + this.height/2;
     }
 
     @Override
