@@ -1,3 +1,8 @@
 package towerdefense.component.tower;
 
-public interface Tower {}
+import towerdefense.component.enemy.Enemy;
+
+public interface Tower {
+     double distanceToEnemy(Enemy enemy);
+     boolean checkEnemyInRange(Enemy enemy);
+}

@@ -2,6 +2,7 @@ package towerdefense.component;
 
 import towerdefense.component.enemy.Enemy;
 import towerdefense.component.enemy.NormalEnemy;
+import towerdefense.component.tower.Tower;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,24 +13,15 @@ public class GameField {
     private int spawnRate = GameConfig.SPAWN_RATE;
     private int timer = 0;
     private boolean isSpawning = true;
+    private boolean placingNormalTower = false;
+    private boolean placingMachinGunTower = false;
     List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
     Reinforcements reinforcements = new Reinforcements(0, 400, 64, 64);
     List<Enemy> Enemies = new ArrayList<Enemy>();
+    List<Tower> Towers = new ArrayList<Tower>();
 
-    public void refreshSpawner(){
-        enemyCounter = 0;
-    }
+    public GameField(){}
 
-    public Reinforcements getReinforcements() {
-        return reinforcements;
-    }
-
-    public void spawnReinforcements(){
-
-    }
-
-    public GameField()
-    {}
     public void setSpawning(boolean isSpawning)
     {
         this.isSpawning = isSpawning;
@@ -39,9 +31,35 @@ public class GameField {
         return isSpawning;
     }
 
+    public boolean isPlacingNormalTower() {
+        return placingNormalTower;
+    }
+
+    public void setPlacingNormalTower(boolean placingNormalTower)
+    {
+        this.placingNormalTower = placingNormalTower;
+    }
+
+    public boolean isPlacingMachinGunTower()
+    {
+        return placingMachinGunTower;
+    }
+
+    public void setPlacingMachinGunTower(boolean placingMachinGunTower)
+    {
+        this.placingMachinGunTower = placingMachinGunTower;
+    }
+    public void refreshSpawner(){
+        enemyCounter = 0;
+    }
+
+    public Reinforcements getReinforcements() {
+        return reinforcements;
+    }
+
     public void spawnEnemies()
     {
-        if (this.enemyCounter <= normalNumber && isSpawning)
+        if (this.enemyCounter < normalNumber && isSpawning)
         {
             if (timer < spawnRate)
             {
@@ -56,7 +74,7 @@ public class GameField {
 
             }
         }
-        else if (enemyCounter > normalNumber)
+        else if (enemyCounter >= normalNumber)
         {
             setSpawning(false);
             refreshSpawner();
@@ -70,5 +88,9 @@ public class GameField {
         return gameEntities;
     }
 
+    public List<Tower> getTowers()
+    {
+        return Towers;
+    }
 
 }
