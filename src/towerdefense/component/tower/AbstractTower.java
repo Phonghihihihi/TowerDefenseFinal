@@ -69,10 +69,7 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
             this.imageV.setRotate(getAngleBetweenEnemy());
         }
     }
-    public void delete()
-    {
-        TowerDefense.root.getChildren().remove(this.imageV);
-    }
+    
 
 
 }
