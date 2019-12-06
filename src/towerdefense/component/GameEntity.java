@@ -16,6 +16,7 @@ public interface GameEntity {
     ImageView getImageV();
     void render(GraphicsContext graphicsContext);
     void update();
+    void delete();
 
 
 }

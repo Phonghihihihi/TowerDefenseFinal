@@ -12,13 +12,15 @@ public class GameField {
     private int enemyCounter = 0;
     private int spawnRate = GameConfig.SPAWN_RATE;
     private int timer = 0;
-    private boolean isSpawning = true;
+    private boolean isSpawning = false;
     private boolean placingNormalTower = false;
     private boolean placingMachinGunTower = false;
-    List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
+    private boolean upgradingTower = false;
+    private boolean sellingTower = false;
+    //List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
     Reinforcements reinforcements = new Reinforcements(0, 400, 64, 64);
-    List<Enemy> Enemies = new ArrayList<Enemy>();
-    List<Tower> Towers = new ArrayList<Tower>();
+    List<Enemy> enemies = new ArrayList<Enemy>();
+    List<Tower> towers = new ArrayList<Tower>();
 
     public GameField(){}
 
@@ -49,6 +51,23 @@ public class GameField {
     {
         this.placingMachinGunTower = placingMachinGunTower;
     }
+
+    public boolean isUpgradingTower() {
+        return upgradingTower;
+    }
+
+    public void setUpgradingTower(boolean upgradingTower) {
+        this.upgradingTower = upgradingTower;
+    }
+
+    public boolean isSellingTower() {
+        return sellingTower;
+    }
+
+    public void setSellingTower(boolean sellingTower) {
+        this.sellingTower = sellingTower;
+    }
+
     public void refreshSpawner(){
         enemyCounter = 0;
     }
@@ -67,8 +86,8 @@ public class GameField {
             }
             else
             {
-                NormalEnemy e1 = new NormalEnemy(64, 640, 1, 10);
-                gameEntities.add(e1);
+                NormalEnemy e1 = new NormalEnemy(65, 640, 64, 64);
+                enemies.add(e1);
                 this.enemyCounter++;
                 timer = 0;
 
@@ -81,16 +100,14 @@ public class GameField {
         }
     }
 
-
-
-
-    public List<GameEntity> getGameEntities() {
-        return gameEntities;
-    }
-
     public List<Tower> getTowers()
     {
-        return Towers;
+        return towers;
+    }
+
+    public List<Enemy> getEnemies()
+    {
+        return enemies;
     }
 
 }
