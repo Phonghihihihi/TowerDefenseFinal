@@ -28,6 +28,22 @@ public final class GameConfig {
     public static final int NORMAL_ENEMY_REWARD = 1;
     public static final String NORMAL_ENEMY_IMAGE_URL = "file:src/Assets/Enemy/Abstract Enemy/towerDefense_tile245.png";
 
+
+    public static final int BOSS_ENEMY_SPEED = 2;
+    public static final int BOSS_ENEMY_ARMOR = 1;
+    public static final int BOSS_ENEMY_HEALTH = 1;
+    public static final int BOSS_ENEMY_REWARD = 1;
+
+    public static final int SMALLER_ENEMY_SPEED = 2;
+    public static final int SMALLER_ENEMY_ARMOR = 1;
+    public static final int SMALLER_ENEMY_HEALTH = 1;
+    public static final int SMALLER_ENEMY_REWARD = 1;
+
+    public static final int TANKER_ENEMY_SPEED = 2;
+    public static final int TANKER_ENEMY_ARMOR = 1;
+    public static final int TANKER_ENEMY_HEALTH = 1;
+    public static final int TANKER_ENEMY_REWARD = 1;
+
     public static final double NORMAL_TOWER_DAMAGE = 10;
     public static final double NORMAL_TOWER_FIRESPEED = 5;
     public static final double NORMAL_TOWER_RANGE = 30;

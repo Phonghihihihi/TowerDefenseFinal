@@ -6,15 +6,16 @@ import towerdefense.component.GameConfig;
 import towerdefense.ui.TowerDefense;
 
 
-public class NormalEnemy extends AbstractEnemy implements Enemy
+
+public class TankerEnemy extends AbstractEnemy implements Enemy
 {
-    public NormalEnemy(double posX, double posY, double width, double height) {
+    public TankerEnemy(double posX, double posY, double width, double height) {
         super( posX, posY, width, height);
-        this.health = GameConfig.NORMAL_ENEMY_HEALTH;
-        this.armor = GameConfig.NORMAL_ENEMY_ARMOR;
-        this.speed = GameConfig.NORMAL_ENEMY_SPEED;
-        this.reward = GameConfig.NORMAL_ENEMY_REWARD;
-        this.image = new Image(GameConfig.NORMAL_ENEMY_IMAGE_URL);
+        this.health = GameConfig.TANKER_ENEMY_HEALTH;
+        this.armor = GameConfig.TANKER_ENEMY_ARMOR;
+        this.speed = GameConfig.TANKER_ENEMY_SPEED;
+        this.reward = GameConfig.TANKER_ENEMY_REWARD;
+        this.image = new Image("file:src/Assets/Enemy/Abstract Enemy/towerDefense_tile246.png");
         this.imageV = new ImageView(image);
         TowerDefense.root.getChildren().add(imageV);
     }
