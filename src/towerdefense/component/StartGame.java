@@ -24,7 +24,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import towerdefense.ui.TowerDefense;
+import towerdefense.ui.Game;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,9 +34,9 @@ public class StartGame {
     private static Font font;
     private static final Font FONT = Font.font("", FontWeight.BOLD, 18);
     private MenuBox menuBox;
+    private Game game = new Game();
 
     public StartGame() {
-
 
     }
 
@@ -134,7 +134,11 @@ public class StartGame {
 
         start.setOnMouseClicked(mouseEvent -> {
             menuBox.hide();
-            createContent.hide();
+            createContent.close();
+            game.startGame();
+
+
+
         });
 
 

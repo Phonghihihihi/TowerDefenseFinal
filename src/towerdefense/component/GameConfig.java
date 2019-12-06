@@ -71,7 +71,9 @@ public final class GameConfig {
     public static final int PLANE_SPEED = 4;
 
 
-//    public static final Enumeration
+    public static enum STATUS {
+        START, PLAYING, END;
+    }
 
     public static final int UI_BASE = 0;
 }
