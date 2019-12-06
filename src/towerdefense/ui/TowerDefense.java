@@ -1,24 +1,9 @@
 package towerdefense.ui;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import towerdefense.component.*;
-import towerdefense.component.enemy.NormalEnemy;
-import towerdefense.component.tower.MachineGunTower;
-import towerdefense.component.tower.NormalTower;
-import towerdefense.component.tower.Tower;
+
 
 public class TowerDefense extends Application {
 //    public static Group root = new Group();

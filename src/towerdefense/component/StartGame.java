@@ -49,7 +49,18 @@ public class StartGame {
         ImageView imageView = new ImageView(new Image("file:src/Assets/ui/howtoplay.png"));
         imageView.setFitWidth(GameConfig.CANVAS_WIDTH);
         imageView.setFitHeight(GameConfig.CANVAS_HEIGHT);
-        root.getChildren().add(imageView);
+
+        VBox guideBox = new VBox();
+        Text guide = new Text("Press Space to get back to Main Menu");
+        guide.setTextAlignment(TextAlignment.CENTER);
+        guide.setFill(Color.WHITE);
+        guide.setFont(FONT);
+        guide.setOpacity(1);
+        guideBox.getChildren().add(guide);
+        guideBox.setAlignment(Pos.BOTTOM_CENTER);
+        guideBox.setPrefSize(200, 50);
+
+        root.getChildren().addAll(imageView, guideBox);
         return new Scene(root);
     }
 
@@ -74,7 +85,18 @@ public class StartGame {
         credit.setFont(FONT);
         credit.setOpacity(1);
 
-        root.getChildren().addAll(background, credit);
+        VBox guideBox = new VBox();
+        Text guide = new Text("Press Space to get back to Main Menu");
+        guide.setTextAlignment(TextAlignment.CENTER);
+        guide.setFill(Color.WHITE);
+        guide.setFont(FONT);
+        guide.setOpacity(1);
+        guideBox.getChildren().add(guide);
+        guideBox.setAlignment(Pos.BOTTOM_CENTER);
+        guideBox.setPrefSize(200, 50);
+
+
+        root.getChildren().addAll(background, credit, guideBox);
         StackPane.setAlignment(credit, Pos.CENTER);
         return new Scene(root);
     }
@@ -225,7 +247,7 @@ public class StartGame {
                     new Stop(0.2, Color.DARKGREY));
 
             background.setFill(gradient);
-            background.setVisible(true);
+            background.setVisible(false);
             background.setEffect(new DropShadow(5, 0, 0, Color.BLACK));
 
             Text text = new Text(name);
