@@ -17,7 +17,7 @@ public class TileMap
             {0,8,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,},
             {0,8,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,},
             {0,8,0,0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,},
-            {0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+//            {0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 
 
     };
@@ -46,9 +46,13 @@ public class TileMap
             }
         }
     }
+
+    public static void drawUI(GraphicsContext graphicsContext){
+        graphicsContext.drawImage(new Image("file:src/Assets/ui/ui_choose.jpg"), GameConfig.GAME_WIDTH, 0);
+    }
     public int[][] getMAP_PATH()
     {
-        return this.MAP_PATH;
+        return MAP_PATH;
     }
 
 }

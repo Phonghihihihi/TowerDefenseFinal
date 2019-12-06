@@ -44,19 +44,22 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         health -= Math.max((damage - armor), 0);
         if (health<=0){
             destroyed = true;
-            Destroy();
+            destroyEnemy();
         }
 
     }
 
-    public void Destroy(){
+    @Override
+    public void destroyEnemy() {
+        TowerDefense.root.getChildren().remove(imageV);
+    }
 
-    };
+
     public void move (int[][] path) {
         double speedX = 0;
         double speedY = 0;
-        int tile_Y = (int) (this.getPosX() / TILE_SIZE);
-        int tile_X = (int) (this.getPosY() / TILE_SIZE);
+        int tile_Y = (int) (this.getPosX() / TILE_SIZE) ;
+        int tile_X = (int) (this.getPosY() / TILE_SIZE + 1) ;
         if (this.getPosX() < (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0)) {
             if (path[tile_X][tile_Y] == 8) {
                 speedY = -this.getSpeed();
@@ -76,8 +79,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         }
 
     }
-    public void update()
-        {
+    public void update() {
             this.move(TileMap.MAP_PATH);
         }
     public void render(GraphicsContext graphicsContext)

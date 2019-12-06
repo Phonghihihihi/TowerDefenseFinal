@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import towerdefense.component.*;
 import towerdefense.component.enemy.NormalEnemy;
@@ -24,11 +25,15 @@ public class TowerDefense extends Application {
 
     private double canvasMouseY;
     private double canvasMouseX;
+    public static int status = 0;
     public static Group root = new Group();
 
     @Override
     public void start(Stage stage) throws Exception {
         // Set up stage and main BorderPane
+        StartGame startGame = new StartGame();
+        startGame.createContent().show();
+
 
         Canvas canvas = new Canvas(GameConfig.CANVAS_WIDTH, GameConfig.CANVAS_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -37,7 +42,8 @@ public class TowerDefense extends Application {
 
         stage.setTitle(GameConfig.GAME_NAME);
         stage.setScene(theScene);
-
+        TileMap.drawUI(gc);
+        TileMap.drawMap(gc);
         GameStage gameStage = new GameStage();
         GameField gameField = new GameField();
 
@@ -131,14 +137,15 @@ public class TowerDefense extends Application {
 
         root.getChildren().addAll(next_wave, buy_normal_tower, buy_machine_gun_tower, upgrade, sell);
         next_wave.setVisible(false);
-        TileMap.drawMap(gc);
 
-        new AnimationTimer()
+
+        AnimationTimer timer = new AnimationTimer()
         {
             public void handle(long currentTimeNs)
             {
                 gameField.getReinforcements().update();
                 gameField.getReinforcements().render(gc);
+//                System.out.println(gameField.getReinforcements().getPosX());
 
                 if (!gameField.getEnemies().isEmpty())
                 {
@@ -189,8 +196,12 @@ public class TowerDefense extends Application {
                     });
                 }
             }
-        }.start();
-        stage.show();
+        };
+
+        if (status == 1) {
+            timer.start();
+            stage.show();
+        }
 
     }
 
