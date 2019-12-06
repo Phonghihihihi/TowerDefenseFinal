@@ -32,7 +32,7 @@ public class NormalEnemy extends AbstractEnemy implements Enemy
 
     @Override
     public ImageView getImageV() {
-        return this.enemyV;
+        return this.imageV;
     }
 }
 
