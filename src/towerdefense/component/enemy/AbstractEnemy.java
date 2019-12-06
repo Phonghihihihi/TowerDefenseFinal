@@ -49,9 +49,9 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
 
     }
 
-    @Override
+
     public void destroyEnemy() {
-        TowerDefense.root.getChildren().remove(enemyV);
+        TowerDefense.root.getChildren().remove(imageV);
     }
 
 

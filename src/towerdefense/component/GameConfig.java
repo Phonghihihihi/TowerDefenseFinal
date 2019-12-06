@@ -22,7 +22,7 @@ public final class GameConfig {
 
     public static final int SPAWN_RATE = 30;
     public static final int NORMAL_ENEMY_WAVE_NUMBER = 5;
-    public static final int NORMAL_ENEMY_SPEED = 16;
+    public static final int NORMAL_ENEMY_SPEED = 1;
     public static final int NORMAL_ENEMY_ARMOR = 1;
     public static final int NORMAL_ENEMY_HEALTH = 1;
     public static final int NORMAL_ENEMY_REWARD = 1;
