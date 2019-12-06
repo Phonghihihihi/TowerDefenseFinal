@@ -22,10 +22,7 @@ public class MachineGunTower extends AbstractTower {
         return null;
     }
 
-    @Override
-    public void update() {
 
-    }
     public void upgrade()
     {
         this.range +=5;

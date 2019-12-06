@@ -71,5 +71,5 @@ public abstract class AbstractEntity implements GameEntity {
     }
 
     abstract public void render(GraphicsContext graphicsContext);
-    abstract public void update();
+
 }

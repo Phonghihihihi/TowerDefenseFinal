@@ -64,42 +64,27 @@ public class TowerDefense extends Application {
 
         Button upgrade = new Button ("Upgrade");
         upgrade.relocate(1200,350);
-        upgrade.setVisible(false);
-        upgrade.setDisable(true);
         upgrade.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (gameField.getUpgradingTower() != null)
+                if (gameField.isUpgradingTower())
                 {
-                    gameField.getUpgradingTower().upgrade();
+                    gameField.setUpgradingTower(true);
                 }
+                gameField.setSellingTower(false);
             }
         });
 
-        canvas.setOnMouseMoved(new EventHandler<MouseEvent>() {
+        Button sell = new Button ("Sell");
+        sell.relocate(1200,450);
+        sell.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(MouseEvent mouseEvent) {
-                int tileX =  (int)(mouseEvent.getX() / GameConfig.TILE_SIZE) ;
-                int tileY =  (int)(mouseEvent.getY() / GameConfig.TILE_SIZE) ;
-                int mouseX = tileX * GameConfig.TILE_SIZE;
-                int mouseY = tileY * GameConfig.TILE_SIZE;
-                if (!gameField.getTowers().isEmpty())
-                {
-                    for (Tower tower : gameField.getTowers())
-                    {
-                        if ((tileX > tower.getTileX() && tileX < tower.getTileX() + 1) && (tileY > tower.getTileY() && tileY < tower.getTileY() +1))
-                        {
-                            gameField.setHasTower(true);
-                            System.out.println(mouseX + tileY);
-                        }
-                        else
-                        {
-                            gameField.setHasTower(false);
-                        }
-                    }
-                }
+            public void handle(ActionEvent actionEvent) {
+                gameField.setSellingTower(true);
             }
         });
+
+
         canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -109,39 +94,42 @@ public class TowerDefense extends Application {
                 int mouseX = tileX * GameConfig.TILE_SIZE;
                 int mouseY = tileY * GameConfig.TILE_SIZE;
                 if (TileMap.MAP_PATH[tileY][tileX] == 0) {
-                    if (gameField.isHasTower())
-                    {
-                        for (Tower tower : gameField.getTowers())
-                        {
-                            //if (tower.distanceTo(mouseEvent.getX(),mouseEvent.getY()) < 32)
-                            //if ((mouseEvent.getX() > mouseX && mouseEvent.getX() < mouseX + GameConfig.TILE_SIZE) && (mouseEvent.getY() > mouseY && mouseEvent.getY() < mouseY + GameConfig.TILE_SIZE))
-                            if ((tileX > tower.getTileX() && tileX < tower.getTileX() + 1) && (tileY > tower.getTileY() && tileY < tower.getTileY() +1))
+                    if (gameField.isPlacingNormalTower()) {
+                        NormalTower t1 = new NormalTower(mouseX, mouseY, 50, 50);
+                        t1.render(gc);
+                        gameField.getTowers().add(t1);
+                        gameField.setPlacingNormalTower(false);
+                        TileMap.MAP_PATH[tileY][tileX] = 1;
+                    }
+                    else if (gameField.isPlacingMachinGunTower()) {
+                        MachineGunTower t2 = new MachineGunTower(mouseX,mouseY,50, 50);
+                        t2.render(gc);
+                        gameField.getTowers().add(t2);
+                        gameField.setPlacingMachinGunTower(false);
+                        TileMap.MAP_PATH[tileY][tileX] = 1;
+                    }
+                }
+                else if (TileMap.MAP_PATH[tileY][tileX] == 1)
+                {
+                    for (int i = 0; i < gameField.getTowers().size(); i++) {
+                        if (gameField.getTowers().get(i).getPosX() == mouseX && gameField.getTowers().get(i).getPosY() == mouseY) {
+                            if (gameField.isSellingTower()) {
+                                gameField.getTowers().get(i).delete();
+                                gameField.getTowers().remove(i);
+                                TileMap.MAP_PATH[tileY][tileX] = 0;
+                                gameField.setSellingTower(false);
+                            }
+                             else if (gameField.isUpgradingTower())
                             {
-                                gameField.setUpgradingTower(tower);
-                                upgrade.setDisable(false);
-                                upgrade.setVisible(true);
+                                gameField.getTowers().get(i).upgrade();
                             }
                         }
                     }
-                    else {
-                        if (gameField.isPlacingNormalTower()) {
-                            NormalTower t1 = new NormalTower(mouseX, mouseY, 50, 50);
-                            t1.render(gc);
-                            gameField.getTowers().add(t1);
-                            gameField.setPlacingNormalTower(false);
-                        } else if (gameField.isPlacingMachinGunTower()) {
-                            MachineGunTower t2 = new MachineGunTower(mouseX,mouseY,50, 50);
-                            t2.render(gc);
-                            gameField.getTowers().add(t2);
-                            gameField.setPlacingMachinGunTower(false);
-                        }
-                    }
                 }
-
             }
         });
 
-        root.getChildren().addAll(next_wave, buy_normal_tower, buy_machine_gun_tower, upgrade);
+        root.getChildren().addAll(next_wave, buy_normal_tower, buy_machine_gun_tower, upgrade, sell);
         next_wave.setVisible(false);
         TileMap.drawMap(gc);
 
@@ -165,7 +153,7 @@ public class TowerDefense extends Application {
                                     tower.setTarget(gameField.getEnemies().get(i));
                                 }
                                 else {
-                                    tower.rotateTower();
+                                    tower.update();
                                 }
                             }
                         }

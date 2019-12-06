@@ -23,12 +23,6 @@ public class NormalTower extends AbstractTower {
         return null;
     }
 
-
-    @Override
-    public void update() {
-
-    }
-
     public void upgrade()
     {
         this.damage += 5;

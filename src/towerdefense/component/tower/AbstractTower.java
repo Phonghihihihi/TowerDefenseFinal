@@ -6,6 +6,7 @@ import towerdefense.component.AbstractEntity;
 import towerdefense.component.GameConfig;
 import towerdefense.component.GameTile;
 import towerdefense.component.enemy.Enemy;
+import towerdefense.ui.TowerDefense;
 
 public abstract class AbstractTower extends AbstractEntity implements Tower {
 
@@ -40,12 +41,12 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
 
     public double distanceTo(double x, double y)
     {
-        return Math.sqrt(Math.pow(this.getCenterPosX() - x, 2) + Math.pow(this.getCenterPosY() - y, 2));
+        return Math.sqrt(Math.pow(this.getPosX() - x, 2) + Math.pow(this.getPosY() - y, 2));
     }
 
     public boolean checkEnemyInRange(Enemy enemy)
     {
-        return this.distanceTo(enemy.getCenterPosX(), enemy.getCenterPosY()) <= this.range;
+        return this.distanceTo(enemy.getPosX(), enemy.getPosY()) <= this.range;
     }
 
     public double getAngleBetweenEnemy()
@@ -58,13 +59,19 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     public void render(GraphicsContext graphicsContext) {
         imageV.relocate(posX, posY);
     }
-    public void rotateTower()
+    public void update()
     {
         if (distanceTo(this.target.getPosX(), this.target.getPosY()) > this.range)
         {
             this.setTarget(null);
         }
-        this.imageV.setRotate(getAngleBetweenEnemy());
+        if (this.target != null) {
+            this.imageV.setRotate(getAngleBetweenEnemy());
+        }
+    }
+    public void delete()
+    {
+        TowerDefense.root.getChildren().remove(this.imageV);
     }
 
 

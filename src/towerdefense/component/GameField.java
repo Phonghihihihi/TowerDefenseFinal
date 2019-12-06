@@ -15,8 +15,8 @@ public class GameField {
     private boolean isSpawning = false;
     private boolean placingNormalTower = false;
     private boolean placingMachinGunTower = false;
-    private boolean hasTower = false;
-    private Tower upgradingTower = null;
+    private boolean upgradingTower = false;
+    private boolean sellingTower = false;
     //List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
     Reinforcements reinforcements = new Reinforcements(0, 400, 64, 64);
     List<Enemy> enemies = new ArrayList<Enemy>();
@@ -24,15 +24,6 @@ public class GameField {
 
     public GameField(){}
 
-    public boolean isHasTower()
-    {
-        return hasTower;
-    }
-
-    public void setHasTower(boolean hasTower)
-    {
-        this.hasTower = hasTower;
-    }
     public void setSpawning(boolean isSpawning)
     {
         this.isSpawning = isSpawning;
@@ -61,15 +52,22 @@ public class GameField {
         this.placingMachinGunTower = placingMachinGunTower;
     }
 
-    public Tower getUpgradingTower()
-    {
-        return this.upgradingTower;
+    public boolean isUpgradingTower() {
+        return upgradingTower;
     }
 
-    public void setUpgradingTower(Tower tower)
-    {
-        this.upgradingTower = tower;
+    public void setUpgradingTower(boolean upgradingTower) {
+        this.upgradingTower = upgradingTower;
     }
+
+    public boolean isSellingTower() {
+        return sellingTower;
+    }
+
+    public void setSellingTower(boolean sellingTower) {
+        this.sellingTower = sellingTower;
+    }
+
     public void refreshSpawner(){
         enemyCounter = 0;
     }
