@@ -134,7 +134,7 @@ public class StartGame {
 
         start.setOnMouseClicked(mouseEvent -> {
             menuBox.hide();
-            TowerDefense.status = 1;
+            createContent.hide();
         });
 
 

@@ -1,5 +1,7 @@
 package towerdefense.component;
 
+import java.util.Enumeration;
+
 public final class GameConfig {
     public static final String GAME_NAME = "Tower Defense";
     public static final int TILE_SIZE = 64;
@@ -69,6 +71,7 @@ public final class GameConfig {
     public static final int PLANE_SPEED = 4;
 
 
+//    public static final Enumeration
 
     public static final int UI_BASE = 0;
 }

@@ -25,14 +25,13 @@ public class TowerDefense extends Application {
 
     private double canvasMouseY;
     private double canvasMouseX;
-    public static int status = 0;
     public static Group root = new Group();
 
     @Override
     public void start(Stage stage) throws Exception {
         // Set up stage and main BorderPane
-        StartGame startGame = new StartGame();
-        startGame.createContent().show();
+//        StartGame startGame = new StartGame();
+//        startGame.createContent().show();
 
 
         Canvas canvas = new Canvas(GameConfig.CANVAS_WIDTH, GameConfig.CANVAS_HEIGHT);
@@ -198,10 +197,10 @@ public class TowerDefense extends Application {
             }
         };
 
-        if (status == 1) {
+//        if (startGame.createContent(). == 1) {
             timer.start();
             stage.show();
-        }
+//        }
 
     }
 
