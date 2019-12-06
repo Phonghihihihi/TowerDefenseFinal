@@ -26,4 +26,10 @@ public class MachineGunTower extends AbstractTower {
     public void update() {
 
     }
+    public void upgrade()
+    {
+        this.range +=5;
+        this.fireSpeed += 5;
+        this.damage += 5;
+    }
 }

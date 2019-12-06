@@ -17,6 +17,7 @@ import towerdefense.component.*;
 import towerdefense.component.enemy.NormalEnemy;
 import towerdefense.component.tower.MachineGunTower;
 import towerdefense.component.tower.NormalTower;
+import towerdefense.component.tower.Tower;
 
 public class TowerDefense extends Application {
 
@@ -41,7 +42,7 @@ public class TowerDefense extends Application {
         GameField gameField = new GameField();
 
         Button next_wave = new Button("Next Wave");
-        next_wave.relocate(GameConfig.GAME_WIDTH + GameConfig.UI_HORIZONTAL/2.0,400);
+        next_wave.relocate(1200,400);
 
         Button buy_normal_tower = new Button ("", new ImageView(new Image(GameConfig.NORMAL_TOWER_IMAGE_URL)));
         buy_normal_tower.relocate(1200,250);
@@ -61,33 +62,86 @@ public class TowerDefense extends Application {
             }
         });
 
+        Button upgrade = new Button ("Upgrade");
+        upgrade.relocate(1200,350);
+        upgrade.setVisible(false);
+        upgrade.setDisable(true);
+        upgrade.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (gameField.getUpgradingTower() != null)
+                {
+                    gameField.getUpgradingTower().upgrade();
+                }
+            }
+        });
+
+        canvas.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                int tileX =  (int)(mouseEvent.getX() / GameConfig.TILE_SIZE) ;
+                int tileY =  (int)(mouseEvent.getY() / GameConfig.TILE_SIZE) ;
+                int mouseX = tileX * GameConfig.TILE_SIZE;
+                int mouseY = tileY * GameConfig.TILE_SIZE;
+                if (!gameField.getTowers().isEmpty())
+                {
+                    for (Tower tower : gameField.getTowers())
+                    {
+                        if ((tileX > tower.getTileX() && tileX < tower.getTileX() + 1) && (tileY > tower.getTileY() && tileY < tower.getTileY() +1))
+                        {
+                            gameField.setHasTower(true);
+                            System.out.println(mouseX + tileY);
+                        }
+                        else
+                        {
+                            gameField.setHasTower(false);
+                        }
+                    }
+                }
+            }
+        });
         canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
 
-                int tileX = (int)(mouseEvent.getX() / GameConfig.TILE_SIZE);
-                int tileY = (int)(mouseEvent.getY() / GameConfig.TILE_SIZE);
+                int tileX = (int)(mouseEvent.getX() / GameConfig.TILE_SIZE) ;
+                int tileY = (int)(mouseEvent.getY() / GameConfig.TILE_SIZE) ;
+                int mouseX = tileX * GameConfig.TILE_SIZE;
+                int mouseY = tileY * GameConfig.TILE_SIZE;
                 if (TileMap.MAP_PATH[tileY][tileX] == 0) {
-                    if (gameField.isPlacingNormalTower()) {
-                        NormalTower t1 = new NormalTower(tileX * GameConfig.TILE_SIZE, tileY * GameConfig.TILE_SIZE, 1, 1);
-                        t1.render(gc);
-                        gameField.getTowers().add(t1);
-                        gameField.setPlacingNormalTower(false);
-                    }
-                    else if (gameField.isPlacingMachinGunTower())
+                    if (gameField.isHasTower())
                     {
-                        MachineGunTower t2 = new MachineGunTower(tileX * GameConfig.TILE_SIZE, tileY * GameConfig.TILE_SIZE, 1, 1);
-                        t2.render(gc);
-                        gameField.getTowers().add(t2);
-                        gameField.setPlacingMachinGunTower(false);
+                        for (Tower tower : gameField.getTowers())
+                        {
+                            //if (tower.distanceTo(mouseEvent.getX(),mouseEvent.getY()) < 32)
+                            //if ((mouseEvent.getX() > mouseX && mouseEvent.getX() < mouseX + GameConfig.TILE_SIZE) && (mouseEvent.getY() > mouseY && mouseEvent.getY() < mouseY + GameConfig.TILE_SIZE))
+                            if ((tileX > tower.getTileX() && tileX < tower.getTileX() + 1) && (tileY > tower.getTileY() && tileY < tower.getTileY() +1))
+                            {
+                                gameField.setUpgradingTower(tower);
+                                upgrade.setDisable(false);
+                                upgrade.setVisible(true);
+                            }
+                        }
+                    }
+                    else {
+                        if (gameField.isPlacingNormalTower()) {
+                            NormalTower t1 = new NormalTower(mouseX, mouseY, 50, 50);
+                            t1.render(gc);
+                            gameField.getTowers().add(t1);
+                            gameField.setPlacingNormalTower(false);
+                        } else if (gameField.isPlacingMachinGunTower()) {
+                            MachineGunTower t2 = new MachineGunTower(mouseX,mouseY,50, 50);
+                            t2.render(gc);
+                            gameField.getTowers().add(t2);
+                            gameField.setPlacingMachinGunTower(false);
+                        }
                     }
                 }
 
             }
         });
 
-
-        root.getChildren().addAll(next_wave, buy_normal_tower, buy_machine_gun_tower);
+        root.getChildren().addAll(next_wave, buy_normal_tower, buy_machine_gun_tower, upgrade);
         next_wave.setVisible(false);
         TileMap.drawMap(gc);
 
@@ -98,23 +152,41 @@ public class TowerDefense extends Application {
                 gameField.getReinforcements().update();
                 gameField.getReinforcements().render(gc);
 
-
+                if (!gameField.getEnemies().isEmpty())
+                {
+                    for (Tower tower : gameField.getTowers())
+                    {
+                        for (int i = 0; i<gameField.getEnemies().size(); i++)
+                        {
+                            if (tower.checkEnemyInRange(gameField.getEnemies().get(i)))
+                            {
+                                if (tower.getTarget() == null)
+                                {
+                                    tower.setTarget(gameField.getEnemies().get(i));
+                                }
+                                else {
+                                    tower.rotateTower();
+                                }
+                            }
+                        }
+                    }
+                }
                 if(!gameStage.isWaveOver())
                 {
                     gameField.spawnEnemies();
                 }
-                for (int i=0; i<gameField.getGameEntities().size(); i++)
+                for (int i=0; i<gameField.getEnemies().size(); i++)
                 {
-                    gameField.getGameEntities().get(i).update();
-                    gameField.getGameEntities().get(i).render(gc);
-                    if (gameField.getGameEntities().get(i).getPosX() >= (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0) -30)
+                    gameField.getEnemies().get(i).update();
+                    gameField.getEnemies().get(i).render(gc);
+                    if (gameField.getEnemies().get(i).getPosX() >= (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0) -30)
                     {
-                        root.getChildren().remove(gameField.getGameEntities().get(i).getImageV());
-                        gameField.getGameEntities().remove(i);
+                        root.getChildren().remove(gameField.getEnemies().get(i).getImageV());
+                        gameField.getEnemies().remove(i);
                     }
                 }
 
-                if (!gameField.isSpawning() && gameField.getGameEntities().isEmpty())
+                if (!gameField.isSpawning() && gameField.getEnemies().isEmpty())
                 {
                     gameStage.setWaveOver(true);
                     next_wave.setVisible(true);

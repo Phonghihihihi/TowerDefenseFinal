@@ -28,4 +28,11 @@ public class NormalTower extends AbstractTower {
     public void update() {
 
     }
+
+    public void upgrade()
+    {
+        this.damage += 5;
+        this.range += 5;
+        this.fireSpeed +=5;
+    }
 }

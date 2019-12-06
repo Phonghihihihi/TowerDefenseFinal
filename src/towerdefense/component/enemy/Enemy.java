@@ -10,10 +10,7 @@ public interface Enemy extends GameEntity {
 
     void move();
 
-
     boolean isDestroyed();
-
-
 
 
 }
