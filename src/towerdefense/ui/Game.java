@@ -10,12 +10,14 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import towerdefense.component.GameConfig;
-import towerdefense.component.GameField;
-import towerdefense.component.GameStage;
-import towerdefense.component.TileMap;
+import towerdefense.component.*;
 import towerdefense.component.tower.MachineGunTower;
 import towerdefense.component.tower.NormalTower;
 import towerdefense.component.tower.Tower;
@@ -137,7 +139,6 @@ public class Game {
         root.getChildren().addAll(next_wave, buy_normal_tower, buy_machine_gun_tower, upgrade, sell);
         next_wave.setVisible(false);
 
-
         timer = new AnimationTimer()
         {
             public void handle(long currentTimeNs)
@@ -146,6 +147,25 @@ public class Game {
                 gameStage.render(gc);
                 gameField.getReinforcements().update();
                 gameField.getReinforcements().render(gc);
+
+                theScene.setOnKeyPressed(keyEvent -> {
+                    if (keyEvent.getCode() == KeyCode.ESCAPE){
+                        this.stop();
+                        Text text = new Text("PAUSE");
+                        text.setFill(Color.TOMATO);
+                        text.setFont( Font.loadFont("file:src/Assets/Font/Acme-Regular.ttf", 60));
+                        text.setTextAlignment(TextAlignment.CENTER);
+                        text.relocate(GameConfig.CANVAS_WIDTH/2.0, GameConfig.CANVAS_HEIGHT/2.0);
+                        root.getChildren().add(text);
+
+                        theScene.setOnKeyPressed(keyEvent1 -> {
+                            if (keyEvent1.getCode() == KeyCode.ESCAPE){
+                                this.start();
+                                root.getChildren().remove(text);
+                            }
+                        });
+                    }
+                });
 
                 if (!gameField.getEnemies().isEmpty())
                 {

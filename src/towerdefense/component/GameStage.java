@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import towerdefense.component.enemy.*;
 import towerdefense.ui.Game;;
 
@@ -29,11 +30,20 @@ public class GameStage {
     }
 
     public void render(GraphicsContext graphicsContext){
-        Text moneyText  = new Text(Integer.toString((int) this.money));
+        Text moneyText  = new Text( "$" + Integer.toString((int) this.money));
         moneyText.setFill(Color.LIGHTGREY);
         moneyText.setFont( Font.loadFont("file:src/Assets/Font/Acme-Regular.ttf", 30));
-        moneyText.relocate(GameConfig.GAME_WIDTH + 90, 100);
-        Game.root.getChildren().add(moneyText);
+        moneyText.relocate(GameConfig.GAME_WIDTH + 20, 48);
+        moneyText.setTextAlignment(TextAlignment.CENTER);
+
+        Text healthText = new Text("HEALTH\n" + Integer.toString((int) this.health));
+        healthText.setFill(Color.YELLOW);
+        healthText.setFont( Font.loadFont("file:src/Assets/Font/Acme-Regular.ttf", 30));
+        healthText.relocate(GameConfig.GAME_WIDTH + 90, 10);
+        healthText.setTextAlignment(TextAlignment.CENTER);
+
+        Game.root.getChildren().addAll(healthText, moneyText);
+
 
     }
 
