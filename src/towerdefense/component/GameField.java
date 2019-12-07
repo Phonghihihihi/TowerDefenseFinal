@@ -13,8 +13,12 @@ public class GameField {
     private int bossNumber = 0;
     private int enemyNumber = 0;
     private int enemyCounter = 0;
+    private int normalCounter = 0;
     private int spawnRate = GameConfig.SPAWN_RATE;
-    private int timer = 0;
+    private int timer1 = 0;
+    private int timer2 = 0;
+    private int timer3 = 0;
+    private int timer4 = 0;
     private int waveCount = 0;
     private boolean isSpawning = false;
     private boolean placingNormalTower = false;
@@ -90,10 +94,10 @@ public class GameField {
         enemyCounter = 0;
     }
 
-    public void resetTimer()
-    {
-        timer = 0;
-    }
+//    public void resetTimer()
+//    {
+//        timer = 0;
+//    }
 
     public Reinforcements getReinforcements() {
         return reinforcements;
@@ -101,11 +105,13 @@ public class GameField {
 
     public void calculateWavePower()
     {
-        normalNumber++;
+        if (waveCount > 1)
+        {
+            normalNumber++;
+        }
         if (waveCount % 2 == 0)
         {
-            smallerNumber = GameConfig.SMALLER_ENEMY_WAVE_NUMBER;
-            GameConfig.SMALLER_ENEMY_WAVE_NUMBER++;
+            smallerNumber = GameConfig.SMALLER_ENEMY_WAVE_NUMBER + waveCount/2 - 1;
         }
         else
         {
@@ -114,8 +120,7 @@ public class GameField {
 
         if (waveCount % 5 == 0)
         {
-            tankerNumber = GameConfig.TANKER_ENEMY_WAVE_NUMBER;
-            GameConfig.TANKER_ENEMY_WAVE_NUMBER++;
+            tankerNumber = GameConfig.TANKER_ENEMY_WAVE_NUMBER + waveCount/5 - 1;
         }
         else
         {
@@ -124,8 +129,7 @@ public class GameField {
 
         if (waveCount % 10 == 0)
         {
-            bossNumber = GameConfig.BOSS_ENEMY_WAVE_NUMBER;
-            GameConfig.BOSS_ENEMY_WAVE_NUMBER++;
+            bossNumber = GameConfig.BOSS_ENEMY_WAVE_NUMBER + waveCount/10 - 1;
         }
         else
         {
@@ -137,71 +141,59 @@ public class GameField {
     {
         if (enemyCounter < enemyNumber && isSpawning)
         {
-            for (int i=0; i < normalNumber; i++)
+            for (int i=0; i < normalNumber;i++){
+                if (timer1 < spawnRate) {
+                    timer1++;
+                } else {
+                    //Enemy enemy = new NormalEnemy();
+                    enemies.add(new NormalEnemy());
+                    enemyCounter++;
+                    timer1 = 0;
+                }
+            }
+            for (int i=0; i < smallerNumber; i++)
             {
-                if (timer < spawnRate)
+                if (timer2 < spawnRate)
                 {
-                    timer++;
+                    timer2++;
                 }
                 else
                 {
-                    Enemy enemy = new NormalEnemy();
+                    Enemy enemy = new SmallerEnemy();
                     enemies.add(enemy);
                     enemyCounter++;
-                    resetTimer();
+                    timer2 = 0;
                 }
             }
-          //  if (waveCount % 3 == 0)
-
-                for (int i=0; i < smallerNumber; i++)
+            for (int i=0; i < tankerNumber; i++)
+            {
+                if (timer3 < spawnRate)
                 {
-                    if (timer < spawnRate)
-                    {
-                        timer++;
-                    }
-                    else
-                    {
-                        Enemy enemy = new SmallerEnemy();
-                        enemies.add(enemy);
-                        enemyCounter++;
-                        resetTimer();
-                    }
+                    timer3++;
                 }
-
-         //   if (waveCount % 5 == 0)
-
-                for (int i=0; i < tankerNumber; i++)
+                else
                 {
-                    if (timer < spawnRate)
-                    {
-                        timer++;
-                    }
-                    else
-                    {
-                        Enemy enemy = new TankerEnemy();
-                        enemies.add(enemy);
-                        enemyCounter++;
-                        resetTimer();
-                    }
+                    Enemy enemy = new TankerEnemy();
+                    enemies.add(enemy);
+                    enemyCounter++;
+                    timer3 = 0;
                 }
-
-            //if (waveCount % 10 == 0)
-
-                for (int i=0; i < bossNumber; i++)
+            }
+            for (int i=0; i < bossNumber; i++)
+            {
+                if (timer4 < spawnRate)
                 {
-                    if (timer < spawnRate)
-                    {
-                        timer++;
-                    }
-                    else
-                    {
-                        Enemy enemy = new BossEnemy();
-                        enemies.add(enemy);
-                        enemyCounter++;
-                        resetTimer();
-                    }
+                    timer4++;
                 }
+                else
+                {
+                    Enemy enemy = new BossEnemy();
+                    enemies.add(enemy);
+                    enemyCounter++;
+                    timer4 = 0;
 
+                }
+            }
         }
         if (enemies.size() == enemyNumber)
         {
