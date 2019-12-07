@@ -11,13 +11,25 @@ import towerdefense.ui.TowerDefense;
 public abstract class AbstractTower extends AbstractEntity implements Tower {
 
     protected Enemy target = null;
-    protected double fireSpeed;
+    protected double Speed;
     protected double range;
     protected double damage;
 
     public AbstractTower(double posX, double posY, double width, double height)
     {
         super(posX, posY, width, height);
+    }
+
+    public double getSpeed() {
+        return Speed;
+    }
+
+    public double getRange() {
+        return range;
+    }
+
+    public double getDamage() {
+        return damage;
     }
 
     public Enemy getTarget() {

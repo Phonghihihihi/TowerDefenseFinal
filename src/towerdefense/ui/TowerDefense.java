@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import towerdefense.component.*;
+import towerdefense.component.bullet.Bullet;
 import towerdefense.component.enemy.NormalEnemy;
 import towerdefense.component.tower.MachineGunTower;
 import towerdefense.component.tower.NormalTower;
@@ -98,11 +99,15 @@ public class TowerDefense extends Application {
                 int tileY = (int)(mouseEvent.getY() / GameConfig.TILE_SIZE) ;
                 int mouseX = tileX * GameConfig.TILE_SIZE;
                 int mouseY = tileY * GameConfig.TILE_SIZE;
+
+                //mua thaps
                 if (TileMap.MAP_PATH[tileY][tileX] == 0) {
                     if (gameField.isPlacingNormalTower()) {
                         NormalTower t1 = new NormalTower(mouseX, mouseY, 50, 50);
+
                         t1.render(gc);
                         gameField.getTowers().add(t1);
+                        gameField.getBullets().add( new Bullet(GameConfig.NORMAL_BULLET_IMAGE_URL, mouseX , mouseY-100, t1.getWidth(), t1.getHeight(), t1.getSpeed(), t1.getDamage(), t1.getRange() ));
                         gameField.setPlacingNormalTower(false);
                         TileMap.MAP_PATH[tileY][tileX] = 1;
                     }
@@ -110,10 +115,13 @@ public class TowerDefense extends Application {
                         MachineGunTower t2 = new MachineGunTower(mouseX,mouseY,50, 50);
                         t2.render(gc);
                         gameField.getTowers().add(t2);
+                        gameField.getBullets().add( new Bullet(GameConfig.NORMAL_BULLET_IMAGE_URL, mouseX, mouseY - 100, t2.getWidth(), t2.getHeight(), t2.getSpeed(), t2.getDamage(), t2.getRange() ));
                         gameField.setPlacingMachinGunTower(false);
                         TileMap.MAP_PATH[tileY][tileX] = 1;
                     }
                 }
+
+                // ban thap
                 else if (TileMap.MAP_PATH[tileY][tileX] == 1)
                 {
                     for (int i = 0; i < gameField.getTowers().size(); i++) {
@@ -121,6 +129,8 @@ public class TowerDefense extends Application {
                             if (gameField.isSellingTower()) {
                                 gameField.getTowers().get(i).delete();
                                 gameField.getTowers().remove(i);
+                                gameField.getBullets().get(i).delete();
+                                gameField.getBullets().remove(i);
                                 TileMap.MAP_PATH[tileY][tileX] = 0;
                                 gameField.setSellingTower(false);
                             }
@@ -146,10 +156,13 @@ public class TowerDefense extends Application {
                 gameField.getReinforcements().render(gc);
 //                System.out.println(gameField.getReinforcements().getPosX());
 
+                // check trong tam ngam khong
                 if (!gameField.getEnemies().isEmpty())
                 {
+                    int j = -1;
                     for (Tower tower : gameField.getTowers())
                     {
+                        j++;
                         for (int i = 0; i<gameField.getEnemies().size(); i++)
                         {
                             if (tower.checkEnemyInRange(gameField.getEnemies().get(i)))
@@ -161,14 +174,22 @@ public class TowerDefense extends Application {
                                 else {
                                     tower.update();
                                 }
+
+                                gameField.getBullets().get(j).render(gc);
+
                             }
                         }
                     }
                 }
+
+
+                // neu het duong sinh dich tiep
                 if(!gameStage.isWaveOver())
                 {
                     gameField.spawnEnemies();
                 }
+
+                // neu con dich, update dich
                 for (int i=0; i<gameField.getEnemies().size(); i++)
                 {
                     gameField.getEnemies().get(i).update();
@@ -180,6 +201,7 @@ public class TowerDefense extends Application {
                     }
                 }
 
+                //neu ko sinh quan dich va het dich thi duoc next van
                 if (!gameField.isSpawning() && gameField.getEnemies().isEmpty())
                 {
                     gameStage.setWaveOver(true);

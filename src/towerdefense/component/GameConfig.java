@@ -2,7 +2,7 @@ package towerdefense.component;
 
 public final class GameConfig {
     public static final String GAME_NAME = "Tower Defense";
-    public static final long TILE_SIZE = 64;
+    public static final int TILE_SIZE = 64;
     public static final long TILE_HORIZONTAL = 18;
     public static final long TILE_VERTICAL = 12;
 
@@ -27,7 +27,8 @@ public final class GameConfig {
     public static final int NORMAL_ENEMY_HEALTH = 1;
     public static final int NORMAL_ENEMY_REWARD = 1;
     public static final String NORMAL_ENEMY_IMAGE_URL = "file:src/Assets/Enemy/Abstract Enemy/towerDefense_tile245.png";
-
+    public static final String NORMAL_BULLET_IMAGE_URL = "file:src/Assets/Bullet/towerDefense_tile272.png";
+    public static final String MACHINGUN_BULLET_IMAGE_URL = "file:src/Assets/Bullet/towerDefense_tile295.png";
 
     public static final int BOSS_ENEMY_SPEED = 2;
     public static final int BOSS_ENEMY_ARMOR = 1;

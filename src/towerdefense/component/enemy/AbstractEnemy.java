@@ -39,6 +39,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         return health;
     }
 
+
     @Override
     public void takeDamage(int damage) {
         health -= Math.max((damage - armor), 0);

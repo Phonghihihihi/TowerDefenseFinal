@@ -1,5 +1,6 @@
 package towerdefense.component;
 
+import towerdefense.component.bullet.Bullet;
 import towerdefense.component.enemy.Enemy;
 import towerdefense.component.enemy.NormalEnemy;
 import towerdefense.component.tower.Tower;
@@ -21,6 +22,7 @@ public class GameField {
     Reinforcements reinforcements = new Reinforcements(0, 400, 64, 64);
     List<Enemy> enemies = new ArrayList<Enemy>();
     List<Tower> towers = new ArrayList<Tower>();
+    List<Bullet> bullets = new ArrayList<Bullet>();
 
     public GameField(){}
 
@@ -104,6 +106,7 @@ public class GameField {
     {
         return towers;
     }
+    public List<Bullet> getBullets() {return bullets; }
 
     public List<Enemy> getEnemies()
     {
