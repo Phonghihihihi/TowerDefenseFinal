@@ -10,13 +10,15 @@ import towerdefense.ui.TowerDefense;
 
 public class SmallerEnemy extends AbstractEnemy implements Enemy
 {
-    public SmallerEnemy(double posX, double posY, double width, double height) {
-        super( posX, posY, width, height);
+    public SmallerEnemy() {
+        super();
+        this.width = GameConfig.SMALLER_ENEMY_WIDTH;
+        this.height = GameConfig.SMALLER_ENEMY_HEIGHT;
         this.health = GameConfig.SMALLER_ENEMY_HEALTH;
         this.armor = GameConfig.SMALLER_ENEMY_ARMOR;
         this.speed = GameConfig.SMALLER_ENEMY_SPEED;
         this.reward = GameConfig.SMALLER_ENEMY_REWARD;
-        this.image = new Image("file:src/Assets/Enemy/Abstract Enemy/towerDefense_tile247.png");
+        this.image = new Image(GameConfig.SMALLER_ENEMY_IMAGE_URL);
         this.imageV = new ImageView(image);
         Game.root.getChildren().add(imageV);
     }

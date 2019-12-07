@@ -64,7 +64,7 @@ public class Game {
         buy_machine_gun_tower.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                gameField.setPlacingMachinGunTower(true);
+                gameField.setPlacingMachineGunTower(true);
             }
         });
 
@@ -91,43 +91,41 @@ public class Game {
         });
 
 
-        canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        theScene.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getX() <= GameConfig.GAME_WIDTH) {
 
-                int tileX = (int)(mouseEvent.getX() / GameConfig.TILE_SIZE) ;
-                int tileY = (int)(mouseEvent.getY() / GameConfig.TILE_SIZE) ;
-                int mouseX = tileX * GameConfig.TILE_SIZE;
-                int mouseY = tileY * GameConfig.TILE_SIZE;
-                if (TileMap.MAP_PATH[tileY][tileX] == 0) {
-                    if (gameField.isPlacingNormalTower()) {
-                        NormalTower t1 = new NormalTower(mouseX, mouseY, 50, 50);
-                        t1.render(gc);
-                        gameField.getTowers().add(t1);
-                        gameField.setPlacingNormalTower(false);
-                        TileMap.MAP_PATH[tileY][tileX] = 1;
-                    }
-                    else if (gameField.isPlacingMachinGunTower()) {
-                        MachineGunTower t2 = new MachineGunTower(mouseX,mouseY,50, 50);
-                        t2.render(gc);
-                        gameField.getTowers().add(t2);
-                        gameField.setPlacingMachinGunTower(false);
-                        TileMap.MAP_PATH[tileY][tileX] = 1;
-                    }
-                }
-                else if (TileMap.MAP_PATH[tileY][tileX] == 1)
-                {
-                    for (int i = 0; i < gameField.getTowers().size(); i++) {
-                        if (gameField.getTowers().get(i).getPosX() == mouseX && gameField.getTowers().get(i).getPosY() == mouseY) {
-                            if (gameField.isSellingTower()) {
-                                gameField.getTowers().get(i).delete();
-                                gameField.getTowers().remove(i);
-                                TileMap.MAP_PATH[tileY][tileX] = 0;
-                                gameField.setSellingTower(false);
-                            }
-                            else if (gameField.isUpgradingTower())
-                            {
-                                gameField.getTowers().get(i).upgrade();
+                    int tileX = (int) (mouseEvent.getX() / GameConfig.TILE_SIZE);
+                    int tileY = (int) (mouseEvent.getY() / GameConfig.TILE_SIZE);
+                    int mouseX = tileX * GameConfig.TILE_SIZE;
+                    int mouseY = tileY * GameConfig.TILE_SIZE;
+
+                    if (TileMap.MAP_PATH[tileY][tileX] == 0) {
+                        if (gameField.isPlacingNormalTower()) {
+                            NormalTower t1 = new NormalTower(mouseX, mouseY, 50, 50);
+                            t1.render(gc);
+                            gameField.getTowers().add(t1);
+                            gameField.setPlacingNormalTower(false);
+                            TileMap.MAP_PATH[tileY][tileX] = 1;
+                        } else if (gameField.isPlacingMachineGunTower()) {
+                            MachineGunTower t2 = new MachineGunTower(mouseX, mouseY, 50, 50);
+                            t2.render(gc);
+                            gameField.getTowers().add(t2);
+                            gameField.setPlacingMachineGunTower(false);
+                            TileMap.MAP_PATH[tileY][tileX] = 1;
+                        }
+                    } else if (TileMap.MAP_PATH[tileY][tileX] == 1) {
+                        for (int i = 0; i < gameField.getTowers().size(); i++) {
+                            if (gameField.getTowers().get(i).getPosX() == mouseX && gameField.getTowers().get(i).getPosY() == mouseY) {
+                                if (gameField.isSellingTower()) {
+                                    gameField.getTowers().get(i).delete();
+                                    gameField.getTowers().remove(i);
+                                    TileMap.MAP_PATH[tileY][tileX] = 0;
+                                    gameField.setSellingTower(false);
+                                } else if (gameField.isUpgradingTower()) {
+                                    gameField.getTowers().get(i).upgrade();
+                                }
                             }
                         }
                     }
@@ -145,7 +143,6 @@ public class Game {
             {
                 gameField.getReinforcements().update();
                 gameField.getReinforcements().render(gc);
-//                System.out.println(gameField.getReinforcements().getPosX());
 
                 if (!gameField.getEnemies().isEmpty())
                 {
@@ -166,7 +163,7 @@ public class Game {
                         }
                     }
                 }
-                if(!gameStage.isWaveOver())
+                if(!gameField.isWaveOver())
                 {
                     gameField.spawnEnemies();
                 }
@@ -181,14 +178,15 @@ public class Game {
                     }
                 }
 
-                if (!gameField.isSpawning() && gameField.getEnemies().isEmpty())
+                if (gameField.isWaveOver())
                 {
-                    gameStage.setWaveOver(true);
                     next_wave.setVisible(true);
                     next_wave.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent mouseEvent) {
-                            gameStage.setWaveOver(false);
+                            gameField.setWaveCount();
+                            gameField.calculateWavePower();
+                            System.out.println(gameField.getTankerNumber());
                             gameField.setSpawning(true);
                             next_wave.setVisible(false);
 
@@ -197,7 +195,5 @@ public class Game {
                 }
             }
         };
-//        timer.start();
     }
-
 }

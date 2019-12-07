@@ -71,6 +71,11 @@ public abstract class AbstractEntity implements GameEntity {
         this.setHeight(height);
 
     }
+    protected AbstractEntity(double posX, double posY)
+    {
+        this.setPosX(posX);
+        this.setPosY(posY);
+    }
 
     public void delete()
     {
