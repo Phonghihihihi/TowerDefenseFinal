@@ -34,7 +34,7 @@ public class GameField {
 
     public void setWaveCount() {
         this.waveCount++;
-        System.out.println(waveCount);
+        //System.out.println(waveCount);
     }
 
     public boolean isWaveOver()
@@ -102,29 +102,34 @@ public class GameField {
     public void calculateWavePower()
     {
         normalNumber++;
-        if (waveCount % 2 == 0 && waveCount > 3)
-        {
-            smallerNumber++;
-        }
-        if (waveCount == 3)
+        if (waveCount % 2 == 0)
         {
             smallerNumber = GameConfig.SMALLER_ENEMY_WAVE_NUMBER;
+            GameConfig.SMALLER_ENEMY_WAVE_NUMBER++;
         }
-        if (waveCount % 5 == 0 && waveCount > 5)
+        else
         {
-            tankerNumber++;
+            smallerNumber = 0;
         }
-        if (waveCount == 5)
+
+        if (waveCount % 5 == 0)
         {
             tankerNumber = GameConfig.TANKER_ENEMY_WAVE_NUMBER;
+            GameConfig.TANKER_ENEMY_WAVE_NUMBER++;
         }
-        if (waveCount % 10 == 0  && waveCount > 10)
+        else
         {
-            bossNumber++;
+            tankerNumber = 0;
         }
-        if (waveCount == 10)
+
+        if (waveCount % 10 == 0)
         {
             bossNumber = GameConfig.BOSS_ENEMY_WAVE_NUMBER;
+            GameConfig.BOSS_ENEMY_WAVE_NUMBER++;
+        }
+        else
+        {
+            bossNumber = 0;
         }
         enemyNumber = normalNumber + smallerNumber + tankerNumber + bossNumber;
     }
@@ -146,8 +151,8 @@ public class GameField {
                     resetTimer();
                 }
             }
-            if (waveCount >= 3)
-            {
+          //  if (waveCount % 3 == 0)
+
                 for (int i=0; i < smallerNumber; i++)
                 {
                     if (timer < spawnRate)
@@ -162,9 +167,9 @@ public class GameField {
                         resetTimer();
                     }
                 }
-            }
-            if (waveCount >= 5)
-            {
+
+         //   if (waveCount % 5 == 0)
+
                 for (int i=0; i < tankerNumber; i++)
                 {
                     if (timer < spawnRate)
@@ -179,9 +184,9 @@ public class GameField {
                         resetTimer();
                     }
                 }
-            }
-            if (waveCount >= 10)
-            {
+
+            //if (waveCount % 10 == 0)
+
                 for (int i=0; i < bossNumber; i++)
                 {
                     if (timer < spawnRate)
@@ -196,7 +201,7 @@ public class GameField {
                         resetTimer();
                     }
                 }
-            }
+
         }
         if (enemies.size() == enemyNumber)
         {
@@ -214,5 +219,12 @@ public class GameField {
     {
         return enemies;
     }
+
+    public int getTankerNumber() {
+        return tankerNumber;
+    }
+
+
+
 
 }

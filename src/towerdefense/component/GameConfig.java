@@ -23,48 +23,49 @@ public final class GameConfig {
 
     public static final double SPAWN_X = 64 + GameConfig.TILE_SIZE/2.0;
     public static final double SPAWN_Y = 640 + GameConfig.TILE_SIZE/2.0;
-    public static final int SPAWN_RATE = 500;
 
     //Enemy Config
+    public static final int SPAWN_RATE = 200;
 
     //Normal
+    public static int NORMAL_ENEMY_WAVE_NUMBER = 3;
     public static final int NORMAL_ENEMY_SPEED = 4;
     public static final int NORMAL_ENEMY_ARMOR = 5;
     public static final int NORMAL_ENEMY_HEALTH = 100;
     public static final int NORMAL_ENEMY_REWARD = 10;
-    public static final int NORMAL_ENEMY_WAVE_NUMBER = 5;
     public static final double NORMAL_ENEMY_WIDTH = 20;
     public static final double NORMAL_ENEMY_HEIGHT = 28;
     public static final String NORMAL_ENEMY_IMAGE_URL = "file:src/Assets/Enemy/Normal.png";
 
     //Smaller
+    public static int SMALLER_ENEMY_WAVE_NUMBER = 3;
     public static final int SMALLER_ENEMY_SPEED = 8;
     public static final int SMALLER_ENEMY_ARMOR = 1;
     public static final int SMALLER_ENEMY_HEALTH = 50;
     public static final int SMALLER_ENEMY_REWARD = 30;
-    public static final int SMALLER_ENEMY_WAVE_NUMBER = 3;
     public static final double SMALLER_ENEMY_WIDTH = 18;
     public static final double SMALLER_ENEMY_HEIGHT = 28;
     public static final String SMALLER_ENEMY_IMAGE_URL = "file:src/Assets/Enemy/Smaller.png";
 
     //Tanker
+    public static int TANKER_ENEMY_WAVE_NUMBER = 3;
     public static final int TANKER_ENEMY_SPEED = 2;
     public static final int TANKER_ENEMY_ARMOR = 20;
     public static final int TANKER_ENEMY_HEALTH = 500;
     public static final int TANKER_ENEMY_REWARD = 100;
-    public static final int TANKER_ENEMY_WAVE_NUMBER = 3;
     public static final double TANKER_ENEMY_WIDTH = 53;
     public static final double TANKER_ENEMY_HEIGHT = 36;
     public static final String TANKER_ENEMY_URL = "file:src/Assets/Enemy/Tanker.png";
 
     //Boss
+    public static int BOSS_ENEMY_WAVE_NUMBER = 1;
     public static final int BOSS_ENEMY_SPEED = 1;
     public static final int BOSS_ENEMY_ARMOR = 100;
     public static final int BOSS_ENEMY_HEALTH = 3000;
     public static final int BOSS_ENEMY_REWARD = 1000;
-    public static final int BOSS_ENEMY_WAVE_NUMBER = 1;
     public static final double BOSS_ENEMY_WIDTH = 1;
     public static final double BOSS_ENEMY_HEIGHT = 1;
+    public static final String BOSS_ENEMY_URL = "file:src/Assets/Enemy/Boss.png";
 
     //Tower config
 

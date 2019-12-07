@@ -186,6 +186,7 @@ public class Game {
                         public void handle(MouseEvent mouseEvent) {
                             gameField.setWaveCount();
                             gameField.calculateWavePower();
+                            System.out.println(gameField.getTankerNumber());
                             gameField.setSpawning(true);
                             next_wave.setVisible(false);
 
