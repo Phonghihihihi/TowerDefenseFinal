@@ -1,7 +1,6 @@
 package towerdefense.component;
 
-import towerdefense.component.enemy.Enemy;
-import towerdefense.component.enemy.NormalEnemy;
+import towerdefense.component.enemy.*;
 import towerdefense.component.tower.Tower;
 
 import java.util.ArrayList;
@@ -9,12 +8,17 @@ import java.util.List;
 
 public class GameField {
     private int normalNumber = GameConfig.NORMAL_ENEMY_WAVE_NUMBER;
+    private int smallerNumber = 0;
+    private int tankerNumber = 0;
+    private int bossNumber = 0;
+    private int enemyNumber = 0;
     private int enemyCounter = 0;
     private int spawnRate = GameConfig.SPAWN_RATE;
     private int timer = 0;
+    private int waveCount = 0;
     private boolean isSpawning = false;
     private boolean placingNormalTower = false;
-    private boolean placingMachinGunTower = false;
+    private boolean placingMachineGunTower = false;
     private boolean upgradingTower = false;
     private boolean sellingTower = false;
     //List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
@@ -23,6 +27,20 @@ public class GameField {
     List<Tower> towers = new ArrayList<Tower>();
 
     public GameField(){}
+
+    public int getWaveCount() {
+        return waveCount;
+    }
+
+    public void setWaveCount() {
+        this.waveCount++;
+        System.out.println(waveCount);
+    }
+
+    public boolean isWaveOver()
+    {
+        return enemies.isEmpty() && !isSpawning;
+    }
 
     public void setSpawning(boolean isSpawning)
     {
@@ -42,14 +60,14 @@ public class GameField {
         this.placingNormalTower = placingNormalTower;
     }
 
-    public boolean isPlacingMachinGunTower()
+    public boolean isPlacingMachineGunTower()
     {
-        return placingMachinGunTower;
+        return placingMachineGunTower;
     }
 
-    public void setPlacingMachinGunTower(boolean placingMachinGunTower)
+    public void setPlacingMachineGunTower(boolean placingMachineGunTower)
     {
-        this.placingMachinGunTower = placingMachinGunTower;
+        this.placingMachineGunTower = placingMachineGunTower;
     }
 
     public boolean isUpgradingTower() {
@@ -72,28 +90,115 @@ public class GameField {
         enemyCounter = 0;
     }
 
+    public void resetTimer()
+    {
+        timer = 0;
+    }
+
     public Reinforcements getReinforcements() {
         return reinforcements;
     }
 
+    public void calculateWavePower()
+    {
+        normalNumber++;
+        if (waveCount % 2 == 0 && waveCount > 3)
+        {
+            smallerNumber++;
+        }
+        if (waveCount == 3)
+        {
+            smallerNumber = GameConfig.SMALLER_ENEMY_WAVE_NUMBER;
+        }
+        if (waveCount % 5 == 0 && waveCount > 5)
+        {
+            tankerNumber++;
+        }
+        if (waveCount == 5)
+        {
+            tankerNumber = GameConfig.TANKER_ENEMY_WAVE_NUMBER;
+        }
+        if (waveCount % 10 == 0  && waveCount > 10)
+        {
+            bossNumber++;
+        }
+        if (waveCount == 10)
+        {
+            bossNumber = GameConfig.BOSS_ENEMY_WAVE_NUMBER;
+        }
+        enemyNumber = normalNumber + smallerNumber + tankerNumber + bossNumber;
+    }
     public void spawnEnemies()
     {
-        if (this.enemyCounter < normalNumber && isSpawning)
+        if (enemyCounter < enemyNumber && isSpawning)
         {
-            if (timer < spawnRate)
+            for (int i=0; i < normalNumber; i++)
             {
-                timer ++;
+                if (timer < spawnRate)
+                {
+                    timer++;
+                }
+                else
+                {
+                    Enemy enemy = new NormalEnemy();
+                    enemies.add(enemy);
+                    enemyCounter++;
+                    resetTimer();
+                }
             }
-            else
+            if (waveCount >= 3)
             {
-                NormalEnemy e1 = new NormalEnemy(64 + GameConfig.TILE_SIZE/2.0, 640 + GameConfig.TILE_SIZE/2.0, 64, 64);
-                enemies.add(e1);
-                this.enemyCounter++;
-                timer = 0;
-
+                for (int i=0; i < smallerNumber; i++)
+                {
+                    if (timer < spawnRate)
+                    {
+                        timer++;
+                    }
+                    else
+                    {
+                        Enemy enemy = new SmallerEnemy();
+                        enemies.add(enemy);
+                        enemyCounter++;
+                        resetTimer();
+                    }
+                }
+            }
+            if (waveCount >= 5)
+            {
+                for (int i=0; i < tankerNumber; i++)
+                {
+                    if (timer < spawnRate)
+                    {
+                        timer++;
+                    }
+                    else
+                    {
+                        Enemy enemy = new TankerEnemy();
+                        enemies.add(enemy);
+                        enemyCounter++;
+                        resetTimer();
+                    }
+                }
+            }
+            if (waveCount >= 10)
+            {
+                for (int i=0; i < bossNumber; i++)
+                {
+                    if (timer < spawnRate)
+                    {
+                        timer++;
+                    }
+                    else
+                    {
+                        Enemy enemy = new BossEnemy();
+                        enemies.add(enemy);
+                        enemyCounter++;
+                        resetTimer();
+                    }
+                }
             }
         }
-        else if (enemyCounter >= normalNumber)
+        if (enemies.size() == enemyNumber)
         {
             setSpawning(false);
             refreshSpawner();

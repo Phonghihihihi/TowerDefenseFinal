@@ -187,7 +187,7 @@ public class TowerDefense extends Application {
     }
 
     public static void main(String[] args) {
-        System.out.println(GameConfig.CANVAS_WIDTH + "x" + GameConfig.CANVAS_HEIGHT);
+        //System.out.println(GameConfig.CANVAS_WIDTH + "x" + GameConfig.CANVAS_HEIGHT);
         launch(args);
     }
 }

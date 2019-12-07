@@ -10,8 +10,8 @@ import towerdefense.ui.TowerDefense;
 
 public class BossEnemy extends AbstractEnemy implements Enemy
 {
-    public BossEnemy(double posX, double posY, double width, double height) {
-        super( posX, posY, width, height);
+    public BossEnemy() {
+        super();
         this.health = GameConfig.BOSS_ENEMY_HEALTH;
         this.armor = GameConfig.BOSS_ENEMY_ARMOR;
         this.speed = GameConfig.BOSS_ENEMY_SPEED;

@@ -9,8 +9,10 @@ import towerdefense.ui.TowerDefense;
 
 public class NormalEnemy extends AbstractEnemy implements Enemy
 {
-    public NormalEnemy(double posX, double posY, double width, double height) {
-        super( posX, posY, width, height);
+    public NormalEnemy() {
+        super();
+        this.width = GameConfig.NORMAL_ENEMY_WIDTH;
+        this.height = GameConfig.NORMAL_ENEMY_HEIGHT;
         this.health = GameConfig.NORMAL_ENEMY_HEALTH;
         this.armor = GameConfig.NORMAL_ENEMY_ARMOR;
         this.speed = GameConfig.NORMAL_ENEMY_SPEED;

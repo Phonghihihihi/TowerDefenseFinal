@@ -20,17 +20,10 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
 
     private double speedX = 0;
     private double speedY = -this.getSpeed();
-
-
-
     private boolean destroyed = false;
 
-    public AbstractEnemy(double posX, double posY, double width, double height) {
-        super(posX, posY, width, height);
-//        this.health = health;
-//        this.armor = armor;
-//        this.reward = reward;
-//        this.speed = speed;
+    public AbstractEnemy() {
+        super(GameConfig.SPAWN_X, GameConfig.SPAWN_Y);
     }
 
     public int getSpeed() {
@@ -88,7 +81,6 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
             }
             this.setPosX(this.getPosX() + speedX);
             this.setPosY(this.getPosY() + speedY);
-            System.out.println(this.posX + " " + this.posY);
         }
 
     }
