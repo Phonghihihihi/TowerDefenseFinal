@@ -47,6 +47,7 @@ public class Game {
         GameStage gameStage = new GameStage();
         GameField gameField = new GameField();
 
+
         Button next_wave = new Button("Next Wave");
         next_wave.relocate(1200,400);
 
@@ -141,6 +142,8 @@ public class Game {
         {
             public void handle(long currentTimeNs)
             {
+
+                gameStage.render(gc);
                 gameField.getReinforcements().update();
                 gameField.getReinforcements().render(gc);
 
