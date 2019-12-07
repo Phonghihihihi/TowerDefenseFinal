@@ -86,7 +86,7 @@ public class GameField {
             }
             else
             {
-                NormalEnemy e1 = new NormalEnemy(65, 640, 64, 64);
+                NormalEnemy e1 = new NormalEnemy(64 + GameConfig.TILE_SIZE/2.0, 640 + GameConfig.TILE_SIZE/2.0, 64, 64);
                 enemies.add(e1);
                 this.enemyCounter++;
                 timer = 0;

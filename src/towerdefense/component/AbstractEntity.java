@@ -3,6 +3,7 @@ package towerdefense.component;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
 public abstract class AbstractEntity implements GameEntity {
@@ -73,7 +74,7 @@ public abstract class AbstractEntity implements GameEntity {
 
     public void delete()
     {
-        TowerDefense.root.getChildren().remove(this.imageV);
+        Game.root.getChildren().remove(this.imageV);
     }
 
 
