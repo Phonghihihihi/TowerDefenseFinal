@@ -29,15 +29,28 @@ public class GameField {
     private boolean placingMachineGunTower = false;
     private boolean upgradingTower = false;
     private boolean sellingTower = false;
+    private boolean isCallReinforcements = false;
     //List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
-    Reinforcements reinforcements = new Reinforcements(0, 400, 64, 64);
+    private Reinforcements reinforcements = new Reinforcements(0, 400, 64, 64);;
     List<Enemy> enemies = new ArrayList<Enemy>();
     List<Tower> towers = new ArrayList<Tower>();
 
     public GameField(){}
 
+    public void createNewPlane(){
+        reinforcements = reinforcements = new Reinforcements(0, 400, 64, 64);
+    }
+
     public int getWaveCount() {
         return waveCount;
+    }
+
+    public boolean isCallReinforcement() {
+        return isCallReinforcements;
+    }
+
+    public void setCallReinforcements(boolean callReinforcements) {
+        isCallReinforcements = callReinforcements;
     }
 
     public void setWaveCount() {

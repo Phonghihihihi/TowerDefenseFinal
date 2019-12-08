@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -57,6 +58,9 @@ public class Game {
 
         Button next_wave = new Button("Next Wave");
         next_wave.relocate(1200,400);
+
+        Button call_reinforcements = new Button("Send Help!");
+        call_reinforcements.relocate(1200, 600);
 
         ImageView normal_preplace = new ImageView(new Image("file:src/Assets/Tower/Normal_preplace.png"));
         ImageView machine_gun_preplace = new ImageView(new Image("file:src/Assets/Tower/250_preplace.png"));
@@ -169,16 +173,19 @@ public class Game {
                     if (TileMap.MAP_PATH[tileY][tileX] == 0) {
                         if (gameField.isPlacingNormalTower()) {
                             normal_preplace.relocate(mouseX, mouseY);
+
                         } else if (gameField.isPlacingMachineGunTower()) {
                             machine_gun_preplace.relocate(mouseX, mouseY);
+
                         }
                     }
                 }
             }
         });
 
-        root.getChildren().addAll(next_wave, buy_normal_tower, buy_machine_gun_tower, upgrade, sell);
+        root.getChildren().addAll(next_wave, call_reinforcements ,buy_normal_tower, buy_machine_gun_tower, upgrade, sell);
         next_wave.setVisible(false);
+        call_reinforcements.setVisible(false);
 
         timer = new AnimationTimer()
         {
@@ -189,12 +196,7 @@ public class Game {
                     gameField = new GameField();
                     TowerDefense.startGame.isResetGame = false;
                 }
-                gameField.getReinforcements().update();
-                gameField.getReinforcements().render(gc);
 
-                if (gameField.getReinforcements().isReachedEndPoint()){
-                    gameField.getReinforcements().destroyReinforcements();
-                }
 
                 theScene.setOnKeyPressed(keyEvent -> {
                     if (keyEvent.getCode() == KeyCode.ESCAPE){
@@ -257,17 +259,33 @@ public class Game {
                 if (gameField.isWaveOver())
                 {
                     next_wave.setVisible(true);
-                    next_wave.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent mouseEvent) {
-                            gameField.setWaveCount();
-                            gameField.calculateWavePower();
-                            System.out.println(gameField.getTankerNumber());
-                            gameField.setSpawning(true);
-                            next_wave.setVisible(false);
+                    next_wave.setOnMouseClicked(mouseEvent -> {
+                        gameField.setWaveCount();
+                        gameField.calculateWavePower();
+                        System.out.println(gameField.getTankerNumber());
+                        gameField.setSpawning(true);
+                        next_wave.setVisible(false);
 
-                        }
                     });
+                }
+
+                if (gameField.getEnemies().size() >= 5 && !gameField.isCallReinforcement()){
+                    call_reinforcements.setVisible(true);
+                    call_reinforcements.setOnMouseClicked(mouseEvent -> {
+                        gameField.setCallReinforcements(true);
+                        gameField.createNewPlane();
+                        call_reinforcements.setVisible(false);
+                    });
+                }
+
+                if (gameField.isCallReinforcement()){
+                    gameField.getReinforcements().update();
+                    gameField.getReinforcements().render(gc);
+                }
+
+                if (gameField.getReinforcements().isReachedEndPoint()){
+                    gameField.getReinforcements().destroyReinforcements();
+                    gameField.setCallReinforcements(false);
                 }
 
                 if (gameStage.isGameOver()){

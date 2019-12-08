@@ -33,7 +33,7 @@ public class MachineGunTower extends AbstractTower {
 
     @Override
     public double getRange() {
-        return 0;
+        return this.range;
     }
 
     @Override
