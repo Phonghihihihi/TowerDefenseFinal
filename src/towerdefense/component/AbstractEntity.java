@@ -3,6 +3,7 @@ package towerdefense.component;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
 public abstract class AbstractEntity implements GameEntity {
@@ -70,10 +71,15 @@ public abstract class AbstractEntity implements GameEntity {
         this.setHeight(height);
 
     }
+    protected AbstractEntity(double posX, double posY)
+    {
+        this.setPosX(posX);
+        this.setPosY(posY);
+    }
 
     public void delete()
     {
-        TowerDefense.root.getChildren().remove(this.imageV);
+        Game.root.getChildren().remove(this.imageV);
     }
 
 

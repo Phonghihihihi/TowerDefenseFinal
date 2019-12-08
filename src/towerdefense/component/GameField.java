@@ -1,8 +1,6 @@
 package towerdefense.component;
 
-import towerdefense.component.bullet.Bullet;
-import towerdefense.component.enemy.Enemy;
-import towerdefense.component.enemy.NormalEnemy;
+import towerdefense.component.enemy.*;
 import towerdefense.component.tower.Tower;
 
 import java.util.ArrayList;
@@ -10,21 +8,47 @@ import java.util.List;
 
 public class GameField {
     private int normalNumber = GameConfig.NORMAL_ENEMY_WAVE_NUMBER;
+    private int smallerNumber = 0;
+    private int tankerNumber = 0;
+    private int bossNumber = 0;
+    private int enemyNumber = 0;
     private int enemyCounter = 0;
-    private int spawnRate = GameConfig.SPAWN_RATE;
-    private int timer = 0;
+    private int normalCounter = 0;
+    private int smallerCounter = 0;
+    private int tankerCounter = 0;
+    private int bossCounter = 0;
+    private long timer = 0;
+    private long spawnRate = GameConfig.SPAWN_RATE;
+    private int timer1 = 0;
+    private int timer2 = 0;
+    private int timer3 = 0;
+    private int timer4 = 0;
+    private int waveCount = 0;
     private boolean isSpawning = false;
     private boolean placingNormalTower = false;
-    private boolean placingMachinGunTower = false;
+    private boolean placingMachineGunTower = false;
     private boolean upgradingTower = false;
     private boolean sellingTower = false;
     //List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
     Reinforcements reinforcements = new Reinforcements(0, 400, 64, 64);
     List<Enemy> enemies = new ArrayList<Enemy>();
     List<Tower> towers = new ArrayList<Tower>();
-    List<Bullet> bullets = new ArrayList<Bullet>();
 
     public GameField(){}
+
+    public int getWaveCount() {
+        return waveCount;
+    }
+
+    public void setWaveCount() {
+        this.waveCount++;
+        //System.out.println(waveCount);
+    }
+
+    public boolean isWaveOver()
+    {
+        return enemies.isEmpty() && !isSpawning;
+    }
 
     public void setSpawning(boolean isSpawning)
     {
@@ -44,14 +68,14 @@ public class GameField {
         this.placingNormalTower = placingNormalTower;
     }
 
-    public boolean isPlacingMachinGunTower()
+    public boolean isPlacingMachineGunTower()
     {
-        return placingMachinGunTower;
+        return placingMachineGunTower;
     }
 
-    public void setPlacingMachinGunTower(boolean placingMachinGunTower)
+    public void setPlacingMachineGunTower(boolean placingMachineGunTower)
     {
-        this.placingMachinGunTower = placingMachinGunTower;
+        this.placingMachineGunTower = placingMachineGunTower;
     }
 
     public boolean isUpgradingTower() {
@@ -72,34 +96,160 @@ public class GameField {
 
     public void refreshSpawner(){
         enemyCounter = 0;
+        normalCounter = 0;
+        smallerCounter = 0;
+        tankerCounter = 0;
+        bossCounter = 0;
+    }
+
+    public void resetTimer()
+    {
+        timer = 0;
     }
 
     public Reinforcements getReinforcements() {
         return reinforcements;
     }
 
-    public void spawnEnemies()
+    public void calculateWavePower()
     {
-        if (this.enemyCounter < normalNumber && isSpawning)
+        if (waveCount > 1)
         {
-            if (timer < spawnRate)
-            {
-                timer ++;
-            }
-            else
-            {
-                NormalEnemy e1 = new NormalEnemy(65, 640, 64, 64);
-                e1.setENEMY_HEALTH();
-                enemies.add(e1);
-                this.enemyCounter++;
-                timer = 0;
+            normalNumber++;
+        }
+        if (waveCount % 2 == 0)
+        {
+            smallerNumber = GameConfig.SMALLER_ENEMY_WAVE_NUMBER + waveCount/2 - 1;
+        }
+        else
+        {
+            smallerNumber = 0;
+        }
 
+        if (waveCount % 5 == 0)
+        {
+            tankerNumber = GameConfig.TANKER_ENEMY_WAVE_NUMBER + waveCount/5 - 1;
+        }
+        else
+        {
+            tankerNumber = 0;
+        }
+
+        if (waveCount % 10 == 0)
+        {
+            bossNumber = GameConfig.BOSS_ENEMY_WAVE_NUMBER + waveCount/10 - 1;
+        }
+        else
+        {
+            bossNumber = 0;
+        }
+        enemyNumber = normalNumber + smallerNumber + tankerNumber + bossNumber;
+    }
+    /*public void spawnEnemies()
+    {
+        if (enemyCounter < enemyNumber && isSpawning)
+        {
+            for (int i=0; i < normalNumber;i++){
+                if (timer1 < spawnRate) {
+                    timer1++;
+                } else {
+                    //Enemy enemy = new NormalEnemy();
+                    enemies.add(new NormalEnemy());
+                    enemyCounter++;
+                    timer1 = 0;
+                }
+            }
+            for (int i=0; i < smallerNumber; i++)
+            {
+                if (timer2 < spawnRate)
+                {
+                    timer2++;
+                }
+                else
+                {
+                    Enemy enemy = new SmallerEnemy();
+                    enemies.add(enemy);
+                    enemyCounter++;
+                    timer2 = 0;
+                }
+            }
+            for (int i=0; i < tankerNumber; i++)
+            {
+                if (timer3 < spawnRate)
+                {
+                    timer3++;
+                }
+                else
+                {
+                    Enemy enemy = new TankerEnemy();
+                    enemies.add(enemy);
+                    enemyCounter++;
+                    timer3 = 0;
+                }
+            }
+            for (int i=0; i < bossNumber; i++)
+            {
+                if (timer4 < spawnRate)
+                {
+                    timer4++;
+                }
+                else
+                {
+                    Enemy enemy = new BossEnemy();
+                    enemies.add(enemy);
+                    enemyCounter++;
+                    timer4 = 0;
+
+                }
             }
         }
-        else if (enemyCounter >= normalNumber)
+        if (enemies.size() == enemyNumber)
         {
             setSpawning(false);
             refreshSpawner();
+        }
+    }*/
+    public void spawnEnemies()
+    {
+        if (isSpawning && enemyCounter < enemyNumber)
+        {
+            timer++;
+            if(timer % spawnRate == 0)
+            {
+                if (normalCounter < normalNumber)
+                {
+                    enemies.add(new NormalEnemy());
+                    normalCounter++;
+                    enemyCounter++;
+                }
+
+                if (smallerCounter < smallerNumber)
+                {
+                    enemies.add(new SmallerEnemy());
+                    smallerCounter++;
+                    enemyCounter++;
+                }
+
+                if (tankerCounter < tankerNumber && normalCounter == normalNumber)
+                {
+                    enemies.add(new TankerEnemy());
+                    tankerCounter++;
+                    enemyCounter++;
+                }
+
+                if (bossCounter < bossNumber && normalCounter == normalNumber && tankerCounter == tankerNumber)
+                {
+                    enemies.add(new BossEnemy());
+                    bossCounter++;
+                    enemyCounter++;
+                }
+            }
+        }
+        if (enemyCounter == enemyNumber)
+        {
+            setSpawning(false);
+            refreshSpawner();
+            resetTimer();
         }
     }
 
@@ -107,11 +257,13 @@ public class GameField {
     {
         return towers;
     }
-    public List<Bullet> getBullets() {return bullets; }
 
     public List<Enemy> getEnemies()
     {
         return enemies;
     }
 
+    public int getTankerNumber() {
+        return tankerNumber;
+    }
 }

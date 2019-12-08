@@ -3,6 +3,7 @@ package towerdefense.component;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
 import java.util.Map;
@@ -20,7 +21,11 @@ public class Reinforcements extends AbstractEntity implements GameEntity {
         super(posX, posY, width, height);
         this.plane = new ImageView(new Image("file:src/Assets/Plane/plane.png"));
         this.shawdowPlane = new ImageView(new Image("file:src/Assets/Plane/shadow.png"));
-        TowerDefense.root.getChildren().addAll(shawdowPlane, plane);
+        Game.root.getChildren().addAll(shawdowPlane, plane);
+    }
+
+    public boolean isReachedEndPoint() {
+        return this.getPosX() >= GameConfig.GAME_WIDTH - 32;
     }
 
     @Override
@@ -67,6 +72,6 @@ public class Reinforcements extends AbstractEntity implements GameEntity {
     }
 
     public void destroyReinforcements(){
-        TowerDefense.root.getChildren().removeAll(shawdowPlane, plane);
+        Game.root.getChildren().removeAll(shawdowPlane, plane);
     }
 }

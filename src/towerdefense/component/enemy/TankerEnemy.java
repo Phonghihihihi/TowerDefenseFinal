@@ -3,23 +3,24 @@ package towerdefense.component.enemy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import towerdefense.component.GameConfig;
+import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
 
 
 public class TankerEnemy extends AbstractEnemy implements Enemy
 {
-    public TankerEnemy(double posX, double posY, double width, double height) {
-        super( posX, posY, width, height);
+    public TankerEnemy() {
+        super();
+        this.width = GameConfig.TANKER_ENEMY_WIDTH;
+        this.height = GameConfig.TANKER_ENEMY_HEIGHT;
         this.health = GameConfig.TANKER_ENEMY_HEALTH;
-        this.ENEMY_HEALTH = GameConfig.TANKER_ENEMY_HEALTH;
         this.armor = GameConfig.TANKER_ENEMY_ARMOR;
         this.speed = GameConfig.TANKER_ENEMY_SPEED;
         this.reward = GameConfig.TANKER_ENEMY_REWARD;
-        this.image = new Image("file:src/Assets/Enemy/Abstract Enemy/towerDefense_tile246.png");
+        this.image = new Image(GameConfig.TANKER_ENEMY_URL);
         this.imageV = new ImageView(image);
-        TowerDefense.root.getChildren().add(imageV);
-        TowerDefense.root.getChildren().addAll(Health_P_Rect,Health_T_Rect);
+        Game.root.getChildren().add(imageV);
     }
 
     @Override
