@@ -60,7 +60,9 @@ public class Game {
             public void handle(ActionEvent actionEvent) {
                 gameField.setPlacingNormalTower(true);
                 gameField.setPlacingMachineGunTower(false);
-                root.getChildren().add(normal_preplace);
+                if (!root.getChildren().contains(normal_preplace)) {
+                    root.getChildren().add(normal_preplace);
+                }
                 root.getChildren().remove(machine_gun_preplace);
             }
         });
@@ -72,7 +74,9 @@ public class Game {
             public void handle(ActionEvent actionEvent) {
                 gameField.setPlacingMachineGunTower(true);
                 gameField.setPlacingNormalTower(false);
-                root.getChildren().add(machine_gun_preplace);
+                if(!root.getChildren().contains(machine_gun_preplace)) {
+                    root.getChildren().add(machine_gun_preplace);
+                }
                 root.getChildren().remove(normal_preplace);
             }
         });
@@ -148,7 +152,7 @@ public class Game {
         theScene.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getX() <= GameConfig.GAME_WIDTH) {
+                if (mouseEvent.getX() < GameConfig.GAME_WIDTH) {
                     int tileX = (int) (mouseEvent.getX() / GameConfig.TILE_SIZE);
                     int tileY = (int) (mouseEvent.getY() / GameConfig.TILE_SIZE);
                     int mouseX = tileX * GameConfig.TILE_SIZE;
