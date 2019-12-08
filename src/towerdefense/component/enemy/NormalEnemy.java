@@ -11,6 +11,7 @@ public class NormalEnemy extends AbstractEnemy implements Enemy
     public NormalEnemy(double posX, double posY, double width, double height) {
         super( posX, posY, width, height);
         this.health = GameConfig.NORMAL_ENEMY_HEALTH;
+        this.ENEMY_HEALTH = GameConfig.NORMAL_ENEMY_HEALTH;
         this.armor = GameConfig.NORMAL_ENEMY_ARMOR;
         this.speed = GameConfig.NORMAL_ENEMY_SPEED;
         this.reward = GameConfig.NORMAL_ENEMY_REWARD;

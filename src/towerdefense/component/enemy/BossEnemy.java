@@ -12,6 +12,7 @@ public class BossEnemy extends AbstractEnemy implements Enemy
     public BossEnemy(double posX, double posY, double width, double height) {
         super( posX, posY, width, height);
         this.health = GameConfig.BOSS_ENEMY_HEALTH;
+        this.ENEMY_HEALTH = GameConfig.BOSS_ENEMY_HEALTH;
         this.armor = GameConfig.BOSS_ENEMY_ARMOR;
         this.speed = GameConfig.BOSS_ENEMY_SPEED;
         this.reward = GameConfig.BOSS_ENEMY_REWARD;

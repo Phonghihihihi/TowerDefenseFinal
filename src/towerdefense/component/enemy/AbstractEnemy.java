@@ -2,11 +2,15 @@ package towerdefense.component.enemy;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 import towerdefense.component.AbstractEntity;
 import towerdefense.component.GameConfig;
 import towerdefense.component.TileMap;
 import towerdefense.ui.TowerDefense;
 
+import static towerdefense.component.GameConfig.ENEMY_SPAWN;
 import static towerdefense.component.GameConfig.TILE_SIZE;
 
 public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
@@ -15,17 +19,24 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     protected int armor;
     protected int reward;
     protected int speed;
+    protected int ENEMY_HEALTH;
+
+    public Rectangle Health_T_Rect;
+    public Rectangle Health_P_Rect;
 
 
     private boolean destroyed = false;
 
     public AbstractEnemy(double posX, double posY, double width, double height) {
+
         super(posX, posY, width, height);
+
 //        this.health = health;
 //        this.armor = armor;
 //        this.reward = reward;
 //        this.speed = speed;
     }
+
 
     public int getSpeed() {
         return speed;
@@ -35,10 +46,13 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         return armor;
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
+    public void setHealth() {
+        this.health -= 1 ;
+    }
 
     @Override
     public void takeDamage(int damage) {
@@ -49,12 +63,30 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         }
 
     }
+    public void setENEMY_HEALTH(){
+        Health_T_Rect= new Rectangle(posX, posY -10, health, 5);
+       // Health_T_Rect.setStroke(Color.BLACK);
+        Health_T_Rect.setStrokeWidth(2);
+        Health_T_Rect.setFill(Color.RED);
+
+        Health_P_Rect = new Rectangle(posX + health, posY -10, ENEMY_HEALTH - health, 5);
+        Health_P_Rect.setStrokeType(StrokeType.OUTSIDE);
+        Health_P_Rect.setFill(Color.LIMEGREEN);
+        TowerDefense.root.getChildren().addAll(Health_P_Rect,Health_T_Rect);
+    }
 
 
     public void destroyEnemy() {
         TowerDefense.root.getChildren().remove(imageV);
     }
 
+    public Rectangle getHealth_T_Rect() {
+        return Health_T_Rect;
+    }
+
+    public Rectangle getHealth_P_Rect() {
+        return Health_P_Rect;
+    }
 
     public void move (int[][] path) {
         double speedX = 0;
@@ -82,23 +114,31 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     }
     public void update()
         {
+
             this.move(TileMap.MAP_PATH);
+            Health_P_Rect.setWidth(ENEMY_HEALTH - health);
+            Health_T_Rect.setWidth(Math.max(health,0));
+
         }
     public void render(GraphicsContext graphicsContext)
     {
+
         imageV.relocate(this.getPosX(), this.getPosY());
+        Health_T_Rect.relocate(posX, posY -10);
+        Health_P_Rect.relocate(posX + health, posY -10);
         if (this.getPosX() > (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0 -20))
         {
+            TowerDefense.root.getChildren().remove(Health_T_Rect);
+            TowerDefense.root.getChildren().remove(Health_P_Rect);
             TowerDefense.root.getChildren().remove(imageV);
         }
+
     }
 
     @Override
     public boolean isDestroyed() {
         return destroyed;
     }
-
-
 
 
 }

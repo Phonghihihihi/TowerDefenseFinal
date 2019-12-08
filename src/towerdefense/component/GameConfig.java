@@ -22,37 +22,37 @@ public final class GameConfig {
 
     public static final int SPAWN_RATE = 30;
     public static final int NORMAL_ENEMY_WAVE_NUMBER = 5;
-    public static final int NORMAL_ENEMY_SPEED = 1;
-    public static final int NORMAL_ENEMY_ARMOR = 1;
-    public static final int NORMAL_ENEMY_HEALTH = 1;
-    public static final int NORMAL_ENEMY_REWARD = 1;
+    public static final int NORMAL_ENEMY_SPEED = 2;
+    public static final int NORMAL_ENEMY_ARMOR = 5;
+    public static final int NORMAL_ENEMY_HEALTH = 50;
+    public static final int NORMAL_ENEMY_REWARD = 30;
     public static final String NORMAL_ENEMY_IMAGE_URL = "file:src/Assets/Enemy/Abstract Enemy/towerDefense_tile245.png";
     public static final String NORMAL_BULLET_IMAGE_URL = "file:src/Assets/Bullet/towerDefense_tile272.png";
     public static final String MACHINGUN_BULLET_IMAGE_URL = "file:src/Assets/Bullet/towerDefense_tile295.png";
 
     public static final int BOSS_ENEMY_SPEED = 2;
-    public static final int BOSS_ENEMY_ARMOR = 1;
-    public static final int BOSS_ENEMY_HEALTH = 1;
-    public static final int BOSS_ENEMY_REWARD = 1;
+    public static final int BOSS_ENEMY_ARMOR = 10;
+    public static final int BOSS_ENEMY_HEALTH = 100;
+    public static final int BOSS_ENEMY_REWARD = 60;
 
-    public static final int SMALLER_ENEMY_SPEED = 2;
-    public static final int SMALLER_ENEMY_ARMOR = 1;
-    public static final int SMALLER_ENEMY_HEALTH = 1;
-    public static final int SMALLER_ENEMY_REWARD = 1;
+    public static final int SMALLER_ENEMY_SPEED = 7;
+    public static final int SMALLER_ENEMY_ARMOR = 5;
+    public static final int SMALLER_ENEMY_HEALTH = 30;
+    public static final int SMALLER_ENEMY_REWARD = 20;
 
-    public static final int TANKER_ENEMY_SPEED = 2;
-    public static final int TANKER_ENEMY_ARMOR = 1;
-    public static final int TANKER_ENEMY_HEALTH = 1;
-    public static final int TANKER_ENEMY_REWARD = 1;
+    public static final int TANKER_ENEMY_SPEED = 3;
+    public static final int TANKER_ENEMY_ARMOR = 6;
+    public static final int TANKER_ENEMY_HEALTH = 70;
+    public static final int TANKER_ENEMY_REWARD = 40;
 
     public static final double NORMAL_TOWER_DAMAGE = 10;
     public static final double NORMAL_TOWER_FIRESPEED = 5;
-    public static final double NORMAL_TOWER_RANGE = 30;
+    public static final double NORMAL_TOWER_RANGE = 200;
     public static final String NORMAL_TOWER_IMAGE_URL = "file:src/Assets/Tower/249.png";
 
     public static final double MACHINE_GUN_TOWER_DAMAGE = 5;
-    public static final double MACHINE_GUN_TOWER_FIRESPEED = 20;
-    public static final double MACHINE_GUN_TOWER_RANGE = 15;
+    public static final double MACHINE_GUN_TOWER_FIRESPEED = 5;
+    public static final double MACHINE_GUN_TOWER_RANGE = 200;
     public static final String MACHINE_GUN_TOWER_IMAGE_URL = "file:src/Assets/Tower/250.png";
 
     private final double SHOT_FADE_TIME =1.;

@@ -2,6 +2,7 @@ package towerdefense.component.tower;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.shape.Rectangle;
 import towerdefense.component.AbstractEntity;
 import towerdefense.component.GameConfig;
 import towerdefense.component.GameTile;
@@ -14,6 +15,8 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     protected double Speed;
     protected double range;
     protected double damage;
+
+
 
     public AbstractTower(double posX, double posY, double width, double height)
     {
@@ -73,7 +76,7 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     }
     public void update()
     {
-        if (distanceTo(this.target.getPosX(), this.target.getPosY()) > this.range)
+        if (target!= null && distanceTo(this.target.getPosX(), this.target.getPosY()) > this.range)
         {
             this.setTarget(null);
         }
