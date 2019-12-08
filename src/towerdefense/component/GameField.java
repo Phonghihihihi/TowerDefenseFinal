@@ -14,7 +14,11 @@ public class GameField {
     private int enemyNumber = 0;
     private int enemyCounter = 0;
     private int normalCounter = 0;
-    private int spawnRate = GameConfig.SPAWN_RATE;
+    private int smallerCounter = 0;
+    private int tankerCounter = 0;
+    private int bossCounter = 0;
+    private long timer = 0;
+    private long spawnRate = GameConfig.SPAWN_RATE;
     private int timer1 = 0;
     private int timer2 = 0;
     private int timer3 = 0;
@@ -92,12 +96,16 @@ public class GameField {
 
     public void refreshSpawner(){
         enemyCounter = 0;
+        normalCounter = 0;
+        smallerCounter = 0;
+        tankerCounter = 0;
+        bossCounter = 0;
     }
 
-//    public void resetTimer()
-//    {
-//        timer = 0;
-//    }
+    public void resetTimer()
+    {
+        timer = 0;
+    }
 
     public Reinforcements getReinforcements() {
         return reinforcements;
@@ -137,7 +145,7 @@ public class GameField {
         }
         enemyNumber = normalNumber + smallerNumber + tankerNumber + bossNumber;
     }
-    public void spawnEnemies()
+    /*public void spawnEnemies()
     {
         if (enemyCounter < enemyNumber && isSpawning)
         {
@@ -200,6 +208,49 @@ public class GameField {
             setSpawning(false);
             refreshSpawner();
         }
+    }*/
+    public void spawnEnemies()
+    {
+        if (isSpawning && enemyCounter < enemyNumber)
+        {
+            timer++;
+            if(timer % spawnRate == 0)
+            {
+                if (normalCounter < normalNumber)
+                {
+                    enemies.add(new NormalEnemy());
+                    normalCounter++;
+                    enemyCounter++;
+                }
+
+                if (smallerCounter < smallerNumber)
+                {
+                    enemies.add(new SmallerEnemy());
+                    smallerCounter++;
+                    enemyCounter++;
+                }
+
+                if (tankerCounter < tankerNumber && normalCounter == normalNumber)
+                {
+                    enemies.add(new TankerEnemy());
+                    tankerCounter++;
+                    enemyCounter++;
+                }
+
+                if (bossCounter < bossNumber && normalCounter == normalNumber && tankerCounter == tankerNumber)
+                {
+                    enemies.add(new BossEnemy());
+                    bossCounter++;
+                    enemyCounter++;
+                }
+            }
+        }
+        if (enemyCounter == enemyNumber)
+        {
+            setSpawning(false);
+            refreshSpawner();
+            resetTimer();
+        }
     }
 
     public List<Tower> getTowers()
@@ -215,8 +266,4 @@ public class GameField {
     public int getTankerNumber() {
         return tankerNumber;
     }
-
-
-
-
 }

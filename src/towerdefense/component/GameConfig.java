@@ -20,10 +20,9 @@ public final class GameConfig {
     public static final long CANVAS_HEIGHT = TILE_SIZE * TILE_VERTICAL;
 
     public static final long START_MONEY = 50;
-
     public static final double SPAWN_X = 64 + GameConfig.TILE_SIZE/2.0;
     public static final double SPAWN_Y = 640 + GameConfig.TILE_SIZE/2.0;
-    public static final int SPAWN_RATE = 300;
+    public static final int SPAWN_RATE = 120;
 
     //Enemy Config
 
