@@ -12,7 +12,7 @@ public class NormalTower extends AbstractTower {
     {
         super(posX, posY, width, height);
         this.range = GameConfig.NORMAL_TOWER_RANGE;
-        this.fireSpeed = GameConfig.NORMAL_TOWER_FIRESPEED;
+        this.Speed = GameConfig.NORMAL_TOWER_FIRESPEED;
         this.damage = GameConfig.NORMAL_TOWER_DAMAGE;
         this.image = new Image(GameConfig.NORMAL_TOWER_IMAGE_URL);
         this.imageV = new ImageView(image);
@@ -26,10 +26,25 @@ public class NormalTower extends AbstractTower {
         return null;
     }
 
+    @Override
+    public double getSpeed() {
+        return 0;
+    }
+
+    @Override
+    public double getRange() {
+        return 0;
+    }
+
+    @Override
+    public double getDamage() {
+        return 0;
+    }
+
     public void upgrade()
     {
         this.damage += 5;
         this.range += 5;
-        this.fireSpeed +=5;
+        this.Speed +=5;
     }
 }

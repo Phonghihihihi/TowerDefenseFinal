@@ -4,9 +4,12 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import towerdefense.component.*;
 
+import javax.swing.event.TreeModelEvent;
+
 
 public class TowerDefense extends Application {
-//    public static Group root = new Group();
+    public static TreeModelEvent root;
+    //    public static Group root = new Group();
     public Enum status = GameConfig.STATUS.START;
     public static StartGame startGame = new StartGame();
     public static Game game;
