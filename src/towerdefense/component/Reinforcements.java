@@ -24,6 +24,10 @@ public class Reinforcements extends AbstractEntity implements GameEntity {
         Game.root.getChildren().addAll(shawdowPlane, plane);
     }
 
+    public boolean isReachedEndPoint() {
+        return this.getPosX() >= GameConfig.GAME_WIDTH - 32;
+    }
+
     @Override
     public ImageView getImageV() {
         return null;

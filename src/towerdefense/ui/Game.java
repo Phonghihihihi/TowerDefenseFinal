@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -143,10 +144,12 @@ public class Game {
         {
             public void handle(long currentTimeNs)
             {
-
-                gameStage.render(gc);
                 gameField.getReinforcements().update();
                 gameField.getReinforcements().render(gc);
+
+                if (gameField.getReinforcements().isReachedEndPoint()){
+                    gameField.getReinforcements().destroyReinforcements();
+                }
 
                 theScene.setOnKeyPressed(keyEvent -> {
                     if (keyEvent.getCode() == KeyCode.ESCAPE){
@@ -155,13 +158,15 @@ public class Game {
                         text.setFill(Color.TOMATO);
                         text.setFont( Font.loadFont("file:src/Assets/Font/Acme-Regular.ttf", 60));
                         text.setTextAlignment(TextAlignment.CENTER);
-                        text.relocate(GameConfig.CANVAS_WIDTH/2.0, GameConfig.CANVAS_HEIGHT/2.0);
-                        root.getChildren().add(text);
+                        text.relocate(GameConfig.CANVAS_WIDTH/2.0 - 70, GameConfig.CANVAS_HEIGHT/2.0 - 70);
 
+                        Rectangle back = new Rectangle(GameConfig.CANVAS_WIDTH, GameConfig.CANVAS_HEIGHT);
+                        back.setOpacity(0.6);
+                        root.getChildren().addAll(back, text);
                         theScene.setOnKeyPressed(keyEvent1 -> {
                             if (keyEvent1.getCode() == KeyCode.ESCAPE){
                                 this.start();
-                                root.getChildren().remove(text);
+                                root.getChildren().removeAll(text, back);
                             }
                         });
                     }
@@ -194,10 +199,13 @@ public class Game {
                 {
                     gameField.getEnemies().get(i).update();
                     gameField.getEnemies().get(i).render(gc);
-                    if (gameField.getEnemies().get(i).getPosX() >= GameConfig.GAME_WIDTH)
+                    if (gameField.getEnemies().get(i).getPosX() >= GameConfig.GAME_WIDTH )
                     {
                         root.getChildren().remove(gameField.getEnemies().get(i).getImageV());
+                        gameStage.takeDamage(gameField.getEnemies().get(i));
+                        gameStage.update();
                         gameField.getEnemies().remove(i);
+
                     }
                 }
 

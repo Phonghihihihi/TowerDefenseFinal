@@ -6,13 +6,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import towerdefense.component.enemy.*;
-import towerdefense.ui.Game;;
+import towerdefense.ui.Game;;import java.util.Map.Entry;
 
 public class GameStage {
 
     private boolean waveOver;
     private long money;
     private long health;
+    private Text moneyText;
+    private Text healthText;
 
     public void setWaveOver(boolean waveOver) {
         this.waveOver = waveOver;
@@ -27,24 +29,31 @@ public class GameStage {
         money = GameConfig.START_MONEY;
         health = GameConfig.START_HEALTH;
         waveOver = false;
+        moneyText  = new Text( "$" + (int) this.money);
+        healthText = new Text("HEALTH\n" + (int) this.health);
+        render();
     }
 
-    public void render(GraphicsContext graphicsContext){
-        Text moneyText  = new Text( "$" + Integer.toString((int) this.money));
+    private void render(){
         moneyText.setFill(Color.LIGHTGREY);
         moneyText.setFont( Font.loadFont("file:src/Assets/Font/Acme-Regular.ttf", 30));
         moneyText.relocate(GameConfig.GAME_WIDTH + 20, 48);
         moneyText.setTextAlignment(TextAlignment.CENTER);
 
-        Text healthText = new Text("HEALTH\n" + Integer.toString((int) this.health));
+
         healthText.setFill(Color.YELLOW);
         healthText.setFont( Font.loadFont("file:src/Assets/Font/Acme-Regular.ttf", 30));
         healthText.relocate(GameConfig.GAME_WIDTH + 90, 10);
         healthText.setTextAlignment(TextAlignment.CENTER);
 
         Game.root.getChildren().addAll(healthText, moneyText);
+    }
 
-
+    public void update(){
+        Game.root.getChildren().removeAll(healthText, moneyText);
+        moneyText  = new Text( "$" + (int) this.money);
+        healthText = new Text("HEALTH\n" + (int) this.health);
+        render();
     }
 
     public void takeDamage(Enemy enemy){
@@ -59,6 +68,21 @@ public class GameStage {
         }
         else if (enemy instanceof BossEnemy){
             this.health -= 25;
+        }
+    }
+
+    public void getReward(Enemy enemy){
+        if (enemy instanceof NormalEnemy){
+            this.money += 20;
+        }
+        else if (enemy instanceof TankerEnemy){
+            this.money += 35;
+        }
+        else if (enemy instanceof SmallerEnemy){
+            this.money += 10;
+        }
+        else if (enemy instanceof BossEnemy){
+            this.money += 100;
         }
     }
 
