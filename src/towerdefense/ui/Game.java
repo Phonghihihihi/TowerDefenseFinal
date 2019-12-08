@@ -275,6 +275,9 @@ public class Game {
                     for (Enemy enemy: gameField.getEnemies()){
                         root.getChildren().remove(enemy.getImageV());
                     }
+                    for (Tower tower: gameField.getTowers()){
+                        tower.delete();
+                    }
                     gameStage.reset();
                     stage.close();
                     timer.stop();

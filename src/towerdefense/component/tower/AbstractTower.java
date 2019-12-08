@@ -62,7 +62,7 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     }
     @Override
     public void render(GraphicsContext graphicsContext) {
-        baseV.relocate(posX,posY);
+        baseV.relocate(posX + 7,posY + 7);
         imageV.relocate(posX, posY);
     }
     public void update()
