@@ -2,10 +2,13 @@ package towerdefense.component.tower;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import towerdefense.component.AbstractEntity;
 import towerdefense.component.GameConfig;
 import towerdefense.component.GameTile;
 import towerdefense.component.enemy.Enemy;
+import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
 public abstract class AbstractTower extends AbstractEntity implements Tower {
@@ -14,6 +17,8 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     protected double fireSpeed;
     protected double range;
     protected double damage;
+    protected Image base;
+    protected ImageView baseV;
 
     public AbstractTower(double posX, double posY, double width, double height)
     {
@@ -57,6 +62,7 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     }
     @Override
     public void render(GraphicsContext graphicsContext) {
+        baseV.relocate(posX,posY);
         imageV.relocate(posX, posY);
     }
     public void update()
@@ -68,6 +74,10 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
         if (this.target != null) {
             this.imageV.setRotate(getAngleBetweenEnemy());
         }
+    }
+    public void delete()
+    {
+        Game.root.getChildren().removeAll(imageV, baseV);
     }
     
 
