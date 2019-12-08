@@ -11,6 +11,7 @@ public class NormalTower extends AbstractTower {
     public NormalTower (double posX, double posY, double width, double height)
     {
         super(posX, posY, width, height);
+        this.price = GameConfig.NORMAL_TOWER_PRICE;
         this.range = GameConfig.NORMAL_TOWER_RANGE;
         this.fireSpeed = GameConfig.NORMAL_TOWER_FIRESPEED;
         this.damage = GameConfig.NORMAL_TOWER_DAMAGE;

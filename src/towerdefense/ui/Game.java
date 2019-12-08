@@ -124,26 +124,32 @@ public class Game {
                     int mouseY = tileY * GameConfig.TILE_SIZE;
 
                     if (TileMap.MAP_PATH[tileY][tileX] == 0) {
-                        if (gameField.isPlacingNormalTower()) {
+                        if (gameField.isPlacingNormalTower() && gameStage.getMoney() >= GameConfig.NORMAL_TOWER_PRICE) {
                             NormalTower t1 = new NormalTower(mouseX, mouseY, 50, 50);
                             t1.render(gc);
                             gameField.getTowers().add(t1);
                             gameField.setPlacingNormalTower(false);
                             TileMap.MAP_PATH[tileY][tileX] = 1;
                             root.getChildren().remove(normal_preplace);
-                        } else if (gameField.isPlacingMachineGunTower()) {
+                            gameStage.setMoney(gameStage.getMoney() - GameConfig.NORMAL_TOWER_PRICE);
+                            gameStage.update();
+                        } else if (gameField.isPlacingMachineGunTower() && gameStage.getMoney()>= GameConfig.MACHINE_GUN_TOWER_PRICE) {
                             MachineGunTower t2 = new MachineGunTower(mouseX, mouseY, 50, 50);
                             t2.render(gc);
                             gameField.getTowers().add(t2);
                             gameField.setPlacingMachineGunTower(false);
                             TileMap.MAP_PATH[tileY][tileX] = 1;
                             root.getChildren().remove(machine_gun_preplace);
+                            gameStage.setMoney(gameStage.getMoney() - GameConfig.MACHINE_GUN_TOWER_PRICE);
+                            gameStage.update();
                         }
                     } else if (TileMap.MAP_PATH[tileY][tileX] == 1) {
                         for (int i = 0; i < gameField.getTowers().size(); i++) {
                             if (gameField.getTowers().get(i).getPosX() == mouseX && gameField.getTowers().get(i).getPosY() == mouseY) {
                                 if (gameField.isSellingTower()) {
                                     gameField.getTowers().get(i).delete();
+                                    gameStage.setMoney(gameStage.getMoney() + gameField.getTowers().get(i).getPrice() / 2);
+                                    gameStage.update();
                                     gameField.getTowers().remove(i);
                                     TileMap.MAP_PATH[tileY][tileX] = 0;
                                     gameField.setSellingTower(false);

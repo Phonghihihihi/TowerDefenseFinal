@@ -14,6 +14,7 @@ import towerdefense.ui.TowerDefense;
 public abstract class AbstractTower extends AbstractEntity implements Tower {
 
     protected Enemy target = null;
+    protected int price;
     protected double fireSpeed;
     protected double range;
     protected double damage;
@@ -32,6 +33,11 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     public void setTarget(Enemy target)
     {
         this.target = target;
+    }
+
+    public int getPrice()
+    {
+        return this.price;
     }
 
     public int getTileX()

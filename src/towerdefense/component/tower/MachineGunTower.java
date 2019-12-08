@@ -10,6 +10,7 @@ public class MachineGunTower extends AbstractTower {
 
     public MachineGunTower(double posX, double posY, double width, double height) {
         super(posX, posY, width, height);
+        this.price = GameConfig.MACHINE_GUN_TOWER_PRICE;
         this.range = GameConfig.MACHINE_GUN_TOWER_RANGE;
         this.fireSpeed = GameConfig.MACHINE_GUN_TOWER_FIRESPEED;
         this.damage = GameConfig.MACHINE_GUN_TOWER_DAMAGE;
