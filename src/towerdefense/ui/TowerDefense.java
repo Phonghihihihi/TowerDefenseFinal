@@ -16,6 +16,7 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import towerdefense.component.*;
 import towerdefense.component.bullet.Bullet;
+import towerdefense.component.enemy.Enemy;
 import towerdefense.component.enemy.NormalEnemy;
 import towerdefense.component.tower.MachineGunTower;
 import towerdefense.component.tower.NormalTower;
@@ -107,7 +108,7 @@ public class TowerDefense extends Application {
 
                         t1.render(gc);
                         gameField.getTowers().add(t1);
-                        gameField.getBullets().add( new Bullet(GameConfig.NORMAL_BULLET_IMAGE_URL, mouseX , mouseY-100, t1.getWidth(), t1.getHeight(), t1.getSpeed(), t1.getDamage(), t1.getRange() ));
+                        gameField.getBullets().add( new Bullet(GameConfig.NORMAL_BULLET_IMAGE_URL, t1.getPosX() , t1.getPosY(), 0,0, t1.getSpeed(), t1.getDamage()));
                         gameField.setPlacingNormalTower(false);
                         TileMap.MAP_PATH[tileY][tileX] = 1;
                     }
@@ -115,7 +116,7 @@ public class TowerDefense extends Application {
                         MachineGunTower t2 = new MachineGunTower(mouseX,mouseY,50, 50);
                         t2.render(gc);
                         gameField.getTowers().add(t2);
-                        gameField.getBullets().add( new Bullet(GameConfig.NORMAL_BULLET_IMAGE_URL, mouseX, mouseY - 100, t2.getWidth(), t2.getHeight(), t2.getSpeed(), t2.getDamage(), t2.getRange() ));
+                        gameField.getBullets().add( new Bullet(GameConfig.MACHINGUN_BULLET_IMAGE_URL, t2.getPosX() , t2.getPosY(),0,0, t2.getSpeed(), t2.getDamage()));
                         gameField.setPlacingMachinGunTower(false);
                         TileMap.MAP_PATH[tileY][tileX] = 1;
                     }
@@ -154,33 +155,55 @@ public class TowerDefense extends Application {
             {
                 gameField.getReinforcements().update();
                 gameField.getReinforcements().render(gc);
-//                System.out.println(gameField.getReinforcements().getPosX());
-
-                // check trong tam ngam khong
-                if (!gameField.getEnemies().isEmpty())
-                {
+//
+                //check va cham
+                if(! gameField.getTowers().isEmpty() && !gameField.getBullets().isEmpty()) {
                     int j = -1;
-                    for (Tower tower : gameField.getTowers())
-                    {
+                    for (Tower tower : gameField.getTowers()) {
                         j++;
-                        for (int i = 0; i<gameField.getEnemies().size(); i++)
-                        {
-                            if (tower.checkEnemyInRange(gameField.getEnemies().get(i)))
-                            {
-                                if (tower.getTarget() == null)
-                                {
-                                    tower.setTarget(gameField.getEnemies().get(i));
-                                }
-                                else {
+
+                        for (Enemy enemy : gameField.getEnemies()) {
+                            if (tower.checkEnemyInRange(enemy)) {
+                                if (tower.getTarget() == null ) {
+                                    tower.setTarget(enemy);
+                                    gameField.getBullets().get(j).setBullet(tower.getPosX(), tower.getPosY() , enemy.getPosX() - tower.getPosX(),enemy.getPosY() - tower.getPosY());
+                                    gameField.getBullets().get(j).update();
+                                    break;
+                                } else {
                                     tower.update();
+                                    gameField.getBullets().get(j).update();
+                                    gameField.getBullets().get(j).render(gc);
                                 }
-
-                                gameField.getBullets().get(j).render(gc);
-
                             }
+                            else gameField.getBullets().get(j).setIs_move(false);
                         }
                     }
                 }
+
+                for(int i= 0; i< gameField.getEnemies().size(); i++){
+                    for(int j = 0; j< gameField.getBullets().size(); j++){
+                        if(!gameField.getEnemies().isEmpty() && gameField.getBullets().get(j).distanceTo(gameField.getEnemies().get(i).getPosX(), gameField.getEnemies().get(i).getPosY())< 20){
+
+                            gameField.getEnemies().get(i).setHealth();
+                            gameField.getTowers().get(j).setTarget(null);
+
+                            gameField.getBullets().get(j).setIs_move(false);
+
+                            if (gameField.getEnemies().get(i).getHealth() <= 1 && !gameField.getEnemies().isEmpty()) {
+                                gameField.getEnemies().get(i).delete();
+                                root.getChildren().remove(gameField.getEnemies().get(i).getHealth_P_Rect());
+                                root.getChildren().remove(gameField.getEnemies().get(i).getHealth_T_Rect());
+                                gameField.getEnemies().remove(i);
+                                //money += 1000;
+                            }
+                            break;
+
+                        }
+                    }
+
+            }
+
+
 
 
                 // neu het duong sinh dich tiep
@@ -194,10 +217,15 @@ public class TowerDefense extends Application {
                 {
                     gameField.getEnemies().get(i).update();
                     gameField.getEnemies().get(i).render(gc);
-                    if (gameField.getEnemies().get(i).getPosX() >= (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0) -30)
+
+                    if (!gameField.getEnemies().isEmpty()&&gameField.getEnemies().get(i).getPosX() >= (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0) -30)
                     {
-                        root.getChildren().remove(gameField.getEnemies().get(i).getImageV());
+                        gameField.getEnemies().get(i).delete();
                         gameField.getEnemies().remove(i);
+                       // root.getChildren().remove(gameField.getEnemies().get(i).getImageV());
+                       // root.getChildren().remove(gameField.getEnemies().get(i).getHealth_P_Rect());
+                       // root.getChildren().remove(gameField.getEnemies().get(i).getHealth_T_Rect());
+
                     }
                 }
 
