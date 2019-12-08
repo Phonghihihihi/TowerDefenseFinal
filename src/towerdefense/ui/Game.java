@@ -58,12 +58,20 @@ public class Game {
         Button next_wave = new Button("Next Wave");
         next_wave.relocate(1200,400);
 
+        ImageView normal_preplace = new ImageView(new Image("file:src/Assets/Tower/Normal_preplace.png"));
+        ImageView machine_gun_preplace = new ImageView(new Image("file:src/Assets/Tower/250_preplace.png"));
+
         Button buy_normal_tower = new Button ("", new ImageView(new Image(GameConfig.NORMAL_TOWER_IMAGE_URL)));
         buy_normal_tower.relocate(1200,250);
         buy_normal_tower.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 gameField.setPlacingNormalTower(true);
+                gameField.setPlacingMachineGunTower(false);
+                if (!root.getChildren().contains(normal_preplace)) {
+                    root.getChildren().add(normal_preplace);
+                }
+                root.getChildren().remove(machine_gun_preplace);
             }
         });
 
@@ -73,8 +81,14 @@ public class Game {
             @Override
             public void handle(ActionEvent actionEvent) {
                 gameField.setPlacingMachineGunTower(true);
+                gameField.setPlacingNormalTower(false);
+                if(!root.getChildren().contains(machine_gun_preplace)) {
+                    root.getChildren().add(machine_gun_preplace);
+                }
+                root.getChildren().remove(normal_preplace);
             }
         });
+
 
         Button upgrade = new Button ("Upgrade");
         upgrade.relocate(1200,350);
@@ -116,12 +130,14 @@ public class Game {
                             gameField.getTowers().add(t1);
                             gameField.setPlacingNormalTower(false);
                             TileMap.MAP_PATH[tileY][tileX] = 1;
+                            root.getChildren().remove(normal_preplace);
                         } else if (gameField.isPlacingMachineGunTower()) {
                             MachineGunTower t2 = new MachineGunTower(mouseX, mouseY, 50, 50);
                             t2.render(gc);
                             gameField.getTowers().add(t2);
                             gameField.setPlacingMachineGunTower(false);
                             TileMap.MAP_PATH[tileY][tileX] = 1;
+                            root.getChildren().remove(machine_gun_preplace);
                         }
                     } else if (TileMap.MAP_PATH[tileY][tileX] == 1) {
                         for (int i = 0; i < gameField.getTowers().size(); i++) {
@@ -135,6 +151,26 @@ public class Game {
                                     gameField.getTowers().get(i).upgrade();
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        });
+
+        theScene.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getX() < GameConfig.GAME_WIDTH) {
+                    int tileX = (int) (mouseEvent.getX() / GameConfig.TILE_SIZE);
+                    int tileY = (int) (mouseEvent.getY() / GameConfig.TILE_SIZE);
+                    int mouseX = tileX * GameConfig.TILE_SIZE;
+                    int mouseY = tileY * GameConfig.TILE_SIZE;
+
+                    if (TileMap.MAP_PATH[tileY][tileX] == 0) {
+                        if (gameField.isPlacingNormalTower()) {
+                            normal_preplace.relocate(mouseX, mouseY);
+                        } else if (gameField.isPlacingMachineGunTower()) {
+                            machine_gun_preplace.relocate(mouseX, mouseY);
                         }
                     }
                 }

@@ -16,7 +16,9 @@ public class NormalTower extends AbstractTower {
         this.damage = GameConfig.NORMAL_TOWER_DAMAGE;
         this.image = new Image(GameConfig.NORMAL_TOWER_IMAGE_URL);
         this.imageV = new ImageView(image);
-        Game.root.getChildren().add(imageV);
+        this.base = new Image("file:src/Assets/Tower/Normal Base.png");
+        this.baseV = new ImageView(base);
+        Game.root.getChildren().addAll(baseV, imageV);
     }
 
     @Override
