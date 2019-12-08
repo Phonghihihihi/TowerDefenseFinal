@@ -10,24 +10,32 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import towerdefense.component.GameConfig;
-import towerdefense.component.GameField;
-import towerdefense.component.GameStage;
-import towerdefense.component.TileMap;
+import towerdefense.component.*;
+import towerdefense.component.enemy.Enemy;
 import towerdefense.component.tower.MachineGunTower;
 import towerdefense.component.tower.NormalTower;
 import towerdefense.component.tower.Tower;
+
+import java.io.IOException;
 
 public class Game {
     public static Group root = new Group();
     private Stage stage = new Stage();
     private AnimationTimer timer;
-
     public Stage getStage() {
         return stage;
     }
+    private GameStage gameStage;
+    private GameField gameField;
+    boolean isResetGame = false;
 
     public void startGame(){
         timer.start();
@@ -44,8 +52,8 @@ public class Game {
         stage.setScene(theScene);
         TileMap.drawUI(gc);
         TileMap.drawMap(gc);
-        GameStage gameStage = new GameStage();
-        GameField gameField = new GameField();
+        gameStage = new GameStage();
+        gameField = new GameField();
 
         Button next_wave = new Button("Next Wave");
         next_wave.relocate(1200,400);
@@ -172,13 +180,42 @@ public class Game {
         root.getChildren().addAll(next_wave, buy_normal_tower, buy_machine_gun_tower, upgrade, sell);
         next_wave.setVisible(false);
 
-
         timer = new AnimationTimer()
         {
             public void handle(long currentTimeNs)
             {
+                if (TowerDefense.startGame.isResetGame) {
+                    gameStage = new GameStage();
+                    gameField = new GameField();
+                    TowerDefense.startGame.isResetGame = false;
+                }
                 gameField.getReinforcements().update();
                 gameField.getReinforcements().render(gc);
+
+                if (gameField.getReinforcements().isReachedEndPoint()){
+                    gameField.getReinforcements().destroyReinforcements();
+                }
+
+                theScene.setOnKeyPressed(keyEvent -> {
+                    if (keyEvent.getCode() == KeyCode.ESCAPE){
+                        this.stop();
+                        Text text = new Text("PAUSE");
+                        text.setFill(Color.TOMATO);
+                        text.setFont( Font.loadFont("file:src/Assets/Font/Acme-Regular.ttf", 60));
+                        text.setTextAlignment(TextAlignment.CENTER);
+                        text.relocate(GameConfig.CANVAS_WIDTH/2.0 - 70, GameConfig.CANVAS_HEIGHT/2.0 - 70);
+
+                        Rectangle back = new Rectangle(GameConfig.CANVAS_WIDTH, GameConfig.CANVAS_HEIGHT);
+                        back.setOpacity(0.6);
+                        root.getChildren().addAll(back, text);
+                        theScene.setOnKeyPressed(keyEvent1 -> {
+                            if (keyEvent1.getCode() == KeyCode.ESCAPE){
+                                this.start();
+                                root.getChildren().removeAll(text, back);
+                            }
+                        });
+                    }
+                });
 
                 if (!gameField.getEnemies().isEmpty())
                 {
@@ -207,10 +244,13 @@ public class Game {
                 {
                     gameField.getEnemies().get(i).update();
                     gameField.getEnemies().get(i).render(gc);
-                    if (gameField.getEnemies().get(i).getPosX() >= GameConfig.GAME_WIDTH)
+                    if (gameField.getEnemies().get(i).getPosX() >= GameConfig.GAME_WIDTH )
                     {
                         root.getChildren().remove(gameField.getEnemies().get(i).getImageV());
+                        gameStage.takeDamage(gameField.getEnemies().get(i));
+                        gameStage.update();
                         gameField.getEnemies().remove(i);
+
                     }
                 }
 
@@ -229,7 +269,26 @@ public class Game {
                         }
                     });
                 }
+
+                if (gameStage.isGameOver()){
+
+                    for (Enemy enemy: gameField.getEnemies()){
+                        root.getChildren().remove(enemy.getImageV());
+                    }
+                    gameStage.reset();
+                    stage.close();
+                    timer.stop();
+//                    resetGame(gameStage, gameField);
+                    EndGame endGame = new EndGame();
+                    try {
+                        endGame.createEndGameContent().show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         };
     }
+
+
 }

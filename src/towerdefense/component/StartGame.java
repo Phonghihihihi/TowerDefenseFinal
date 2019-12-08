@@ -34,7 +34,10 @@ public class StartGame {
     private static Font font;
     private static final Font FONT = Font.font("", FontWeight.BOLD, 18);
     private MenuBox menuBox;
-    private Game game = new Game();
+    private boolean isFirstTimePlay = true;
+    public boolean isResetGame = false;
+    public Game game;
+
 
     public StartGame() {
 
@@ -157,9 +160,11 @@ public class StartGame {
         start.setOnMouseClicked(mouseEvent -> {
             menuBox.hide();
             createContent.close();
+            if (isFirstTimePlay){
+                game = new Game();
+                isFirstTimePlay = false;
+            }
             game.startGame();
-
-
 
         });
 
