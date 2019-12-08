@@ -59,7 +59,9 @@ public class Game {
             @Override
             public void handle(ActionEvent actionEvent) {
                 gameField.setPlacingNormalTower(true);
+                gameField.setPlacingMachineGunTower(false);
                 root.getChildren().add(normal_preplace);
+                root.getChildren().remove(machine_gun_preplace);
             }
         });
 
@@ -69,7 +71,9 @@ public class Game {
             @Override
             public void handle(ActionEvent actionEvent) {
                 gameField.setPlacingMachineGunTower(true);
+                gameField.setPlacingNormalTower(false);
                 root.getChildren().add(machine_gun_preplace);
+                root.getChildren().remove(normal_preplace);
             }
         });
 
