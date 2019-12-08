@@ -92,23 +92,27 @@ public class Game {
 
         Button upgrade = new Button ("Upgrade");
         upgrade.relocate(1200,350);
+        upgrade.setDisable(true);
+        upgrade.setVisible(false);
         upgrade.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (gameField.isUpgradingTower())
-                {
-                    gameField.setUpgradingTower(true);
-                }
-                gameField.setSellingTower(false);
+                gameField.getUpgradingTower().upgrade();
             }
         });
 
         Button sell = new Button ("Sell");
         sell.relocate(1200,450);
+        sell.setVisible(false);
+        sell.setDisable(true);
         sell.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                gameField.setSellingTower(true);
+                gameStage.setMoney(gameStage.getMoney() + gameField.getSellingTower().getPrice() / 2);
+                gameStage.update();
+                gameField.getTowers().remove(gameField.getSellingTower());
+                gameField.getSellingTower().delete();
+                gameField.setSellingTower(null);
             }
         });
 
@@ -143,20 +147,20 @@ public class Game {
                             gameStage.setMoney(gameStage.getMoney() - GameConfig.MACHINE_GUN_TOWER_PRICE);
                             gameStage.update();
                         }
+                        gameField.setSellingTower(null);
+                        upgrade.setDisable(true);
+                        upgrade.setVisible(false);
+                        sell.setDisable(true);
+                        sell.setVisible(false);
                     } else if (TileMap.MAP_PATH[tileY][tileX] == 1) {
-                        for (int i = 0; i < gameField.getTowers().size(); i++) {
-                            if (gameField.getTowers().get(i).getPosX() == mouseX && gameField.getTowers().get(i).getPosY() == mouseY) {
-                                if (gameField.isSellingTower()) {
-                                    gameField.getTowers().get(i).delete();
-                                    gameStage.setMoney(gameStage.getMoney() + gameField.getTowers().get(i).getPrice() / 2);
-                                    gameStage.update();
-                                    gameField.getTowers().remove(i);
-                                    TileMap.MAP_PATH[tileY][tileX] = 0;
-                                    gameField.setSellingTower(false);
-                                } else if (gameField.isUpgradingTower()) {
-                                    gameField.getTowers().get(i).upgrade();
-                                }
-                            }
+                        for (Tower tower : gameField.getTowers())
+                        {
+                            gameField.setSellingTower(tower);
+                            gameField.setUpgradingTower(tower);
+                            upgrade.setDisable(false);
+                            upgrade.setVisible(true);
+                            sell.setDisable(false);
+                            sell.setVisible(true);
                         }
                     }
                 }
