@@ -26,6 +26,21 @@ public class NormalTower extends AbstractTower {
         return null;
     }
 
+    @Override
+    public double getSpeed() {
+        return 0;
+    }
+
+    @Override
+    public double getRange() {
+        return 0;
+    }
+
+    @Override
+    public double getDamage() {
+        return 0;
+    }
+
     public void upgrade()
     {
         this.damage += 5;

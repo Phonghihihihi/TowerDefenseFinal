@@ -26,6 +26,21 @@ public class MachineGunTower extends AbstractTower {
     }
 
 
+    @Override
+    public double getSpeed() {
+        return 0;
+    }
+
+    @Override
+    public double getRange() {
+        return 0;
+    }
+
+    @Override
+    public double getDamage() {
+        return 0;
+    }
+
     public void upgrade()
     {
         this.range +=5;
