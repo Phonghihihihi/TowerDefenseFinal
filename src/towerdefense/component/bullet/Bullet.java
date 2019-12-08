@@ -7,6 +7,7 @@ import towerdefense.component.AbstractEntity;
 import towerdefense.component.enemy.AbstractEnemy;
 import towerdefense.component.tower.AbstractTower;
 import towerdefense.component.tower.NormalTower;
+import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
 
@@ -25,7 +26,7 @@ public class Bullet extends AbstractEntity {
         this.is_move = false;
 
         this.imageV = new ImageView(new Image(bulletURL));
-        TowerDefense.root.getChildren().add(imageV);
+        Game.root.getChildren().add(imageV);
 
     }
 
