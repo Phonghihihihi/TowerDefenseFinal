@@ -8,7 +8,9 @@ public interface Enemy extends GameEntity {
 
     void takeDamage(int damage);
 
-    void move();
+    void move(int path[][]);
+
+    void update();
 
     void destroyEnemy();
 

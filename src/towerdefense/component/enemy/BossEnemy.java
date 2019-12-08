@@ -29,12 +29,6 @@ public class BossEnemy extends AbstractEnemy implements Enemy
     }
 
     @Override
-    public void move() {
-
-    }
-
-
-    @Override
     public ImageView getImageV() {
         return this.imageV;
     }

@@ -1,9 +1,13 @@
 package towerdefense.component.tower;
 
+import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import towerdefense.component.AbstractEntity;
 import towerdefense.component.GameConfig;
 import towerdefense.component.GameTile;
@@ -20,6 +24,8 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     protected double damage;
     protected Image base;
     protected ImageView baseV;
+    protected Circle circle;
+    protected boolean hasCircle = false;
 
     public AbstractTower(double posX, double posY, double width, double height)
     {
@@ -50,20 +56,24 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
         return (int)(this.posY / GameConfig.TILE_SIZE);
     }
 
-    public double distanceTo(double x, double y)
+    public Circle getCircle() {
+        return circle;
+    }
+
+    public double distanceTo(Enemy enemy)
     {
-        return Math.sqrt(Math.pow(this.getPosX() - x, 2) + Math.pow(this.getPosY() - y, 2));
+        return Math.sqrt(Math.pow(this.getCenterPosX() - enemy.getPosX(), 2) + Math.pow(this.getCenterPosY() - enemy.getPosY(), 2));
     }
 
     public boolean checkEnemyInRange(Enemy enemy)
     {
-        return this.distanceTo(enemy.getPosX(), enemy.getPosY()) <= this.range;
+        return this.distanceTo(enemy) <= this.range;
     }
 
     public double getAngleBetweenEnemy()
     {
-        double angle = Math.acos((this.posY - this.target.getPosY()) / distanceTo(this.target.getPosX(), this.target.getPosY())) * GameConfig.PI_TO_DEGREE;
-        if (this.posX > this.target.getPosX()) return -angle;
+        double angle = Math.acos((this.getCenterPosY() - this.target.getPosY()) / distanceTo(this.target)) * GameConfig.PI_TO_DEGREE;
+        if (this.getCenterPosX() > this.target.getPosX()) return -angle;
         else return angle;
     }
     @Override
@@ -71,9 +81,25 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
         baseV.relocate(posX + 7,posY + 7);
         imageV.relocate(posX, posY);
     }
+
+    public void drawCircle()
+    {
+        this.imageV.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Game.root.getChildren().add(circle);
+            }
+        });
+        this.imageV.setOnMouseExited((new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Game.root.getChildren().remove(circle);
+            }
+        }));
+    }
     public void update()
     {
-        if (distanceTo(this.target.getPosX(), this.target.getPosY()) > this.range)
+        if (distanceTo(target) > this.range)
         {
             this.setTarget(null);
         }
