@@ -29,7 +29,7 @@ public final class GameConfig {
     //Enemy Config
 
     //Normal
-    public static final int NORMAL_ENEMY_SPEED = 2;
+    public static final int NORMAL_ENEMY_SPEED = 8;
     public static final int NORMAL_ENEMY_ARMOR = 1;
     public static final int NORMAL_ENEMY_HEALTH = 1;
     public static final int NORMAL_ENEMY_REWARD = 1;
@@ -39,7 +39,7 @@ public final class GameConfig {
     public static final String NORMAL_ENEMY_IMAGE_URL = "file:src/Assets/Enemy/Normal.png";
 
     //Smaller
-    public static final int SMALLER_ENEMY_SPEED = 4;
+    public static final int SMALLER_ENEMY_SPEED = 8;
     public static final int SMALLER_ENEMY_ARMOR = 1;
     public static final int SMALLER_ENEMY_HEALTH = 50;
     public static final int SMALLER_ENEMY_REWARD = 30;

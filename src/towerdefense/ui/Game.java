@@ -19,18 +19,23 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import towerdefense.component.*;
+import towerdefense.component.enemy.Enemy;
 import towerdefense.component.tower.MachineGunTower;
 import towerdefense.component.tower.NormalTower;
 import towerdefense.component.tower.Tower;
+
+import java.io.IOException;
 
 public class Game {
     public static Group root = new Group();
     private Stage stage = new Stage();
     private AnimationTimer timer;
-
     public Stage getStage() {
         return stage;
     }
+    private GameStage gameStage;
+    private GameField gameField;
+    boolean isResetGame = false;
 
     public void startGame(){
         timer.start();
@@ -47,9 +52,8 @@ public class Game {
         stage.setScene(theScene);
         TileMap.drawUI(gc);
         TileMap.drawMap(gc);
-        GameStage gameStage = new GameStage();
-        GameField gameField = new GameField();
-
+        gameStage = new GameStage();
+        gameField = new GameField();
 
         Button next_wave = new Button("Next Wave");
         next_wave.relocate(1200,400);
@@ -144,6 +148,11 @@ public class Game {
         {
             public void handle(long currentTimeNs)
             {
+                if (TowerDefense.startGame.isResetGame) {
+                    gameStage = new GameStage();
+                    gameField = new GameField();
+                    TowerDefense.startGame.isResetGame = false;
+                }
                 gameField.getReinforcements().update();
                 gameField.getReinforcements().render(gc);
 
@@ -224,7 +233,26 @@ public class Game {
                         }
                     });
                 }
+
+                if (gameStage.isGameOver()){
+
+                    for (Enemy enemy: gameField.getEnemies()){
+                        root.getChildren().remove(enemy.getImageV());
+                    }
+                    gameStage.reset();
+                    stage.close();
+                    timer.stop();
+//                    resetGame(gameStage, gameField);
+                    EndGame endGame = new EndGame();
+                    try {
+                        endGame.createEndGameContent().show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         };
     }
+
+
 }

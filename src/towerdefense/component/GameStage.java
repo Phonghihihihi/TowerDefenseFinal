@@ -50,10 +50,14 @@ public class GameStage {
     }
 
     public void update(){
-        Game.root.getChildren().removeAll(healthText, moneyText);
+        reset();
         moneyText  = new Text( "$" + (int) this.money);
         healthText = new Text("HEALTH\n" + (int) this.health);
         render();
+    }
+
+    public void reset(){
+        Game.root.getChildren().removeAll(healthText, moneyText);
     }
 
     public void takeDamage(Enemy enemy){
