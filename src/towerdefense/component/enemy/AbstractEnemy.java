@@ -22,7 +22,9 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     protected int reward;
     protected int speed;
     protected   int ENEMY_HEALTH;
+
     protected MediaPlayer attack = new MediaPlayer(new Media(new File("src/Assets/Music/Attack.mp3").toURI().toString()));
+
 
     private double speedX = 0;
     private double speedY = -this.getSpeed();

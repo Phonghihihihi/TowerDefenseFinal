@@ -29,7 +29,6 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
 
     protected double Speed;
 
-
     public AbstractTower(double posX, double posY, double width, double height)
     {
         super(posX, posY, width, height);
