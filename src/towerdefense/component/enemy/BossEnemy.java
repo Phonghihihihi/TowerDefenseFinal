@@ -31,7 +31,6 @@ public class BossEnemy extends AbstractEnemy implements Enemy
     }
 
 
-    @Override
     public void setHealth() {
         this.health -= 1;
     }

@@ -27,7 +27,7 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     protected ImageView baseV;
   
     protected Circle circle;
-    protected boolean hasCircle = false;
+
     protected double Speed;
     protected int is_Bullet;
     protected String image_Bullet;
