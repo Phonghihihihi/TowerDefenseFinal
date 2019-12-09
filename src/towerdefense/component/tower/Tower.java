@@ -1,6 +1,7 @@
 package towerdefense.component.tower;
 
 import towerdefense.component.GameTile;
+import towerdefense.component.bullet.Bullet;
 import towerdefense.component.enemy.Enemy;
 
 public interface Tower extends GameTile {
@@ -19,5 +20,6 @@ public interface Tower extends GameTile {
 
      public void setIs_Bullet(int is_bullet) ;
      public String image_Bullet();
+     public Bullet getBullet();
 
 }

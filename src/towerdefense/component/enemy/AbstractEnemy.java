@@ -71,6 +71,10 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         Health_P_Rect.setStrokeType(StrokeType.OUTSIDE);
         Health_P_Rect.setFill(Color.LIMEGREEN);
         Game.root.getChildren().addAll(Health_P_Rect,Health_T_Rect);
+       // Game.root.getChildren().removeAll(Health_P_Rect, Health_T_Rect);
+    }
+    public void remove_Health(){
+        Game.root.getChildren().removeAll(Health_P_Rect,Health_T_Rect);
     }
     public Rectangle getHealth_T_Rect() {
         return Health_T_Rect;
@@ -121,7 +125,13 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         this.move(TileMap.MAP_PATH);
         Health_P_Rect.setWidth(ENEMY_HEALTH - health);
         Health_T_Rect.setWidth(Math.max(health,0));
+        if (health <= 0)
+        {
+            Game.root.getChildren().removeAll(imageV, Health_P_Rect, Health_T_Rect);
+
         }
+        }
+
     public void render(GraphicsContext graphicsContext)
     {
         Health_T_Rect.relocate(posX - width/2, posY -10);
@@ -138,6 +148,13 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     @Override
     public boolean isDestroyed() {
         return destroyed;
+    }
+
+    public void delete()
+    {
+        super.delete();
+        Game.root.getChildren().removeAll(Health_T_Rect, Health_P_Rect);
+
     }
 
 

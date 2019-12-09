@@ -221,86 +221,110 @@ public class Game {
                 });
 
 
+
+
 //check va cham
-                if(gameField.getBullets().isEmpty()){
-                    for (Tower tower : gameField.getTowers())
-                        tower.setIs_Bullet( -1);
-                }
-                for (Tower tower : gameField.getTowers()) {
-                    for (Enemy enemy : gameField.getEnemies()) {
-                        if (tower.checkEnemyInRange(enemy) && tower.getIs_Bullet() == -1) {
-                            tower.setTarget(enemy);
 
-                            gameField.getBullets().add(new Bullet(tower.image_Bullet(), tower.getPosX(), tower.getPosY(), enemy.getPosX() - tower.getPosX() +5, enemy.getPosY() - tower.getPosY() +5, tower.getSpeed(), tower.getDamage()));
-                            tower.setIs_Bullet(gameField.getBullets().size() - 1);
-                            tower.update();
-                           // System.out.println(gameField.getBullets().size());
-                        }
-                    }
-                }
-
-                int k = -1;
-                for (Bullet bullet : gameField.getBullets()) {
-                    k++;
-                    int j = -1;
-                    for (Enemy enemy : gameField.getEnemies()) {
-                        j++;
-                        if (bullet.checkEnemyInRange(enemy.getPosX(), enemy.getPosY())) {
-
-                            enemy.setHealth();
-                            bullet.setDelete(true);
-
-
-                            if (enemy.getHealth() < 0) {
-                                root.getChildren().removeAll(enemy.getHealth_P_Rect(), enemy.getHealth_T_Rect());
-                                enemy.delete();
-
-                                gameField.getEnemies().remove(j);
-
+                for (Tower tower : gameField.getTowers())
+                {
+                    //tower.drawCircle();
+                    if (!gameField.getEnemies().isEmpty())
+                    {
+                        for (int i = 0; i<gameField.getEnemies().size(); i++)
+                        {
+                            if (tower.checkEnemyInRange(gameField.getEnemies().get(i)))
+                            {
+                                if (tower.getTarget() == null)
+                                {
+                                    tower.setTarget(gameField.getEnemies().get(i));
+                                }
+                                else {
+                                    tower.update();
+                                }
+                            }
+                            if (gameField.getEnemies().get(i).getHealth() <= 0)
+                            {
+                                gameField.getEnemies().remove(i);
                             }
                         }
-
-                    }
-                    if (!gameField.getBullets().isEmpty()) break;
-                }
-
-                for (Tower tower : gameField.getTowers()) {
-                    if (gameField.getBullets().isEmpty()) break;
-                    //if (tower.getIs_Bullet() >= gameField.getBullets().size()) System.out.println(tower.getIs_Bullet());
-
-                    if (tower.getIs_Bullet() != -1 &&
-                            tower.getIs_Bullet() < gameField.getBullets().size() &&(
-                            tower.distanceTo(gameField.getBullets().get(tower.getIs_Bullet()).getPosX(),
-                                    gameField.getBullets().get(tower.getIs_Bullet()).getPosY()) > tower.getRange() ||
-                    gameField.getBullets().get(tower.getIs_Bullet()).isDelete())) {
-
-                        gameField.getBullets().get(tower.getIs_Bullet()).setDelete(true);
-
-                        tower.setIs_Bullet(-1);
                     }
                 }
 
-                k = -1;
 
-                if (!gameField.getBullets().isEmpty()) {
-                    System.out.println(gameField.getBullets().size());
-                    for (Bullet bullet : gameField.getBullets()) {
-                        k++;
-                        System.out.println(gameField.getBullets().get(k).isDelete());
-                        if (bullet.isDelete()) {
-
-                            bullet.delete();
-                            gameField.getBullets().remove(k);
-                            k--;
-                            // root.getChildren().remove(bullet.getImageV());
-
-                        } else {
-                            bullet.update();
-                            bullet.render(gc);
-                        }
-                        if (gameField.getBullets().isEmpty()) break;
-                    }
-                }
+//                if(gameField.getBullets().isEmpty()){
+//                    for (Tower tower : gameField.getTowers())
+//                        tower.setIs_Bullet( -1);
+//                }
+//                for (Tower tower : gameField.getTowers()) {
+//                    for (Enemy enemy : gameField.getEnemies()) {
+//                        if (tower.checkEnemyInRange(enemy) && tower.getIs_Bullet() == -1) {
+//                            tower.setTarget(enemy);
+//
+//                            gameField.getBullets().add(new Bullet(tower.image_Bullet(), tower.getPosX(), tower.getPosY(), enemy.getPosX() - tower.getPosX() , enemy.getPosY() - tower.getPosY() , tower.getSpeed(), tower.getDamage()));
+//                            tower.setIs_Bullet(gameField.getBullets().size() - 1);
+//                            tower.update();
+//                        }
+//                    }
+//                }
+//
+//                int k = -1;
+//                for (Bullet bullet : gameField.getBullets()) {
+//                    k++;
+//                    int j = -1;
+//                    for (Enemy enemy : gameField.getEnemies()) {
+//                        j++;
+//                        if (bullet.checkEnemyInRange(enemy.getPosX(), enemy.getPosY())) {
+//
+//                            enemy.setHealth();
+//                            bullet.setDelete(true);
+//
+//
+//                            if (enemy.getHealth() < 1) {
+//                                enemy.remove_Health();
+//                                enemy.delete();
+//                                gameField.getEnemies().remove(j);
+//
+//                            }
+//                        }
+//
+//                    }
+//                    if (!gameField.getBullets().isEmpty()) break;
+//                }
+//
+//                for (Tower tower : gameField.getTowers()) {
+//                    if (gameField.getBullets().isEmpty()) break;
+//
+//                    if (tower.getIs_Bullet() != -1 &&
+//                            tower.getIs_Bullet() < gameField.getBullets().size() &&(
+//                            tower.distanceTo(gameField.getBullets().get(tower.getIs_Bullet()).getPosX(),
+//                                    gameField.getBullets().get(tower.getIs_Bullet()).getPosY()) > tower.getRange() ||
+//                    gameField.getBullets().get(tower.getIs_Bullet()).isDelete())) {
+//
+//                        gameField.getBullets().get(tower.getIs_Bullet()).setDelete(true);
+//
+//                        tower.setIs_Bullet(-1);
+//                    }
+//                }
+//
+//                k = -1;
+//
+//                if (!gameField.getBullets().isEmpty()) {
+//                    for (Bullet bullet : gameField.getBullets()) {
+//                        k++;
+//                        if (bullet.isDelete() || bullet.getPosY() >=  GameConfig.CANVAS_HEIGHT || bullet.getPosY() <=0 || bullet.getPosX() <= 0 || bullet.getPosX() >= GameConfig.CANVAS_WIDTH) {
+//
+//                            bullet.delete();
+//                            gameField.getBullets().remove(k);
+//                            k--;
+//
+//
+//                        } else {
+//                            bullet.update();
+//                            bullet.render(gc);
+//                        }
+//                        if (gameField.getBullets().isEmpty()) break;
+//                    }
+//                }
 
                 if(!gameField.isWaveOver())
                 {

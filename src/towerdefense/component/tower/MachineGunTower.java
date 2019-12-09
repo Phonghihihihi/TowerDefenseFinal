@@ -3,6 +3,7 @@ package towerdefense.component.tower;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import towerdefense.component.GameConfig;
+import towerdefense.component.bullet.Bullet;
 import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
@@ -18,6 +19,8 @@ public class MachineGunTower extends AbstractTower {
         this.base = new Image("file:src/Assets/Tower/Machine Gun Base.png");
         this.image_Bullet = GameConfig.MACHINE_GUN_BULLET;
         this.baseV = new ImageView(base);
+
+        bullet = new Bullet(GameConfig.MACHINE_GUN_BULLET, posX , posY , Speed, damage);
         Game.root.getChildren().addAll(baseV, imageV);
     }
 
@@ -53,4 +56,6 @@ public class MachineGunTower extends AbstractTower {
     public String image_Bullet() {
         return image_Bullet;
     }
+
+
 }

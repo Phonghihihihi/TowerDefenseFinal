@@ -15,6 +15,8 @@ public interface Enemy extends GameEntity {
 
     boolean isDestroyed();
 
+    public void remove_Health();
+
 
     void setHealth();
     double getHealth();

@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import towerdefense.component.GameConfig;
+import towerdefense.component.bullet.Bullet;
 import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
@@ -19,6 +20,7 @@ public class NormalTower extends AbstractTower {
         this.image_Bullet = GameConfig.NORMAL_BULLET;
         this.base = new Image("file:src/Assets/Tower/Normal Base.png");
         this.baseV = new ImageView(base);
+        bullet = new Bullet(image_Bullet, posX , posY , Speed, damage);
         Game.root.getChildren().addAll(baseV, imageV);
     }
 
@@ -53,4 +55,6 @@ public class NormalTower extends AbstractTower {
     public String image_Bullet() {
         return image_Bullet;
     }
+
+
 }

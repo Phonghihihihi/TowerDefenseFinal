@@ -46,12 +46,12 @@ public abstract class AbstractEntity implements GameEntity {
 
     public double getCenterPosX()
     {
-        return this.getPosX() + this.width/2;
+        return this.getPosX() + 32;
     }
 
     public double getCenterPosY()
     {
-        return this.getPosY() + this.height/2;
+        return this.getPosY() + 32;
     }
 
     @Override

@@ -15,48 +15,32 @@ public class Bullet extends AbstractEntity {
 
     private double damage_B;
     private double speed_B;
-    private boolean is_move;
-    private  boolean delete;
 
-
-    public Bullet(String bulletURL,double posX , double posY,double width, double health, double speed_B, double damage_B ){
+    public Bullet(String image_Bullet, double posX, double posY, double Speed, double damage) {
         super(posX, posY);
-        this.damage_B = damage_B;
-        this.speed_B = speed_B;
-        this.is_move = false;
-        this.width = width;
-        this.height = health;
-        this.delete = false;
+        this.posY = posY;
+        this.posX = posX;
+        this.speed_B = Speed;
+        this.damage_B = damage;
 
-        this.imageV = new ImageView(new Image(bulletURL));
+        this.imageV = new ImageView(new Image(image_Bullet));
+        imageV.relocate(posX, posY);
         Game.root.getChildren().add(imageV);
 
     }
 
-//    public int getTager() {
-//        return tager;
-//    }
-
-
-    public boolean isDelete() {
-        return delete;
+    public void setImageV(boolean Visible){
+        imageV.setVisible(Visible);
     }
 
-    public void setDelete(boolean delete) {
-        this.delete = delete;
-    }
+
+
+
+
 
     @Override
     public ImageView getImageV() {
         return this.imageV;
-    }
-
-    public boolean isIs_move() {
-        return is_move;
-    }
-
-    public void setIs_move(boolean is_move) {
-        this.is_move = is_move;
     }
 
     @Override
@@ -67,7 +51,7 @@ public class Bullet extends AbstractEntity {
 
     public boolean checkEnemyInRange(double x, double y)
     {
-        return Math.sqrt(Math.pow(this.getPosX() - x, 2) + Math.pow(this.getPosY() - y, 2)) < 20;
+        return Math.sqrt(Math.pow(this.getPosX() - x, 2) + Math.pow(this.getPosY() - y, 2)) < 10;
     }
 
 
@@ -76,5 +60,6 @@ public class Bullet extends AbstractEntity {
 
             this.posX += width/100 *speed_B;
             this.posY += height/100 *speed_B;
+            imageV.relocate(posX, posY);
     }
 }

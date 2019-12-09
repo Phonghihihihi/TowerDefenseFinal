@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import towerdefense.component.AbstractEntity;
 import towerdefense.component.GameConfig;
 import towerdefense.component.GameTile;
+import towerdefense.component.bullet.Bullet;
 import towerdefense.component.enemy.Enemy;
 import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
@@ -21,13 +22,20 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     protected double Speed;
     protected int is_Bullet;
     protected String image_Bullet;
+    protected Bullet bullet;
 
     public AbstractTower(double posX, double posY, double width, double height)
     {
         super(posX, posY, width, height);
-        is_Bullet = -1;
 
     }
+
+    public Bullet getBullet() {
+        return bullet;
+    }
+
+
+
 
     @Override
     public double getDamage() {
@@ -68,7 +76,7 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
 
     public double distanceTo(double x, double y)
     {
-        return Math.sqrt(Math.pow(this.getPosX() - x, 2) + Math.pow(this.getPosY() - y, 2));
+        return Math.sqrt(Math.pow(this.getCenterPosX() - x, 2) + Math.pow(this.getCenterPosY() - y, 2));
     }
 
     public boolean checkEnemyInRange(Enemy enemy)
@@ -78,9 +86,24 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
 
     public double getAngleBetweenEnemy()
     {
-        double angle = Math.acos((this.posY - this.target.getPosY()) / distanceTo(this.target.getPosX(), this.target.getPosY())) * GameConfig.PI_TO_DEGREE;
-        if (this.posX > this.target.getPosX()) return -angle;
+        double angle = Math.acos((this.getCenterPosY() - this.target.getPosY()) / distanceTo(this.target.getPosX(), this.target.getPosY())) * GameConfig.PI_TO_DEGREE;
+        if (this.getCenterPosX() > this.target.getPosX()) return -angle;
         else return angle;
+    }
+    public void bullet_update(){
+        bullet.update();
+        if(this.bullet.checkEnemyInRange(target.getPosX() - 32, target.getPosY()- 32)){
+            bullet.setPosX(posX);
+            bullet.setPosY(posY);
+            target.setHealth();
+
+            if (target.getHealth() <= 0) {
+                bullet.setImageV(false);
+                target.delete();
+                //System.out.println(1);
+                target = null;
+            }
+        }
     }
     @Override
     public void render(GraphicsContext graphicsContext) {
@@ -89,13 +112,21 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     }
     public void update()
     {
-//        if (distanceTo(this.target.getPosX(), this.target.getPosY()) > this.range)
-//        {
-//            this.setTarget(null);
-//        }
-//        if (this.target != null) {
+        if (distanceTo(this.target.getPosX(), this.target.getPosY()) >= this.range)
+        {
+            this.setTarget(null);
+        }
+        if (this.target != null) {
+            bullet.setImageV(true);
             this.imageV.setRotate(getAngleBetweenEnemy());
-       // }
+            this.bullet.setWidth(target.getPosX() - 32- posX);
+            this.bullet.setHeight(target.getPosY() - 32 - posY );
+            this.bullet_update();
+        }
+        else{
+            System.out.println(1);
+            bullet.setImageV(false);
+        }
     }
     public void delete()
     {
