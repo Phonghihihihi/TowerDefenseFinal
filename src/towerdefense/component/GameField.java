@@ -20,31 +20,42 @@ public class GameField {
     private int bossCounter = 0;
     private long timer = 0;
     private long spawnRate = GameConfig.SPAWN_RATE;
-    private int timer1 = 0;
-    private int timer2 = 0;
-    private int timer3 = 0;
-    private int timer4 = 0;
+//    private int timer1 = 0;
+//    private int timer2 = 0;
+//    private int timer3 = 0;
+//    private int timer4 = 0;
     private int waveCount = 0;
     private boolean isSpawning = false;
     private boolean placingNormalTower = false;
     private boolean placingMachineGunTower = false;
-    private boolean upgradingTower = false;
-    private boolean sellingTower = false;
-    //List<GameEntity> gameEntities = new ArrayList<GameEntity>(GameConfig.MAP_TILE);
-    Reinforcements reinforcements = new Reinforcements(0, 400, 64, 64);
+    private Tower upgradingTower = null;
+    private Tower sellingTower = null;
+    private boolean isCallReinforcements = false;
+    private Reinforcements reinforcements = new Reinforcements(0, 400, 64, 64);;
     List<Enemy> enemies = new ArrayList<Enemy>();
     List<Tower> towers = new ArrayList<Tower>();
     List<Bullet> bullets = new ArrayList<Bullet>();
 
     public GameField(){}
 
+    public void createNewPlane(){
+        reinforcements = reinforcements = new Reinforcements(0, 400, 64, 64);
+    }
+
     public int getWaveCount() {
         return waveCount;
     }
 
+    public boolean isCallReinforcement() {
+        return isCallReinforcements;
+    }
+
+    public void setCallReinforcements(boolean callReinforcements) {
+        isCallReinforcements = callReinforcements;
+    }
+
     public void setWaveCount() {
         this.waveCount++;
-        //System.out.println(waveCount);
     }
 
     public boolean isWaveOver()
@@ -80,21 +91,25 @@ public class GameField {
         this.placingMachineGunTower = placingMachineGunTower;
     }
 
-    public boolean isUpgradingTower() {
+    public Tower getUpgradingTower() {
         return upgradingTower;
     }
 
-    public void setUpgradingTower(boolean upgradingTower) {
+    public void setUpgradingTower(Tower upgradingTower) {
         this.upgradingTower = upgradingTower;
     }
 
-    public boolean isSellingTower() {
+    public Tower getSellingTower() {
         return sellingTower;
     }
 
-    public void setSellingTower(boolean sellingTower) {
+    public void setSellingTower(Tower sellingTower) {
         this.sellingTower = sellingTower;
     }
+
+   /* public void setSellingTower(boolean sellingTower) {
+        this.sellingTower = sellingTower;
+    }*/
 
     public void refreshSpawner(){
         enemyCounter = 0;

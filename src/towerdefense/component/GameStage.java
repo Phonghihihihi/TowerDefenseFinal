@@ -49,6 +49,14 @@ public class GameStage {
         Game.root.getChildren().addAll(healthText, moneyText);
     }
 
+    public long getMoney() {
+        return money;
+    }
+
+    public void setMoney(long money) {
+        this.money = money;
+    }
+
     public void update(){
         reset();
         moneyText  = new Text( "$" + (int) this.money);
@@ -94,10 +102,7 @@ public class GameStage {
         return this.health <= 0;
     }
 
-
-
-
-
-
-
+    public long getHealth() {
+        return health;
+    }
 }
