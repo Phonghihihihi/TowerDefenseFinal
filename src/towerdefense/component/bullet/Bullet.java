@@ -4,16 +4,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import towerdefense.component.AbstractEntity;
-import towerdefense.component.enemy.AbstractEnemy;
-import towerdefense.component.tower.AbstractTower;
-import towerdefense.component.tower.NormalTower;
+import towerdefense.component.tower.Tower;
 import towerdefense.ui.Game;
-import towerdefense.ui.TowerDefense;
 
 
 public class Bullet extends AbstractEntity {
 
-    private double damage_B;
     private double speed_B;
 
     public Bullet(String image_Bullet, double posX, double posY, double Speed, double damage) {
@@ -21,21 +17,12 @@ public class Bullet extends AbstractEntity {
         this.posY = posY;
         this.posX = posX;
         this.speed_B = Speed;
-        this.damage_B = damage;
 
         this.imageV = new ImageView(new Image(image_Bullet));
         imageV.relocate(posX, posY);
         Game.root.getChildren().add(imageV);
 
     }
-
-    public void setImageV(boolean Visible){
-        imageV.setVisible(Visible);
-    }
-
-
-
-
 
 
     @Override
@@ -60,6 +47,6 @@ public class Bullet extends AbstractEntity {
 
             this.posX += width/100 *speed_B;
             this.posY += height/100 *speed_B;
-            imageV.relocate(posX, posY);
+            imageV.relocate(posX + 7, posY + 7);
     }
 }

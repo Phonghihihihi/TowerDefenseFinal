@@ -33,7 +33,7 @@ public final class GameConfig {
     //Normal
     public static final int NORMAL_ENEMY_SPEED = 2;
     public static final int NORMAL_ENEMY_ARMOR = 1;
-    public static final int NORMAL_ENEMY_HEALTH = 30;
+    public static final int NORMAL_ENEMY_HEALTH = 60;
     public static final int NORMAL_ENEMY_REWARD = 30;
     public static final int NORMAL_ENEMY_WAVE_NUMBER = 5;
     public static final double NORMAL_ENEMY_WIDTH = 20;
@@ -43,7 +43,7 @@ public final class GameConfig {
     //Smaller
     public static final int SMALLER_ENEMY_SPEED = 4;
     public static final int SMALLER_ENEMY_ARMOR = 1;
-    public static final int SMALLER_ENEMY_HEALTH = 30;
+    public static final int SMALLER_ENEMY_HEALTH = 45;
     public static final int SMALLER_ENEMY_REWARD = 30;
     public static final int SMALLER_ENEMY_WAVE_NUMBER = 3;
     public static final double SMALLER_ENEMY_WIDTH = 18;
@@ -53,7 +53,7 @@ public final class GameConfig {
     //Tanker
     public static final int TANKER_ENEMY_SPEED = 1;
     public static final int TANKER_ENEMY_ARMOR = 20;
-    public static final int TANKER_ENEMY_HEALTH = 50;
+    public static final int TANKER_ENEMY_HEALTH = 100;
     public static final int TANKER_ENEMY_REWARD = 100;
     public static final int TANKER_ENEMY_WAVE_NUMBER = 3;
     public static final double TANKER_ENEMY_WIDTH = 53;
@@ -63,7 +63,7 @@ public final class GameConfig {
     //Boss
     public static final int BOSS_ENEMY_SPEED = 1;
     public static final int BOSS_ENEMY_ARMOR = 100;
-    public static final int BOSS_ENEMY_HEALTH = 100;
+    public static final int BOSS_ENEMY_HEALTH = 200;
     public static final int BOSS_ENEMY_REWARD = 1000;
     public static final int BOSS_ENEMY_WAVE_NUMBER = 1;
     public static final double BOSS_ENEMY_WIDTH = 1;
@@ -102,6 +102,7 @@ public final class GameConfig {
     public int TIME_BULLET = 20;
     public static String MACHINE_GUN_BULLET = "file:src/Assets/Bullet/towerDefense_tile272.png";
     public static String NORMAL_BULLET = "file:src/Assets/Bullet/towerDefense_tile295.png";
+    public static String SNIPER_BULLET = "file:src/Assets/Bullet/towerDefense_tile251.png";
     //UI CONTROL
     public static volatile int UI_CUR = 1;
 
@@ -112,6 +113,4 @@ public final class GameConfig {
     public static enum STATUS {
         START, PLAYING, END;
     }
-
-    public static final int UI_BASE = 0;
 }
