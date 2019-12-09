@@ -102,10 +102,7 @@ public class GameStage {
         return this.health <= 0;
     }
 
-
-
-
-
-
-
+    public long getHealth() {
+        return health;
+    }
 }
