@@ -317,6 +317,7 @@ public class Game {
                     for (Tower tower: gameField.getTowers()){
                         tower.delete();
                     }
+                    gameField.getReinforcements().destroyReinforcements();
                     gameStage.reset();
                     stage.close();
                     timer.stop();
