@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -60,6 +61,11 @@ public class Game {
 
         ImageView normal_preplace = new ImageView(new Image("file:src/Assets/Tower/Normal_preplace.png"));
         ImageView machine_gun_preplace = new ImageView(new Image("file:src/Assets/Tower/250_preplace.png"));
+        Circle circle_preplace_1 = new Circle(GameConfig.NORMAL_TOWER_RANGE,Color.TRANSPARENT);
+        circle_preplace_1.setStroke(Color.BLACK);
+
+        Circle circle_preplace_2 = new Circle(GameConfig.MACHINE_GUN_TOWER_RANGE,Color.TRANSPARENT);
+        circle_preplace_2.setStroke(Color.BLACK);
 
         Button buy_normal_tower = new Button ("", new ImageView(new Image(GameConfig.NORMAL_TOWER_IMAGE_URL)));
         buy_normal_tower.relocate(1200,250);
@@ -68,10 +74,10 @@ public class Game {
             public void handle(ActionEvent actionEvent) {
                 gameField.setPlacingNormalTower(true);
                 gameField.setPlacingMachineGunTower(false);
-                if (!root.getChildren().contains(normal_preplace)) {
-                    root.getChildren().add(normal_preplace);
+                if (!root.getChildren().contains(normal_preplace))  {
+                    root.getChildren().addAll(normal_preplace, circle_preplace_1);
                 }
-                root.getChildren().remove(machine_gun_preplace);
+                root.getChildren().removeAll(machine_gun_preplace, circle_preplace_2);
             }
         });
 
@@ -83,32 +89,36 @@ public class Game {
                 gameField.setPlacingMachineGunTower(true);
                 gameField.setPlacingNormalTower(false);
                 if(!root.getChildren().contains(machine_gun_preplace)) {
-                    root.getChildren().add(machine_gun_preplace);
+                    root.getChildren().addAll(machine_gun_preplace, circle_preplace_2);
                 }
-                root.getChildren().remove(normal_preplace);
+                root.getChildren().removeAll(normal_preplace, circle_preplace_1);
             }
         });
 
 
         Button upgrade = new Button ("Upgrade");
         upgrade.relocate(1200,350);
+        upgrade.setDisable(true);
+        upgrade.setVisible(false);
         upgrade.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (gameField.isUpgradingTower())
-                {
-                    gameField.setUpgradingTower(true);
-                }
-                gameField.setSellingTower(false);
+                gameField.getUpgradingTower().upgrade();
             }
         });
 
         Button sell = new Button ("Sell");
         sell.relocate(1200,450);
+        sell.setVisible(false);
+        sell.setDisable(true);
         sell.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                gameField.setSellingTower(true);
+                gameStage.setMoney(gameStage.getMoney() + gameField.getSellingTower().getPrice() / 2);
+                gameStage.update();
+                gameField.getTowers().remove(gameField.getSellingTower());
+                gameField.getSellingTower().delete();
+                gameField.setSellingTower(null);
             }
         });
 
@@ -124,33 +134,40 @@ public class Game {
                     int mouseY = tileY * GameConfig.TILE_SIZE;
 
                     if (TileMap.MAP_PATH[tileY][tileX] == 0) {
-                        if (gameField.isPlacingNormalTower()) {
+                        if (gameField.isPlacingNormalTower() && gameStage.getMoney() >= GameConfig.NORMAL_TOWER_PRICE) {
                             NormalTower t1 = new NormalTower(mouseX, mouseY, 50, 50);
                             t1.render(gc);
                             gameField.getTowers().add(t1);
                             gameField.setPlacingNormalTower(false);
                             TileMap.MAP_PATH[tileY][tileX] = 1;
-                            root.getChildren().remove(normal_preplace);
-                        } else if (gameField.isPlacingMachineGunTower()) {
+                            root.getChildren().removeAll(normal_preplace, circle_preplace_1);
+                            gameStage.setMoney(gameStage.getMoney() - GameConfig.NORMAL_TOWER_PRICE);
+                            gameStage.update();
+                        } else if (gameField.isPlacingMachineGunTower() && gameStage.getMoney()>= GameConfig.MACHINE_GUN_TOWER_PRICE) {
                             MachineGunTower t2 = new MachineGunTower(mouseX, mouseY, 50, 50);
                             t2.render(gc);
                             gameField.getTowers().add(t2);
                             gameField.setPlacingMachineGunTower(false);
                             TileMap.MAP_PATH[tileY][tileX] = 1;
-                            root.getChildren().remove(machine_gun_preplace);
+                            root.getChildren().removeAll(machine_gun_preplace, circle_preplace_2);
+                            gameStage.setMoney(gameStage.getMoney() - GameConfig.MACHINE_GUN_TOWER_PRICE);
+                            gameStage.update();
                         }
+                        gameField.setSellingTower(null);
+                        upgrade.setDisable(true);
+                        upgrade.setVisible(false);
+                        sell.setDisable(true);
+                        sell.setVisible(false);
                     } else if (TileMap.MAP_PATH[tileY][tileX] == 1) {
-                        for (int i = 0; i < gameField.getTowers().size(); i++) {
-                            if (gameField.getTowers().get(i).getPosX() == mouseX && gameField.getTowers().get(i).getPosY() == mouseY) {
-                                if (gameField.isSellingTower()) {
-                                    gameField.getTowers().get(i).delete();
-                                    gameField.getTowers().remove(i);
-                                    TileMap.MAP_PATH[tileY][tileX] = 0;
-                                    gameField.setSellingTower(false);
-                                } else if (gameField.isUpgradingTower()) {
-                                    gameField.getTowers().get(i).upgrade();
-                                }
-                            }
+                        for (Tower tower : gameField.getTowers())
+                        if (tower.getPosX() == mouseX && tower.getPosY() == mouseY)
+                        {
+                            gameField.setSellingTower(tower);
+                            gameField.setUpgradingTower(tower);
+                            upgrade.setDisable(false);
+                            upgrade.setVisible(true);
+                            sell.setDisable(false);
+                            sell.setVisible(true);
                         }
                     }
                 }
@@ -169,8 +186,12 @@ public class Game {
                     if (TileMap.MAP_PATH[tileY][tileX] == 0) {
                         if (gameField.isPlacingNormalTower()) {
                             normal_preplace.relocate(mouseX, mouseY);
+                            circle_preplace_1.setCenterX(mouseX + 32);
+                            circle_preplace_1.setCenterY(mouseY + 32);
                         } else if (gameField.isPlacingMachineGunTower()) {
                             machine_gun_preplace.relocate(mouseX, mouseY);
+                            circle_preplace_2.setCenterX(mouseX + 32);
+                            circle_preplace_2.setCenterY(mouseY + 32);
                         }
                     }
                 }
@@ -217,9 +238,10 @@ public class Game {
                     }
                 });
 
-                if (!gameField.getEnemies().isEmpty())
+                for (Tower tower : gameField.getTowers())
                 {
-                    for (Tower tower : gameField.getTowers())
+                    tower.drawCircle();
+                    if (!gameField.getEnemies().isEmpty())
                     {
                         for (int i = 0; i<gameField.getEnemies().size(); i++)
                         {
