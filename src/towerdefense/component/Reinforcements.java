@@ -56,7 +56,7 @@ public class Reinforcements extends AbstractEntity implements GameEntity {
 
     public boolean isBoomFallIntoEnemy(Enemy enemy){
         return Math.sqrt((enemy.getCenterPosX() - explosion_posX) * (enemy.getCenterPosX() - explosion_posX) +
-                (enemy.getCenterPosY() - explosion_posY) * (enemy.getCenterPosY() - explosion_posY)) < 75;
+                (enemy.getCenterPosY() - explosion_posY) * (enemy.getCenterPosY() - explosion_posY)) < 70;
     }
 
     public boolean isReachedEndPoint() {
@@ -92,10 +92,10 @@ public class Reinforcements extends AbstractEntity implements GameEntity {
         this.setPosX(this.getPosX() + speedX);
         this.setPosY(this.getPosY() + speedY);
 
-        if (timer == 5 || timer == 10 || timer == 15 || timer == 20 || timer == 25 || timer == 30) {
+//        if (timer == 5 || timer == 10 || timer == 15 || timer == 20 || timer == 25 || timer == 30) {
             queue.add(this.getPosX());
             queue.add(this.getPosY());
-        }
+//        }
     }
 
 
@@ -108,11 +108,11 @@ public class Reinforcements extends AbstractEntity implements GameEntity {
             boomFallingTimer++;
         }
         else {
-            if (timer == 5 || timer == 10 || timer == 15 || timer == 20 || timer == 25 || timer == 30){
+//            if (timer == 5 || timer == 10 || timer == 15 || timer == 20 || timer == 25 || timer == 30){
                 explosion_posX = queue.poll();
                 explosion_posY = queue.poll();
                 explosion.relocate(explosion_posX - 32, explosion_posY - 32);
-            }
+//            }
         }
     }
 

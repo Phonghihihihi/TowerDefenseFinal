@@ -276,9 +276,11 @@ public class Game {
 
                     }
 
-                    if (gameField.getReinforcements().isBoomFallIntoEnemy(gameField.getEnemies().get(i))){
-                        gameField.getEnemies().get(i).destroyEnemy();
-                        gameField.getEnemies().remove(i);
+                    if (!gameField.getEnemies().isEmpty()){
+                        if (gameField.getReinforcements().isBoomFallIntoEnemy(gameField.getEnemies().get(i))){
+                            gameField.getEnemies().get(i).destroyEnemy();
+                            gameField.getEnemies().remove(i);
+                        }
                     }
 
 
