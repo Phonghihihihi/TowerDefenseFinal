@@ -24,8 +24,13 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     protected double damage;
     protected Image base;
     protected ImageView baseV;
+  
     protected Circle circle;
+<<<<<<< HEAD
+=======
     protected boolean hasCircle = false;
+    protected double Speed;
+>>>>>>> 1960f2d11b84ecae66278d41886638a964e51f1d
 
     public AbstractTower(double posX, double posY, double width, double height)
     {

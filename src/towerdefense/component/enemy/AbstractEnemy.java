@@ -2,21 +2,30 @@ package towerdefense.component.enemy;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import towerdefense.component.AbstractEntity;
 import towerdefense.component.GameConfig;
 import towerdefense.component.TileMap;
 import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
+import java.io.File;
 import java.util.Map;
 
 
 public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
 
+
     protected int health;
     protected int armor;
     protected int reward;
     protected int speed;
+<<<<<<< HEAD
+    protected MediaPlayer attack = new MediaPlayer(new Media(new File("src/Assets/Music/Attack.mp3").toURI().toString()));
+=======
+    protected   int ENEMY_HEALTH;
+>>>>>>> 1960f2d11b84ecae66278d41886638a964e51f1d
 
     private double speedX = 0;
     private double speedY = -this.getSpeed();
@@ -34,7 +43,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         return armor;
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
@@ -46,6 +55,10 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
             destroyEnemy();
         }
 
+    }
+    public void attack()
+    {
+        attack.play();
     }
 
     public void destroyEnemy() {
@@ -90,7 +103,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     public void render(GraphicsContext graphicsContext)
     {
         imageV.relocate(this.getPosX() - GameConfig.TILE_SIZE/2.0, this.getPosY() - GameConfig.TILE_SIZE/2.0);
-        if (this.getPosX() > (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0 -20))
+        if (this.getPosX() >= GameConfig.GAME_WIDTH - 10)
         {
             Game.root.getChildren().remove(imageV);
         }

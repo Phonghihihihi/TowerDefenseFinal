@@ -19,7 +19,9 @@ public final class GameConfig {
     public static final long CANVAS_WIDTH = TILE_SIZE * TILE_HORIZONTAL + UI_HORIZONTAL;
     public static final long CANVAS_HEIGHT = TILE_SIZE * TILE_VERTICAL;
 
+
     public static final long START_MONEY = 500;
+
     public static final long START_HEALTH = 100;
   
     public static final double SPAWN_X = 64 + GameConfig.TILE_SIZE/2.0;

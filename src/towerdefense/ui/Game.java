@@ -116,6 +116,7 @@ public class Game {
             public void handle(ActionEvent actionEvent) {
                 gameStage.setMoney(gameStage.getMoney() + gameField.getSellingTower().getPrice() / 2);
                 gameStage.update();
+                TileMap.MAP_PATH[gameField.getSellingTower().getTileY()][gameField.getSellingTower().getTileX()] = 0;
                 gameField.getTowers().remove(gameField.getSellingTower());
                 gameField.getSellingTower().delete();
                 gameField.setSellingTower(null);
@@ -158,6 +159,7 @@ public class Game {
                         upgrade.setVisible(false);
                         sell.setDisable(true);
                         sell.setVisible(false);
+                        root.getChildren().removeAll(normal_preplace, machine_gun_preplace);
                     } else if (TileMap.MAP_PATH[tileY][tileX] == 1) {
                         for (Tower tower : gameField.getTowers())
                         if (tower.getPosX() == mouseX && tower.getPosY() == mouseY)
@@ -168,6 +170,7 @@ public class Game {
                             upgrade.setVisible(true);
                             sell.setDisable(false);
                             sell.setVisible(true);
+                            root.getChildren().removeAll(normal_preplace, machine_gun_preplace);
                         }
                     }
                 }
@@ -267,8 +270,9 @@ public class Game {
                     gameField.getEnemies().get(i).update();
                     gameField.getEnemies().get(i).render(gc);
                     if (gameField.getEnemies().get(i).getPosX() >= GameConfig.GAME_WIDTH )
+
                     {
-                        root.getChildren().remove(gameField.getEnemies().get(i).getImageV());
+                        gameField.getEnemies().get(i).attack();
                         gameStage.takeDamage(gameField.getEnemies().get(i));
                         gameStage.update();
                         gameField.getEnemies().remove(i);
