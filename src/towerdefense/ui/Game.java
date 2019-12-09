@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import towerdefense.component.*;
+import towerdefense.component.bullet.Bullet;
 import towerdefense.component.enemy.Enemy;
 import towerdefense.component.tower.MachineGunTower;
 import towerdefense.component.tower.NormalTower;
@@ -128,6 +129,8 @@ public class Game {
                             NormalTower t1 = new NormalTower(mouseX, mouseY, 50, 50);
                             t1.render(gc);
                             gameField.getTowers().add(t1);
+
+
                             gameField.setPlacingNormalTower(false);
                             TileMap.MAP_PATH[tileY][tileX] = 1;
                             root.getChildren().remove(normal_preplace);
@@ -135,6 +138,7 @@ public class Game {
                             MachineGunTower t2 = new MachineGunTower(mouseX, mouseY, 50, 50);
                             t2.render(gc);
                             gameField.getTowers().add(t2);
+
                             gameField.setPlacingMachineGunTower(false);
                             TileMap.MAP_PATH[tileY][tileX] = 1;
                             root.getChildren().remove(machine_gun_preplace);
@@ -182,8 +186,7 @@ public class Game {
 
         timer = new AnimationTimer()
         {
-            public void handle(long currentTimeNs)
-            {
+            public void handle(long currentTimeNs) {
                 if (TowerDefense.startGame.isResetGame) {
                     gameStage = new GameStage();
                     gameField = new GameField();
@@ -192,24 +195,24 @@ public class Game {
                 gameField.getReinforcements().update();
                 gameField.getReinforcements().render(gc);
 
-                if (gameField.getReinforcements().isReachedEndPoint()){
+                if (gameField.getReinforcements().isReachedEndPoint()) {
                     gameField.getReinforcements().destroyReinforcements();
                 }
 
                 theScene.setOnKeyPressed(keyEvent -> {
-                    if (keyEvent.getCode() == KeyCode.ESCAPE){
+                    if (keyEvent.getCode() == KeyCode.ESCAPE) {
                         this.stop();
                         Text text = new Text("PAUSE");
                         text.setFill(Color.TOMATO);
-                        text.setFont( Font.loadFont("file:src/Assets/Font/Acme-Regular.ttf", 60));
+                        text.setFont(Font.loadFont("file:src/Assets/Font/Acme-Regular.ttf", 60));
                         text.setTextAlignment(TextAlignment.CENTER);
-                        text.relocate(GameConfig.CANVAS_WIDTH/2.0 - 70, GameConfig.CANVAS_HEIGHT/2.0 - 70);
+                        text.relocate(GameConfig.CANVAS_WIDTH / 2.0 - 70, GameConfig.CANVAS_HEIGHT / 2.0 - 70);
 
                         Rectangle back = new Rectangle(GameConfig.CANVAS_WIDTH, GameConfig.CANVAS_HEIGHT);
                         back.setOpacity(0.6);
                         root.getChildren().addAll(back, text);
                         theScene.setOnKeyPressed(keyEvent1 -> {
-                            if (keyEvent1.getCode() == KeyCode.ESCAPE){
+                            if (keyEvent1.getCode() == KeyCode.ESCAPE) {
                                 this.start();
                                 root.getChildren().removeAll(text, back);
                             }
@@ -217,25 +220,88 @@ public class Game {
                     }
                 });
 
-                if (!gameField.getEnemies().isEmpty())
-                {
+
+//check va cham
+                if(gameField.getBullets().isEmpty()){
                     for (Tower tower : gameField.getTowers())
-                    {
-                        for (int i = 0; i<gameField.getEnemies().size(); i++)
-                        {
-                            if (tower.checkEnemyInRange(gameField.getEnemies().get(i)))
-                            {
-                                if (tower.getTarget() == null)
-                                {
-                                    tower.setTarget(gameField.getEnemies().get(i));
-                                }
-                                else {
-                                    tower.update();
-                                }
-                            }
+                        tower.setIs_Bullet( -1);
+                }
+                for (Tower tower : gameField.getTowers()) {
+                    for (Enemy enemy : gameField.getEnemies()) {
+                        if (tower.checkEnemyInRange(enemy) && tower.getIs_Bullet() == -1) {
+                            tower.setTarget(enemy);
+
+                            gameField.getBullets().add(new Bullet(tower.image_Bullet(), tower.getPosX(), tower.getPosY(), enemy.getPosX() - tower.getPosX() +5, enemy.getPosY() - tower.getPosY() +5, tower.getSpeed(), tower.getDamage()));
+                            tower.setIs_Bullet(gameField.getBullets().size() - 1);
+                            tower.update();
+                           // System.out.println(gameField.getBullets().size());
                         }
                     }
                 }
+
+                int k = -1;
+                for (Bullet bullet : gameField.getBullets()) {
+                    k++;
+                    int j = -1;
+                    for (Enemy enemy : gameField.getEnemies()) {
+                        j++;
+                        if (bullet.checkEnemyInRange(enemy.getPosX(), enemy.getPosY())) {
+
+                            enemy.setHealth();
+                            bullet.setDelete(true);
+
+
+                            if (enemy.getHealth() < 0) {
+                                root.getChildren().removeAll(enemy.getHealth_P_Rect(), enemy.getHealth_T_Rect());
+                                enemy.delete();
+
+                                gameField.getEnemies().remove(j);
+
+                            }
+                        }
+
+                    }
+                    if (!gameField.getBullets().isEmpty()) break;
+                }
+
+                for (Tower tower : gameField.getTowers()) {
+                    if (gameField.getBullets().isEmpty()) break;
+                    //if (tower.getIs_Bullet() >= gameField.getBullets().size()) System.out.println(tower.getIs_Bullet());
+
+                    if (tower.getIs_Bullet() != -1 &&
+                            tower.getIs_Bullet() < gameField.getBullets().size() &&(
+                            tower.distanceTo(gameField.getBullets().get(tower.getIs_Bullet()).getPosX(),
+                                    gameField.getBullets().get(tower.getIs_Bullet()).getPosY()) > tower.getRange() ||
+                    gameField.getBullets().get(tower.getIs_Bullet()).isDelete())) {
+
+                        gameField.getBullets().get(tower.getIs_Bullet()).setDelete(true);
+
+                        tower.setIs_Bullet(-1);
+                    }
+                }
+
+                k = -1;
+
+                if (!gameField.getBullets().isEmpty()) {
+                    System.out.println(gameField.getBullets().size());
+                    for (Bullet bullet : gameField.getBullets()) {
+                        k++;
+                        System.out.println(gameField.getBullets().get(k).isDelete());
+                        if (bullet.isDelete()) {
+
+                            bullet.delete();
+                            gameField.getBullets().remove(k);
+                            k--;
+                            // root.getChildren().remove(bullet.getImageV());
+
+                        } else {
+                            bullet.update();
+                            bullet.render(gc);
+                        }
+                        if (gameField.getBullets().isEmpty()) break;
+                    }
+                }
+
                 if(!gameField.isWaveOver())
                 {
                     gameField.spawnEnemies();

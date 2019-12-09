@@ -22,4 +22,5 @@ public interface Enemy extends GameEntity {
 
     public Rectangle getHealth_P_Rect();
 
+    public void setENEMY_HEALTH();
 }

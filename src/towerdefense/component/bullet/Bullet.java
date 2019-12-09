@@ -16,18 +16,34 @@ public class Bullet extends AbstractEntity {
     private double damage_B;
     private double speed_B;
     private boolean is_move;
+    private  boolean delete;
 
-    private  Image bulletIMG ;
-    private  ImageView bulletV ;
-    public Bullet(String bulletURL,double posX , double posY, double width, double height, double speed_B, double damage_B ){
-        super(posX, posY,width,height);
+
+    public Bullet(String bulletURL,double posX , double posY,double width, double health, double speed_B, double damage_B ){
+        super(posX, posY);
         this.damage_B = damage_B;
         this.speed_B = speed_B;
         this.is_move = false;
+        this.width = width;
+        this.height = health;
+        this.delete = false;
 
         this.imageV = new ImageView(new Image(bulletURL));
         Game.root.getChildren().add(imageV);
 
+    }
+
+//    public int getTager() {
+//        return tager;
+//    }
+
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 
     @Override
@@ -49,19 +65,9 @@ public class Bullet extends AbstractEntity {
     }
 
 
-    public double distanceTo(double x, double y)
+    public boolean checkEnemyInRange(double x, double y)
     {
-        return Math.sqrt(Math.pow(this.getPosX() - x, 2) + Math.pow(this.getPosY() - y, 2));
-    }
-
-    public void setBullet( double posX, double posY, double wigth, double height){
-        this.posX = posX;
-        this.posY = posY;
-        this.width = wigth;
-        this.height = height;
-        is_move = true;
-
-
+        return Math.sqrt(Math.pow(this.getPosX() - x, 2) + Math.pow(this.getPosY() - y, 2)) < 20;
     }
 
 

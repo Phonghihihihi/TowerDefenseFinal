@@ -14,16 +14,37 @@ import towerdefense.ui.TowerDefense;
 public abstract class AbstractTower extends AbstractEntity implements Tower {
 
     protected Enemy target = null;
-    protected double fireSpeed;
     protected double range;
     protected double damage;
     protected Image base;
     protected ImageView baseV;
     protected double Speed;
+    protected int is_Bullet;
+    protected String image_Bullet;
 
     public AbstractTower(double posX, double posY, double width, double height)
     {
         super(posX, posY, width, height);
+        is_Bullet = -1;
+
+    }
+
+    @Override
+    public double getDamage() {
+        return damage;
+    }
+
+    @Override
+    public double getSpeed() {
+        return Speed;
+    }
+
+    public int getIs_Bullet() {
+        return is_Bullet;
+    }
+
+    public void setIs_Bullet(int is_Bullet) {
+        this.is_Bullet = is_Bullet;
     }
 
     public Enemy getTarget() {
@@ -68,13 +89,13 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     }
     public void update()
     {
-        if (distanceTo(this.target.getPosX(), this.target.getPosY()) > this.range)
-        {
-            this.setTarget(null);
-        }
-        if (this.target != null) {
+//        if (distanceTo(this.target.getPosX(), this.target.getPosY()) > this.range)
+//        {
+//            this.setTarget(null);
+//        }
+//        if (this.target != null) {
             this.imageV.setRotate(getAngleBetweenEnemy());
-        }
+       // }
     }
     public void delete()
     {
