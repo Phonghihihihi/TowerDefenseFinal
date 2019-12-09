@@ -24,6 +24,7 @@ import towerdefense.component.bullet.Bullet;
 import towerdefense.component.enemy.Enemy;
 import towerdefense.component.tower.MachineGunTower;
 import towerdefense.component.tower.NormalTower;
+import towerdefense.component.tower.SniperTower;
 import towerdefense.component.tower.Tower;
 
 import java.io.IOException;
@@ -65,40 +66,82 @@ public class Game {
 
         ImageView normal_preplace = new ImageView(new Image("file:src/Assets/Tower/Normal_preplace.png"));
         ImageView machine_gun_preplace = new ImageView(new Image("file:src/Assets/Tower/250_preplace.png"));
+        ImageView sniper_preplace = new ImageView(new Image("file:src/Assets/Tower/Sniper.png"));
         Circle circle_preplace_1 = new Circle(GameConfig.NORMAL_TOWER_RANGE,Color.TRANSPARENT);
         circle_preplace_1.setStroke(Color.BLACK);
 
         Circle circle_preplace_2 = new Circle(GameConfig.MACHINE_GUN_TOWER_RANGE,Color.TRANSPARENT);
         circle_preplace_2.setStroke(Color.BLACK);
 
-        Button buy_normal_tower = new Button ("", new ImageView(new Image(GameConfig.NORMAL_TOWER_IMAGE_URL)));
-        buy_normal_tower.relocate(1200,250);
+        Circle circle_preplace_3 = new Circle(GameConfig.SNIPER_TOWER_RANGE, Color.TRANSPARENT);
+        circle_preplace_3.setStroke(Color.BLACK);
+
+        Button buy_normal_tower = new Button ("", new ImageView(new Image("file:src/Assets/Tower/Normal Button.png")));
+        buy_normal_tower.relocate(1200,150);
+        buy_normal_tower.setBackground(null);
         buy_normal_tower.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 gameField.setPlacingNormalTower(true);
                 gameField.setPlacingMachineGunTower(false);
+                gameField.setPlacingSniperTower(false);
                 if (!root.getChildren().contains(normal_preplace))  {
                     root.getChildren().addAll(normal_preplace, circle_preplace_1);
                 }
-                root.getChildren().removeAll(machine_gun_preplace, circle_preplace_2);
+                if (root.getChildren().contains(machine_gun_preplace)) {
+                    root.getChildren().removeAll(machine_gun_preplace, circle_preplace_2);
+                }
+                else if (root.getChildren().contains(sniper_preplace))
+                {
+                    root.getChildren().removeAll(sniper_preplace, circle_preplace_3);
+                }
             }
         });
 
-        Button buy_machine_gun_tower = new Button ("", new ImageView(new Image(GameConfig.MACHINE_GUN_TOWER_IMAGE_URL)));
-        buy_machine_gun_tower.relocate(1200,150);
+        Button buy_machine_gun_tower = new Button ("", new ImageView(new Image("file:src/Assets/Tower/Machine Gun Button.png")));
+        buy_machine_gun_tower.relocate(1200,200);
+        buy_machine_gun_tower.setBackground(null);
         buy_machine_gun_tower.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 gameField.setPlacingMachineGunTower(true);
                 gameField.setPlacingNormalTower(false);
+                gameField.setPlacingSniperTower(false);
                 if(!root.getChildren().contains(machine_gun_preplace)) {
                     root.getChildren().addAll(machine_gun_preplace, circle_preplace_2);
                 }
-                root.getChildren().removeAll(normal_preplace, circle_preplace_1);
+                if (root.getChildren().contains(normal_preplace)) {
+                    root.getChildren().removeAll(normal_preplace, circle_preplace_1);
+                }
+                else if (root.getChildren().contains(sniper_preplace))
+                {
+                    root.getChildren().removeAll(sniper_preplace, circle_preplace_3);
+                }
             }
         });
 
+        Button buy_sniper_tower = new Button ("", new ImageView(new Image("file:src/Assets/Tower/Sniper Button.png")));
+        buy_sniper_tower.relocate(1200,250);
+        buy_sniper_tower.setBackground(null);
+        buy_sniper_tower.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                gameField.setPlacingSniperTower(true);
+                gameField.setPlacingMachineGunTower(false);
+                gameField.setPlacingNormalTower(false);
+                if (!root.getChildren().contains(sniper_preplace))
+                {
+                    root.getChildren().addAll(sniper_preplace, circle_preplace_3);
+                }
+                if (root.getChildren().contains(machine_gun_preplace)) {
+                    root.getChildren().removeAll(machine_gun_preplace, circle_preplace_2);
+                }
+                else if (root.getChildren().contains(normal_preplace))
+                {
+                    root.getChildren().removeAll(normal_preplace, circle_preplace_1);
+                }
+            }
+        });
 
         Button upgrade = new Button ("Upgrade");
         upgrade.relocate(1200,350);
@@ -120,6 +163,7 @@ public class Game {
             public void handle(ActionEvent actionEvent) {
                 gameStage.setMoney(gameStage.getMoney() + gameField.getSellingTower().getPrice() / 2);
                 gameStage.update();
+                TileMap.MAP_PATH[gameField.getSellingTower().getTileY()][gameField.getSellingTower().getTileX()] = 0;
                 gameField.getTowers().remove(gameField.getSellingTower());
                 gameField.getSellingTower().delete();
                 gameField.setSellingTower(null);
@@ -160,11 +204,22 @@ public class Game {
                             gameStage.setMoney(gameStage.getMoney() - GameConfig.MACHINE_GUN_TOWER_PRICE);
                             gameStage.update();
                         }
+                        else if (gameField.isPlacingSniperTower() && gameStage.getMoney()>= GameConfig.SNIPER_TOWER_PRICE) {
+                            SniperTower t3 = new SniperTower(mouseX, mouseY, 50, 50);
+                            t3.render(gc);
+                            gameField.getTowers().add(t3);
+                            gameField.setPlacingSniperTower(false);
+                            TileMap.MAP_PATH[tileY][tileX] = 1;
+                            root.getChildren().removeAll(sniper_preplace, circle_preplace_3);
+                            gameStage.setMoney(gameStage.getMoney() - GameConfig.SNIPER_TOWER_PRICE);
+                            gameStage.update();
+                        }
                         gameField.setSellingTower(null);
                         upgrade.setDisable(true);
                         upgrade.setVisible(false);
                         sell.setDisable(true);
                         sell.setVisible(false);
+                        root.getChildren().removeAll(normal_preplace, machine_gun_preplace);
                     } else if (TileMap.MAP_PATH[tileY][tileX] == 1) {
                         for (Tower tower : gameField.getTowers())
                         if (tower.getPosX() == mouseX && tower.getPosY() == mouseY)
@@ -175,6 +230,7 @@ public class Game {
                             upgrade.setVisible(true);
                             sell.setDisable(false);
                             sell.setVisible(true);
+                            root.getChildren().removeAll(normal_preplace, machine_gun_preplace);
                         }
                     }
                 }
@@ -202,12 +258,19 @@ public class Game {
                             circle_preplace_2.setCenterY(mouseY + 39);
 
                         }
+                        else if (gameField.isPlacingSniperTower())
+                        {
+                            sniper_preplace.relocate(mouseX, mouseY);
+                            circle_preplace_3.setCenterX(mouseX + 32);
+                            circle_preplace_3.setCenterY(mouseY + 32);
+                        }
                     }
                 }
             }
         });
 
-        root.getChildren().addAll(next_wave, call_reinforcements ,buy_normal_tower, buy_machine_gun_tower, upgrade, sell);
+        root.getChildren().addAll(next_wave, call_reinforcements, buy_normal_tower, buy_machine_gun_tower, buy_sniper_tower, upgrade, sell);
+
         next_wave.setVisible(false);
         call_reinforcements.setVisible(false);
 
@@ -352,9 +415,11 @@ public class Game {
                 {
                     gameField.getEnemies().get(i).update();
                     gameField.getEnemies().get(i).render(gc);
-                    if (gameField.getEnemies().get(i).getCenterPosX() >= (GameConfig.GAME_WIDTH + 32))
+                  
+                    if (gameField.getEnemies().get(i).getPosX() >= GameConfig.GAME_WIDTH )
+
                     {
-                        System.out.println(gameField.getEnemies().get(i).getPosX());
+                        gameField.getEnemies().get(i).attack();
                         gameStage.takeDamage(gameField.getEnemies().get(i));
                         gameStage.update();
                         gameField.getEnemies().remove(i);

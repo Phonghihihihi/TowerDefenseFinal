@@ -29,7 +29,6 @@ public class SmallerEnemy extends AbstractEnemy implements Enemy
         return 0;
     }
 
-
     @Override
     public void setHealth() {
         this.health -= 1;

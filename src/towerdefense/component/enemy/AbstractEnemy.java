@@ -2,12 +2,15 @@ package towerdefense.component.enemy;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import towerdefense.component.AbstractEntity;
 import towerdefense.component.GameConfig;
 import towerdefense.component.TileMap;
 import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
+import java.io.File;
 import java.util.Map;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -22,6 +25,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     protected int speed;
     protected   int ENEMY_HEALTH;
 
+    protected MediaPlayer attack = new MediaPlayer(new Media(new File("src/Assets/Music/Attack.mp3").toURI().toString()));
 
     public Rectangle Health_T_Rect;
     public Rectangle Health_P_Rect;
@@ -82,6 +86,10 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     public Rectangle getHealth_P_Rect() {
         return Health_P_Rect;
     }
+    public void attack()
+    {
+        attack.play();
+    }
 
 
     public void destroyEnemy() {
@@ -136,6 +144,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         Health_T_Rect.relocate(posX - width/2, posY -10);
         Health_P_Rect.relocate(posX + health - width /2, posY -10);
         imageV.relocate(this.getPosX() - GameConfig.TILE_SIZE/2.0, this.getPosY() - GameConfig.TILE_SIZE/2.0);
+
         if (this.getCenterPosX() > (GameConfig.GAME_WIDTH))
         {
             Game.root.getChildren().remove(Health_T_Rect);
