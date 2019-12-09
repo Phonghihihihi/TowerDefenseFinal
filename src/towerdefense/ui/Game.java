@@ -319,15 +319,15 @@ public class Game {
                                 {
                                     tower.setTarget(gameField.getEnemies().get(i));
                                 }
-                                else {
-                                    tower.update();
-                                }
+
                             }
+
                             if (gameField.getEnemies().get(i).getHealth() <= 0)
                             {
                                 gameField.getEnemies().remove(i);
                             }
                         }
+                        if (tower.getTarget()!= null) tower.update();
                     }
                 }
 
@@ -442,7 +442,6 @@ public class Game {
                     next_wave.setOnMouseClicked(mouseEvent -> {
                         gameField.setWaveCount();
                         gameField.calculateWavePower();
-                        System.out.println(gameField.getTankerNumber());
                         gameField.setSpawning(true);
                         next_wave.setVisible(false);
 
