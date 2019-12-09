@@ -13,10 +13,12 @@ import java.util.Map;
 
 public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
 
+
     protected int health;
     protected int armor;
     protected int reward;
     protected int speed;
+    protected   int ENEMY_HEALTH;
 
     private double speedX = 0;
     private double speedY = -this.getSpeed();
@@ -34,7 +36,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         return armor;
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 

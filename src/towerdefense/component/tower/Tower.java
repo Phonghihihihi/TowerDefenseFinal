@@ -12,6 +12,10 @@ public interface Tower extends GameTile {
      void setTarget(Enemy target);
      double distanceTo(Enemy enemy);
      double getAngleBetweenEnemy();
+     double getSpeed();
+     public double getRange();
+
+     public double getDamage();
      //void rotateTower();
      boolean checkEnemyInRange(Enemy enemy);
      void upgrade();
