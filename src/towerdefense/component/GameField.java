@@ -1,5 +1,6 @@
 package towerdefense.component;
 
+import towerdefense.component.bullet.Bullet;
 import towerdefense.component.enemy.*;
 import towerdefense.component.tower.Tower;
 
@@ -33,6 +34,7 @@ public class GameField {
     private Reinforcements reinforcements = new Reinforcements(0, 400, 64, 64);;
     List<Enemy> enemies = new ArrayList<Enemy>();
     List<Tower> towers = new ArrayList<Tower>();
+    List<Bullet> bullets = new ArrayList<Bullet>();
 
     public GameField(){}
 
@@ -234,6 +236,7 @@ public class GameField {
                 if (normalCounter < normalNumber)
                 {
                     enemies.add(new NormalEnemy());
+                    enemies.get(enemies.size()-1).setENEMY_HEALTH();
                     normalCounter++;
                     enemyCounter++;
                 }
@@ -241,6 +244,7 @@ public class GameField {
                 if (smallerCounter < smallerNumber)
                 {
                     enemies.add(new SmallerEnemy());
+                    enemies.get(enemies.size()-1).setENEMY_HEALTH();
                     smallerCounter++;
                     enemyCounter++;
                 }
@@ -248,6 +252,7 @@ public class GameField {
                 if (tankerCounter < tankerNumber && normalCounter == normalNumber)
                 {
                     enemies.add(new TankerEnemy());
+                    enemies.get(enemies.size()-1).setENEMY_HEALTH();
                     tankerCounter++;
                     enemyCounter++;
                 }
@@ -255,6 +260,7 @@ public class GameField {
                 if (bossCounter < bossNumber && normalCounter == normalNumber && tankerCounter == tankerNumber)
                 {
                     enemies.add(new BossEnemy());
+                    enemies.get(enemies.size()-1).setENEMY_HEALTH();
                     bossCounter++;
                     enemyCounter++;
                 }
@@ -276,6 +282,10 @@ public class GameField {
     public List<Enemy> getEnemies()
     {
         return enemies;
+    }
+
+    public List<Bullet> getBullets() {
+        return bullets;
     }
 
     public int getTankerNumber() {
