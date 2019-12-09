@@ -31,11 +31,6 @@ public class BossEnemy extends AbstractEnemy implements Enemy
     }
 
     @Override
-    public void move() {
-
-    }
-
-    @Override
     public void setHealth() {
 
     }

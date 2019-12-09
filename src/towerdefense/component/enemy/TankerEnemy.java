@@ -30,11 +30,6 @@ public class TankerEnemy extends AbstractEnemy implements Enemy
     }
 
     @Override
-    public void move() {
-
-    }
-
-    @Override
     public void setHealth() {
 
     }

@@ -27,6 +27,7 @@ public class GameField {
     private boolean isSpawning = false;
     private boolean placingNormalTower = false;
     private boolean placingMachineGunTower = false;
+    private boolean placingSniperTower = false;
     private Tower upgradingTower = null;
     private Tower sellingTower = null;
     Reinforcements reinforcements = new Reinforcements(0, 400, 64, 64);
@@ -74,6 +75,14 @@ public class GameField {
     public void setPlacingMachineGunTower(boolean placingMachineGunTower)
     {
         this.placingMachineGunTower = placingMachineGunTower;
+    }
+
+    public boolean isPlacingSniperTower() {
+        return placingSniperTower;
+    }
+
+    public void setPlacingSniperTower(boolean placingSniperTower) {
+        this.placingSniperTower = placingSniperTower;
     }
 
     public Tower getUpgradingTower() {

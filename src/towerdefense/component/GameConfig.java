@@ -86,6 +86,13 @@ public final class GameConfig {
     public static final double MACHINE_GUN_TOWER_RANGE = 100;
     public static final String MACHINE_GUN_TOWER_IMAGE_URL = "file:src/Assets/Tower/Machine Gun.png";
 
+    //Sniper Tower
+    public static final int SNIPER_TOWER_PRICE = 50;
+    public static final double SNIPER_TOWER_DAMAGE = 100;
+    public static final double SNIPER_TOWER_FIRESPEED = 20;
+    public static final double SNIPER_TOWER_RANGE = 300;
+    public static final String SNIPER_TOWER_IMAGE_URL = "file:src/Assets/Tower/Sniper.png";
+
     private final double SHOT_FADE_TIME =1.;
     //UI CONTROL
     public static volatile int UI_CUR = 1;
