@@ -65,8 +65,7 @@ public class Reinforcements extends AbstractEntity implements GameEntity {
         plane.relocate(this.getPosX(), this.getPosY());
         shawdowPlane.relocate(this.getPosX() - GameConfig.TILE_SIZE, this.getPosY() + GameConfig.TILE_SIZE);
     }
-
-    @Override
+    
     public void update() {
         this.move();
     }
