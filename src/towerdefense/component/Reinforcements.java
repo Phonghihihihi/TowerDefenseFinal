@@ -3,25 +3,60 @@ package towerdefense.component;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import towerdefense.component.enemy.Enemy;
 import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 public class Reinforcements extends AbstractEntity implements GameEntity {
     private ImageView plane;
     private ImageView shawdowPlane;
+    private ImageView explosion;
     private int timer = 0;
+    private int boomFallingTimer = 0;
     private int relocateTime = 50;
     private double angle = 45;
     private double speedX = GameConfig.PLANE_SPEED;
     private double speedY = GameConfig.PLANE_SPEED;
-
+    private double explosion_posX;
+    private double explosion_posY;
+    private Queue <Double> queue = new LinkedList<>();
     public Reinforcements(double posX, double posY, double width, double height) {
         super(posX, posY, width, height);
         this.plane = new ImageView(new Image("file:src/Assets/Plane/plane.png"));
         this.shawdowPlane = new ImageView(new Image("file:src/Assets/Plane/shadow.png"));
-        Game.root.getChildren().addAll(shawdowPlane, plane);
+        this.explosion = new ImageView(new Image("file:src/Assets/Plane/boom.gif"));
+        Game.root.getChildren().addAll(shawdowPlane, plane, explosion);
+        explosion_posX = 0;
+        explosion_posY = 0;
+        plane.setVisible(false);
+        shawdowPlane.setVisible(false);
+        explosion.setVisible(false);
+
+    }
+
+    public void setVisible(){
+        plane.setVisible(true);
+        shawdowPlane.setVisible(true);
+        if (boomFallingTimer >= 30){
+            explosion.setVisible(true);
+        }
+    }
+
+    public double getExplosion_posX() {
+        return explosion_posX;
+    }
+
+    public double getExplosion_posY() {
+        return explosion_posY;
+    }
+
+    public boolean isBoomFallIntoEnemy(Enemy enemy){
+        return Math.sqrt((enemy.getCenterPosX() - explosion_posX) * (enemy.getCenterPosX() - explosion_posX) +
+                (enemy.getCenterPosY() - explosion_posY) * (enemy.getCenterPosY() - explosion_posY)) < 75;
     }
 
     public boolean isReachedEndPoint() {
@@ -56,6 +91,11 @@ public class Reinforcements extends AbstractEntity implements GameEntity {
 
         this.setPosX(this.getPosX() + speedX);
         this.setPosY(this.getPosY() + speedY);
+
+        if (timer == 5 || timer == 10 || timer == 15 || timer == 20 || timer == 25 || timer == 30) {
+            queue.add(this.getPosX());
+            queue.add(this.getPosY());
+        }
     }
 
 
@@ -64,13 +104,23 @@ public class Reinforcements extends AbstractEntity implements GameEntity {
     public void render(GraphicsContext graphicsContext) {
         plane.relocate(this.getPosX(), this.getPosY());
         shawdowPlane.relocate(this.getPosX() - GameConfig.TILE_SIZE, this.getPosY() + GameConfig.TILE_SIZE);
+        if ( boomFallingTimer < 30){
+            boomFallingTimer++;
+        }
+        else {
+            if (timer == 5 || timer == 10 || timer == 15 || timer == 20 || timer == 25 || timer == 30){
+                explosion_posX = queue.poll();
+                explosion_posY = queue.poll();
+                explosion.relocate(explosion_posX - 32, explosion_posY - 32);
+            }
+        }
     }
-    
+
     public void update() {
         this.move();
     }
 
     public void destroyReinforcements(){
-        Game.root.getChildren().removeAll(shawdowPlane, plane);
+        Game.root.getChildren().removeAll(shawdowPlane, plane, explosion);
     }
 }

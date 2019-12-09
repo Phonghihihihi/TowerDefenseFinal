@@ -47,7 +47,6 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
             destroyed = true;
             destroyEnemy();
         }
-
     }
 
     public void destroyEnemy() {
@@ -63,7 +62,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
 
         int tile_Y = (int) (this.getPosX() / GameConfig.TILE_SIZE) ;
         int tile_X = (int) (this.getPosY() / GameConfig.TILE_SIZE) ;
-        if (this.getPosX() < (GameConfig.GAME_WIDTH)) {
+        if (this.getCenterPosX() < (GameConfig.GAME_WIDTH)) {
             if (path[tile_X][tile_Y] == 8 && distanceToWayPoint(tile_Y*64 + 32, tile_X*64 + 32) < 4) {
                 speedY = -this.getSpeed();
                 speedX = 0;
@@ -81,9 +80,9 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
                 speedY = 0;
                 imageV.setRotate(0);
             }
-            this.setPosX(this.getPosX() + speedX);
-            this.setPosY(this.getPosY() + speedY);
         }
+        this.setPosX(this.getPosX() + speedX);
+        this.setPosY(this.getPosY() + speedY);
 
     }
     public void update() {
@@ -92,7 +91,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     public void render(GraphicsContext graphicsContext)
     {
         imageV.relocate(this.getPosX() - GameConfig.TILE_SIZE/2.0, this.getPosY() - GameConfig.TILE_SIZE/2.0);
-        if (this.getPosX() > (GameConfig.GAME_WIDTH - GameConfig.TILE_SIZE/2.0 -20))
+        if (this.getCenterPosX() > (GameConfig.GAME_WIDTH))
         {
             Game.root.getChildren().remove(imageV);
         }

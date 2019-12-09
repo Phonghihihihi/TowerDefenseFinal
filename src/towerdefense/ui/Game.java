@@ -189,13 +189,13 @@ public class Game {
                     if (TileMap.MAP_PATH[tileY][tileX] == 0) {
                         if (gameField.isPlacingNormalTower()) {
                             normal_preplace.relocate(mouseX, mouseY);
-                            circle_preplace_1.setCenterX(mouseX + 32);
-                            circle_preplace_1.setCenterY(mouseY + 32);
+                            circle_preplace_1.setCenterX(mouseX + 39);
+                            circle_preplace_1.setCenterY(mouseY + 39);
 
                         } else if (gameField.isPlacingMachineGunTower()) {
                             machine_gun_preplace.relocate(mouseX, mouseY);
-                            circle_preplace_2.setCenterX(mouseX + 32);
-                            circle_preplace_2.setCenterY(mouseY + 32);
+                            circle_preplace_2.setCenterX(mouseX + 39);
+                            circle_preplace_2.setCenterY(mouseY + 39);
 
                         }
                     }
@@ -267,14 +267,21 @@ public class Game {
                 {
                     gameField.getEnemies().get(i).update();
                     gameField.getEnemies().get(i).render(gc);
-                    if (gameField.getEnemies().get(i).getPosX() >= GameConfig.GAME_WIDTH )
+                    if (gameField.getEnemies().get(i).getCenterPosX() >= (GameConfig.GAME_WIDTH + 32))
                     {
-                        root.getChildren().remove(gameField.getEnemies().get(i).getImageV());
+                        System.out.println(gameField.getEnemies().get(i).getPosX());
                         gameStage.takeDamage(gameField.getEnemies().get(i));
                         gameStage.update();
                         gameField.getEnemies().remove(i);
 
                     }
+
+                    if (gameField.getReinforcements().isBoomFallIntoEnemy(gameField.getEnemies().get(i))){
+                        gameField.getEnemies().get(i).destroyEnemy();
+                        gameField.getEnemies().remove(i);
+                    }
+
+
                 }
 
                 if (gameField.isWaveOver())
@@ -300,6 +307,7 @@ public class Game {
                 }
 
                 if (gameField.isCallReinforcement()){
+                    gameField.getReinforcements().setVisible();
                     gameField.getReinforcements().update();
                     gameField.getReinforcements().render(gc);
                 }
@@ -308,6 +316,7 @@ public class Game {
                     gameField.getReinforcements().destroyReinforcements();
                     gameField.setCallReinforcements(false);
                 }
+
 
                 if (gameStage.isGameOver()){
 

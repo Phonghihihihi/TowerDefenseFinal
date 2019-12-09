@@ -89,6 +89,7 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
         this.imageV.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                circle.setRadius(range);
                 Game.root.getChildren().add(circle);
             }
         });
