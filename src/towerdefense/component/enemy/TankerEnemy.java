@@ -19,6 +19,7 @@ public class TankerEnemy extends AbstractEnemy implements Enemy
         this.armor = GameConfig.TANKER_ENEMY_ARMOR;
         this.speed = GameConfig.TANKER_ENEMY_SPEED;
         this.reward = GameConfig.TANKER_ENEMY_REWARD;
+        this.ENEMY_HEALTH = GameConfig.TANKER_ENEMY_HEALTH;
         this.image = new Image(GameConfig.TANKER_ENEMY_URL);
         this.imageV = new ImageView(image);
         Game.root.getChildren().add(imageV);

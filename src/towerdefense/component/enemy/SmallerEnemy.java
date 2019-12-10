@@ -19,6 +19,7 @@ public class SmallerEnemy extends AbstractEnemy implements Enemy
         this.armor = GameConfig.SMALLER_ENEMY_ARMOR;
         this.speed = GameConfig.SMALLER_ENEMY_SPEED;
         this.reward = GameConfig.SMALLER_ENEMY_REWARD;
+        this.ENEMY_HEALTH = GameConfig.SMALLER_ENEMY_HEALTH;
         this.image = new Image(GameConfig.SMALLER_ENEMY_IMAGE_URL);
         this.imageV = new ImageView(image);
         Game.root.getChildren().add(imageV);

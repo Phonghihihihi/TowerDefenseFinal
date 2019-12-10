@@ -114,7 +114,7 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     public void bullet_update(){
         setBulletAngle();
         bullet.update();
-        if(this.bullet.checkEnemyInRange(target.getPosX() - 32, target.getPosY()- 32)){
+        if(this.bullet.checkInRange(target.getPosX() - 32, target.getPosY()- 32, 10)){
             bullet.setPosX(posX);
             bullet.setPosY(posY);
             target.takeDamage((int) this.damage);
@@ -125,6 +125,11 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
                 //System.out.println(1);
                 target = null;
             }
+        }
+        if(!bullet.checkInRange(posX, posY, range)) {
+            bullet.setPosX(posX);
+            bullet.setPosY(posY);
+            target = null;
         }
     }
     @Override
@@ -157,14 +162,15 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
             this.setTarget(null);
         }
         if (this.target != null) {
-            bullet.getImageV().setVisible(true);
+            //bullet.getImageV().setVisible(true);
+            bullet.Visible(true);
             this.imageV.setRotate(getAngleBetweenEnemy() + 10/GameConfig.PI_TO_DEGREE);
             this.bullet.setWidth(target.getPosX() - 32- posX);
             this.bullet.setHeight(target.getPosY() - 32 - posY );
             this.bullet_update();
         }
         else{
-            System.out.println(1);
+            bullet.Visible(false);
             this.resetBullet();
         }
     }

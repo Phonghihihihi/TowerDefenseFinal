@@ -335,7 +335,14 @@ public class Game {
                                 gameField.getEnemies().remove(i);
                             }
                         }
-                        if (tower.getTarget()!= null) tower.update();
+
+
+                    }
+                    if (tower.getTarget()!= null) {
+                        tower.update();
+                    }
+                    else {
+                        tower.getBullet().Visible(false);
                     }
                 }
 
