@@ -150,6 +150,7 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
         if (distanceTo(target) >= this.range)
         {
             this.setTarget(null);
+            System.out.println(1);
         }
         if (this.target != null) {
             bullet.setImageV(true);
@@ -160,6 +161,8 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
         }
         else{
             System.out.println(1);
+            bullet.setPosX(posX);
+            bullet.setPosY(posY);
             bullet.setImageV(false);
         }
     }

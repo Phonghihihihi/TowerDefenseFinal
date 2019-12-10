@@ -70,7 +70,6 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         Health_P_Rect.setStrokeType(StrokeType.OUTSIDE);
         Health_P_Rect.setFill(Color.LIMEGREEN);
         Game.root.getChildren().addAll(Health_P_Rect,Health_T_Rect);
-       // Game.root.getChildren().removeAll(Health_P_Rect, Health_T_Rect);
     }
     public void remove_Health(){
         Game.root.getChildren().removeAll(Health_P_Rect,Health_T_Rect);
