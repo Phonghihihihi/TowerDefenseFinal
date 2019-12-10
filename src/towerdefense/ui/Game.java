@@ -315,7 +315,6 @@ public class Game {
                                 {
                                     tower.setTarget(gameField.getEnemies().get(i));
                                 }
-
                             }
 
                             if (gameField.getEnemies().get(i).getHealth() <= 0)
@@ -323,7 +322,13 @@ public class Game {
                                 gameField.getEnemies().remove(i);
                             }
                         }
-                        if (tower.getTarget()!= null) tower.update();
+                        if (tower.getTarget()!= null) {
+                            tower.update();
+                        }
+                        else {
+                           tower.getBullet().Visible(false);
+                        }
+
                     }
                 }
 

@@ -36,9 +36,12 @@ public class Bullet extends AbstractEntity {
     }
 
 
-    public boolean checkEnemyInRange(double x, double y)
+    public boolean checkInRange(double x, double y, double range)
     {
-        return Math.sqrt(Math.pow(this.getPosX() - x, 2) + Math.pow(this.getPosY() - y, 2)) < 10;
+        return Math.sqrt(Math.pow(this.getPosX() - x, 2) + Math.pow(this.getPosY() - y, 2)) < range;
+    }
+    public void Visible(boolean visible){
+        imageV.setVisible(visible);
     }
 
 

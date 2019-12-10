@@ -135,8 +135,8 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
 
     public void render(GraphicsContext graphicsContext)
     {
-        Health_T_Rect.relocate(posX - width/2, posY -10);
-        Health_P_Rect.relocate(posX + health - width /2, posY -10);
+        Health_T_Rect.relocate(posX  -32, posY - 37);
+        Health_P_Rect.relocate(posX + health  -32 , posY -37);
         imageV.relocate(this.getPosX() - GameConfig.TILE_SIZE/2.0, this.getPosY() - GameConfig.TILE_SIZE/2.0);
 
         if (this.getCenterPosX() > (GameConfig.GAME_WIDTH))
@@ -154,8 +154,9 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
 
     public void delete()
     {
-        super.delete();
         Game.root.getChildren().removeAll(Health_T_Rect, Health_P_Rect);
+        super.delete();
+
 
     }
 
