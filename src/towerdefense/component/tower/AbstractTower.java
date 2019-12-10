@@ -103,9 +103,10 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     {
         if (distanceTo(target) > this.range)
         {
+            System.out.println(1);
             this.setTarget(null);
         }
-        if (this.target != null) {
+        else if (this.target != null) {
             this.imageV.setRotate(getAngleBetweenEnemy());
         }
     }

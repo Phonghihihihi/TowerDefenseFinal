@@ -35,7 +35,7 @@ public final class GameConfig {
     public static final int NORMAL_ENEMY_ARMOR = 1;
     public static final int NORMAL_ENEMY_HEALTH = 1;
     public static final int NORMAL_ENEMY_REWARD = 1;
-    public static final int NORMAL_ENEMY_WAVE_NUMBER = 5;
+    public static final int NORMAL_ENEMY_WAVE_NUMBER = 2;
     public static final double NORMAL_ENEMY_WIDTH = 20;
     public static final double NORMAL_ENEMY_HEIGHT = 28;
     public static final String NORMAL_ENEMY_IMAGE_URL = "file:src/Assets/Enemy/Normal.png";

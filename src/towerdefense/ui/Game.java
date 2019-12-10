@@ -313,11 +313,9 @@ public class Game {
                                 {
                                     tower.setTarget(gameField.getEnemies().get(i));
                                 }
-                                else {
-                                    tower.update();
-                                }
                             }
                         }
+                        if (tower.getTarget()!=null) tower.update();
                     }
                 }
                 if(!gameField.isWaveOver())
