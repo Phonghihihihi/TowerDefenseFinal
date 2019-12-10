@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import towerdefense.component.AbstractEntity;
@@ -16,6 +18,8 @@ import towerdefense.component.enemy.Enemy;
 import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
+import java.io.File;
+
 public abstract class AbstractTower extends AbstractEntity implements Tower {
 
     protected Enemy target = null;
@@ -25,14 +29,13 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     protected double damage;
     protected Image base;
     protected ImageView baseV;
-  
     protected Circle circle;
-
     protected double Speed;
+    protected MediaPlayer build = new MediaPlayer(new Media(new File("src/Assets/Music/Tower Build.mp3").toURI().toString()));
     protected int is_Bullet;
     protected String image_Bullet;
     protected Bullet bullet;
-
+  
     public AbstractTower(double posX, double posY, double width, double height)
     {
         super(posX, posY, width, height);
@@ -150,6 +153,7 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     {
         if (distanceTo(target) >= this.range)
         {
+            System.out.println(1);
             this.setTarget(null);
         }
         if (this.target != null) {
@@ -179,7 +183,9 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     {
         Game.root.getChildren().removeAll(imageV, baseV, bullet.getImageV());
     }
-    
 
-
+    @Override
+    public void buildTower() {
+        build.play();
+    }
 }

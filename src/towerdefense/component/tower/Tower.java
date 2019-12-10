@@ -20,6 +20,7 @@ public interface Tower extends GameTile {
      //void rotateTower();
      boolean checkEnemyInRange(Enemy enemy);
      void upgrade();
+     void buildTower();
      public int getIs_Bullet() ;
 
      public void setIs_Bullet(int is_bullet) ;

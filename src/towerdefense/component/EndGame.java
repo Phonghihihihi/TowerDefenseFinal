@@ -10,6 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -24,11 +26,13 @@ import javafx.util.Duration;
 import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
+import java.io.File;
 import java.io.IOException;
 
 public class EndGame {
     private static Font font;
     private MenuBox menuBox;
+    private MediaPlayer gameOver = new MediaPlayer(new Media(new File("src/Assets/Music/Game Over.mp3").toURI().toString()));
     public EndGame(){
 
 
@@ -37,6 +41,7 @@ public class EndGame {
     public Stage createEndGameContent() throws IOException{
         Stage createEndGame = new Stage();
 
+        gameOver.play();
         StackPane root = new StackPane();
         root.setPrefSize(GameConfig.CANVAS_WIDTH, GameConfig.CANVAS_HEIGHT);
 

@@ -26,6 +26,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     protected int ENEMY_HEALTH;
 
     protected MediaPlayer attack = new MediaPlayer(new Media(new File("src/Assets/Music/Attack.mp3").toURI().toString()));
+    protected MediaPlayer death = new MediaPlayer(new Media(new File("src/Assets/Music/Death.mp3").toURI().toString()));
 
     public Rectangle Health_T_Rect;
     public Rectangle Health_P_Rect;
@@ -87,6 +88,10 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         attack.play();
     }
 
+    @Override
+    public void death() {
+        death.play();
+    }
 
     public void destroyEnemy() {
         Game.root.getChildren().remove(imageV);
