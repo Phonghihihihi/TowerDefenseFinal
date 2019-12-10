@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import towerdefense.component.GameConfig;
+import towerdefense.component.bullet.Bullet;
 import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
@@ -21,8 +22,10 @@ public class NormalTower extends AbstractTower {
         this.damage = GameConfig.NORMAL_TOWER_DAMAGE;
         this.image = new Image(GameConfig.NORMAL_TOWER_IMAGE_URL);
         this.imageV = new ImageView(image);
+        this.image_Bullet = GameConfig.NORMAL_BULLET;
         this.base = new Image("file:src/Assets/Tower/Normal Base.png");
         this.baseV = new ImageView(base);
+        bullet = new Bullet(image_Bullet, posX , posY , Speed, damage);
         this.circle = new Circle(posX + GameConfig.TILE_SIZE/2 + 8, posY + GameConfig.TILE_SIZE/2,range,Color.TRANSPARENT);
         circle.setStroke(Color.BLACK);
         Game.root.getChildren().addAll(baseV, imageV);
@@ -31,22 +34,22 @@ public class NormalTower extends AbstractTower {
 
     @Override
     public ImageView getImageV() {
-        return null;
+        return imageV;
     }
 
     @Override
     public double getSpeed() {
-        return 0;
+        return Speed;
     }
 
     @Override
     public double getRange() {
-        return 0;
+        return this.range;
     }
 
     @Override
     public double getDamage() {
-        return 0;
+        return damage;
     }
 
     public void upgrade()
@@ -55,4 +58,11 @@ public class NormalTower extends AbstractTower {
         this.range += 5;
         this.Speed +=5;
     }
+
+    @Override
+    public String image_Bullet() {
+        return image_Bullet;
+    }
+
+
 }

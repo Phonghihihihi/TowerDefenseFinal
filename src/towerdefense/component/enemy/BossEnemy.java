@@ -32,7 +32,7 @@ public class BossEnemy extends AbstractEnemy implements Enemy
 
 
     public void setHealth() {
-
+        this.health -= 1;
     }
 
     @Override

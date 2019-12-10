@@ -31,7 +31,7 @@ public class TankerEnemy extends AbstractEnemy implements Enemy
 
     @Override
     public void setHealth() {
-
+        this.health -= 1;
     }
 
     @Override
