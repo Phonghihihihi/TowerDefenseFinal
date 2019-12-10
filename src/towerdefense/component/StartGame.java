@@ -116,7 +116,7 @@ public class StartGame {
                 menuMusic.seek(Duration.ZERO);
             }
         });
-        menuMusic.setVolume(0.1);
+        //menuMusic.setVolume(0.1);
         menuMusic.play();
         Stage createContent = new Stage();
         Scene creditScene = createCredit();

@@ -23,6 +23,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     protected int armor;
     protected int reward;
     protected int speed;
+    protected int damage;
     protected int ENEMY_HEALTH;
 
     protected MediaPlayer attack = new MediaPlayer(new Media(new File("src/Assets/Music/Attack.mp3").toURI().toString()));
@@ -60,6 +61,15 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         }
     }
 
+    @Override
+    public int getDamage() {
+        return damage;
+    }
+
+    @Override
+    public int getReward() {
+        return reward;
+    }
 
     public void setENEMY_HEALTH(){
         Health_T_Rect = new Rectangle(posX - 60, posY - 30, health *60/ENEMY_HEALTH , 5);

@@ -41,6 +41,7 @@ public class GameField {
 
     public void createNewPlane(){
         reinforcements = reinforcements = new Reinforcements(0, 400, 64, 64);
+        reinforcements.tacticalNuke();
     }
 
     public int getWaveCount() {
