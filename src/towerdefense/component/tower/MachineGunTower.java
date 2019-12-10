@@ -9,7 +9,7 @@ import towerdefense.component.bullet.Bullet;
 import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
-public class MachineGunTower extends AbstractTower {
+public class MachineGunTower extends AbstractTower implements Tower {
 
     public MachineGunTower(double posX, double posY, double width, double height) {
         super(posX, posY, width, height);
