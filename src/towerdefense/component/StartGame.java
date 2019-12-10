@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -22,10 +23,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.media.Media;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import towerdefense.ui.Game;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -34,6 +37,8 @@ public class StartGame {
     private static Font font;
     private static final Font FONT = Font.font("", FontWeight.BOLD, 18);
     private MenuBox menuBox;
+    private String path = "src/Assets/Music/Menu.mp3";
+    private MediaPlayer menuMusic = new MediaPlayer(new Media(new File(path).toURI().toString()));
     private boolean isFirstTimePlay = true;
     public boolean isResetGame = false;
     public Game game;
@@ -105,6 +110,14 @@ public class StartGame {
     }
 
     public Stage createContent() throws IOException {
+        menuMusic.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                menuMusic.seek(Duration.ZERO);
+            }
+        });
+        menuMusic.setVolume(0.1);
+        menuMusic.play();
         Stage createContent = new Stage();
         Scene creditScene = createCredit();
         Scene howtoplayScene = createHowToPlay();
@@ -159,6 +172,7 @@ public class StartGame {
 
         start.setOnMouseClicked(mouseEvent -> {
             menuBox.hide();
+            menuMusic.stop();
             createContent.close();
             if (isFirstTimePlay){
                 game = new Game();

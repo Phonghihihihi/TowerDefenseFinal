@@ -6,7 +6,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import towerdefense.component.enemy.*;
-import towerdefense.ui.Game;;import java.util.Map.Entry;
+import towerdefense.ui.Game;
+import towerdefense.ui.TowerDefense;;import java.util.Map.Entry;
 
 public class GameStage {
 
@@ -15,6 +16,7 @@ public class GameStage {
     private long health;
     private Text moneyText;
     private Text healthText;
+    private Text wave_text;
 
     public void setWaveOver(boolean waveOver) {
         this.waveOver = waveOver;
@@ -25,13 +27,32 @@ public class GameStage {
         return waveOver;
     }
 
+    public void getEndWaveReward(int wave){
+        this.money += wave*50;
+    }
+
+    private void renderWave(){
+        wave_text.setFill(Color.LIGHTPINK);
+        wave_text.setFont( Font.loadFont("file:src/Assets/Font/Acme-Regular.ttf", 40));
+        wave_text.relocate(1200, 100);
+        Game.root.getChildren().add(wave_text);
+    }
+
+    public void updateWave(int wave){
+        Game.root.getChildren().remove(wave_text);
+        wave_text = new Text("Wave: " + wave);
+        renderWave();
+    }
+
     public GameStage() {
         money = GameConfig.START_MONEY;
         health = GameConfig.START_HEALTH;
         waveOver = false;
         moneyText  = new Text( "$" + (int) this.money);
         healthText = new Text("HEALTH\n" + (int) this.health);
+        wave_text = new Text("Wave: " + 0);
         render();
+        renderWave();
     }
 
     private void render(){
@@ -66,6 +87,10 @@ public class GameStage {
 
     public void reset(){
         Game.root.getChildren().removeAll(healthText, moneyText);
+    }
+
+    public void resetWave(){
+        Game.root.getChildren().remove(wave_text);
     }
 
     public void takeDamage(Enemy enemy){

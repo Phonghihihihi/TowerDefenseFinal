@@ -55,8 +55,8 @@ public class Reinforcements extends AbstractEntity implements GameEntity {
     }
 
     public boolean isBoomFallIntoEnemy(Enemy enemy){
-        return Math.sqrt((enemy.getCenterPosX() - explosion_posX) * (enemy.getCenterPosX() - explosion_posX) +
-                (enemy.getCenterPosY() - explosion_posY) * (enemy.getCenterPosY() - explosion_posY)) < 70;
+        return Math.sqrt((enemy.getCenterPosX() - explosion_posX)*(enemy.getCenterPosX() - explosion_posX) +
+                (enemy.getCenterPosY() - explosion_posY)*(enemy.getCenterPosY() - explosion_posY)) < 60;
     }
 
     public boolean isReachedEndPoint() {
@@ -109,9 +109,9 @@ public class Reinforcements extends AbstractEntity implements GameEntity {
         }
         else {
 //            if (timer == 5 || timer == 10 || timer == 15 || timer == 20 || timer == 25 || timer == 30){
-                explosion_posX = queue.poll();
-                explosion_posY = queue.poll();
-                explosion.relocate(explosion_posX - 32, explosion_posY - 32);
+                explosion_posX = queue.poll() - 32;
+                explosion_posY = queue.poll() - 32;
+                explosion.relocate(explosion_posX, explosion_posY);
 //            }
         }
     }

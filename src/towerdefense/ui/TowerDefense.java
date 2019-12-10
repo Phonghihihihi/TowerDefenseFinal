@@ -5,10 +5,7 @@ import javafx.stage.Stage;
 import towerdefense.component.*;
 
 
-
 public class TowerDefense extends Application {
-    //    public static Group root = new Group();
-    public Enum status = GameConfig.STATUS.START;
     public static StartGame startGame = new StartGame();
     public static Game game;
     public static EndGame endGame;

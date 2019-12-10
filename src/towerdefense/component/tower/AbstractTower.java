@@ -27,7 +27,7 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     protected ImageView baseV;
   
     protected Circle circle;
-    protected boolean hasCircle = false;
+
     protected double Speed;
     protected int is_Bullet;
     protected String image_Bullet;
@@ -109,14 +109,15 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
         else return angle;
     }
     public void bullet_update(){
+        setBulletAngle();
         bullet.update();
         if(this.bullet.checkEnemyInRange(target.getPosX() - 32, target.getPosY()- 32)){
             bullet.setPosX(posX);
             bullet.setPosY(posY);
-            target.setHealth();
+            target.takeDamage((int) this.damage);
 
-            if (target.getHealth() <= 0) {
-                bullet.setImageV(false);
+            if (target.isDestroyed()) {
+                this.resetBullet();
                 target.delete();
                 //System.out.println(1);
                 target = null;
@@ -150,25 +151,33 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
         if (distanceTo(target) >= this.range)
         {
             this.setTarget(null);
-            System.out.println(1);
         }
         if (this.target != null) {
-            bullet.setImageV(true);
-            this.imageV.setRotate(getAngleBetweenEnemy());
+            bullet.getImageV().setVisible(true);
+            this.imageV.setRotate(getAngleBetweenEnemy() + 10/GameConfig.PI_TO_DEGREE);
             this.bullet.setWidth(target.getPosX() - 32- posX);
             this.bullet.setHeight(target.getPosY() - 32 - posY );
             this.bullet_update();
         }
         else{
             System.out.println(1);
-            bullet.setPosX(posX);
-            bullet.setPosY(posY);
-            bullet.setImageV(false);
+            this.resetBullet();
         }
+    }
+
+    @Override
+    public void resetBullet(){
+        bullet.setPosX(this.getPosX());
+        bullet.setPosY(this.getPosY());
+        bullet.getImageV().setVisible(false);
+    }
+
+    private void setBulletAngle(){
+        bullet.getImageV().setRotate(getAngleBetweenEnemy());
     }
     public void delete()
     {
-        Game.root.getChildren().removeAll(imageV, baseV);
+        Game.root.getChildren().removeAll(imageV, baseV, bullet.getImageV());
     }
     
 

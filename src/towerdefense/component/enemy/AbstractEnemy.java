@@ -2,12 +2,15 @@ package towerdefense.component.enemy;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import towerdefense.component.AbstractEntity;
 import towerdefense.component.GameConfig;
 import towerdefense.component.TileMap;
 import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
+import java.io.File;
 import java.util.Map;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -20,8 +23,9 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
     protected int armor;
     protected int reward;
     protected int speed;
-    protected   int ENEMY_HEALTH;
+    protected int ENEMY_HEALTH;
 
+    protected MediaPlayer attack = new MediaPlayer(new Media(new File("src/Assets/Music/Attack.mp3").toURI().toString()));
 
     public Rectangle Health_T_Rect;
     public Rectangle Health_P_Rect;
@@ -51,22 +55,18 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         health -= Math.max((damage - armor), 0);
         if (health<=0){
             destroyed = true;
-            destroyEnemy();
+            delete();
         }
     }
 
 
-    public void setHealth() {
-        this.health -= 1 ;
-    }
-
     public void setENEMY_HEALTH(){
-        Health_T_Rect= new Rectangle(posX, posY -10, health, 5);
+        Health_T_Rect = new Rectangle(posX - 60, posY - 30, health, 5);
         // Health_T_Rect.setStroke(Color.BLACK);
         Health_T_Rect.setStrokeWidth(2);
         Health_T_Rect.setFill(Color.RED);
 
-        Health_P_Rect = new Rectangle(posX + health, posY -10, ENEMY_HEALTH - health, 5);
+        Health_P_Rect = new Rectangle(posX + health - 60, posY - 30, ENEMY_HEALTH - health, 5);
         Health_P_Rect.setStrokeType(StrokeType.OUTSIDE);
         Health_P_Rect.setFill(Color.LIMEGREEN);
         Game.root.getChildren().addAll(Health_P_Rect,Health_T_Rect);
@@ -80,6 +80,10 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
 
     public Rectangle getHealth_P_Rect() {
         return Health_P_Rect;
+    }
+    public void attack()
+    {
+        attack.play();
     }
 
 
@@ -126,7 +130,6 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         if (health <= 0)
         {
             Game.root.getChildren().removeAll(imageV, Health_P_Rect, Health_T_Rect);
-
         }
         }
 
@@ -135,6 +138,7 @@ public abstract class AbstractEnemy extends AbstractEntity implements Enemy {
         Health_T_Rect.relocate(posX - width/2, posY -10);
         Health_P_Rect.relocate(posX + health - width /2, posY -10);
         imageV.relocate(this.getPosX() - GameConfig.TILE_SIZE/2.0, this.getPosY() - GameConfig.TILE_SIZE/2.0);
+
         if (this.getCenterPosX() > (GameConfig.GAME_WIDTH))
         {
             Game.root.getChildren().remove(Health_T_Rect);
