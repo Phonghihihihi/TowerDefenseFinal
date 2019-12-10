@@ -36,6 +36,7 @@ public final class GameConfig {
     public static final int NORMAL_ENEMY_HEALTH = 80;
     public static final int NORMAL_ENEMY_REWARD = 30;
     public static final int NORMAL_ENEMY_WAVE_NUMBER = 5;
+    public static final int NORMAL_ENEMY_DAMAGE = 10;
     public static final double NORMAL_ENEMY_WIDTH = 20;
     public static final double NORMAL_ENEMY_HEIGHT = 28;
     public static final String NORMAL_ENEMY_IMAGE_URL = "file:src/Assets/Enemy/Normal.png";
@@ -46,6 +47,7 @@ public final class GameConfig {
     public static final int SMALLER_ENEMY_HEALTH = 60;
     public static final int SMALLER_ENEMY_REWARD = 30;
     public static final int SMALLER_ENEMY_WAVE_NUMBER = 3;
+    public static final int SMALLER_ENEMY_DAMAGE = 5;
     public static final double SMALLER_ENEMY_WIDTH = 18;
     public static final double SMALLER_ENEMY_HEIGHT = 28;
     public static final String SMALLER_ENEMY_IMAGE_URL = "file:src/Assets/Enemy/Smaller.png";
@@ -56,6 +58,7 @@ public final class GameConfig {
     public static final int TANKER_ENEMY_HEALTH = 100;
     public static final int TANKER_ENEMY_REWARD = 100;
     public static final int TANKER_ENEMY_WAVE_NUMBER = 3;
+    public static final int TANKER_ENEMY_DAMAGE = 15;
     public static final double TANKER_ENEMY_WIDTH = 53;
     public static final double TANKER_ENEMY_HEIGHT = 36;
     public static final String TANKER_ENEMY_URL = "file:src/Assets/Enemy/Tanker.png";
@@ -66,6 +69,7 @@ public final class GameConfig {
     public static final int BOSS_ENEMY_HEALTH = 200;
     public static final int BOSS_ENEMY_REWARD = 1000;
     public static final int BOSS_ENEMY_WAVE_NUMBER = 1;
+    public static final int BOSS_ENEMY_DAMAGE = 25;
     public static final double BOSS_ENEMY_WIDTH = 1;
     public static final double BOSS_ENEMY_HEIGHT = 1;
     public static final String BOSS_ENEMY_URL = "file:src/Assets/Enemy/Boss.png";

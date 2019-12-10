@@ -19,20 +19,10 @@ public class NormalEnemy extends AbstractEnemy implements Enemy
         this.armor = GameConfig.NORMAL_ENEMY_ARMOR;
         this.speed = GameConfig.NORMAL_ENEMY_SPEED;
         this.reward = GameConfig.NORMAL_ENEMY_REWARD;
+        this.damage = GameConfig.NORMAL_ENEMY_DAMAGE;
         this.image = new Image(GameConfig.NORMAL_ENEMY_IMAGE_URL);
         this.imageV = new ImageView(image);
         Game.root.getChildren().add(imageV);
-    }
-
-    @Override
-    public int getReward() {
-        return 0;
-    }
-
-
-    @Override
-    public void setHealth() {
-        this.health -= 1;
     }
 
     @Override

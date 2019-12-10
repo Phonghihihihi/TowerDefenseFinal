@@ -48,6 +48,14 @@ public class Game {
     public void startGame(){
         timer.start();
         stage.show();
+        theme.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                theme.seek(Duration.ZERO);
+            }
+        });
+        theme.setVolume(0.1);
+        theme.play();
     }
 
     public Game(){
@@ -63,16 +71,24 @@ public class Game {
         gameStage = new GameStage();
         gameField = new GameField();
 
-        theme.setOnEndOfMedia(new Runnable() {
+        /*theme.setOnEndOfMedia(new Runnable() {
             @Override
             public void run() {
                 theme.seek(Duration.ZERO);
             }
         });
-        //theme.setVolume(0.1);
-        theme.play();
+        theme.play();*/
 
         Button next_wave = new Button("Next Wave");
+        next_wave.setOnMouseClicked(mouseEvent -> {
+            gameField.setWaveCount();
+            gameStage.updateWave(gameField.getWaveCount());
+            gameStage.setEndWaveReward(true);
+            gameField.calculateWavePower();
+            gameField.setSpawning(true);
+            next_wave.setVisible(false);
+
+        });
         next_wave.relocate(1200,400);
 
         Button call_reinforcements = new Button("Send Help!");
@@ -179,7 +195,6 @@ public class Game {
         sell.setDisable(true);
         sell.setOnAction(actionEvent -> {
             gameStage.setMoney(gameStage.getMoney() + gameField.getSellingTower().getPrice() / 2);
-            gameStage.update();
             TileMap.MAP_PATH[gameField.getSellingTower().getTileY()][gameField.getSellingTower().getTileX()] = 0;
             gameField.getSellingTower().delete();
             gameField.getTowers().remove(gameField.getSellingTower());
@@ -198,6 +213,7 @@ public class Game {
                 if (TileMap.MAP_PATH[tileY][tileX] == 0) {
                     if (gameField.isPlacingNormalTower() && gameStage.getMoney() >= GameConfig.NORMAL_TOWER_PRICE) {
                         NormalTower t1 = new NormalTower(mouseX, mouseY, 50, 50);
+                        t1.buildTower();
                         t1.render(gc);
                         gameField.getTowers().add(t1);
 
@@ -206,9 +222,9 @@ public class Game {
                         TileMap.MAP_PATH[tileY][tileX] = 1;
                         root.getChildren().removeAll(normal_preplace, circle_preplace_1);
                         gameStage.setMoney(gameStage.getMoney() - GameConfig.NORMAL_TOWER_PRICE);
-                        gameStage.update();
                     } else if (gameField.isPlacingMachineGunTower() && gameStage.getMoney()>= GameConfig.MACHINE_GUN_TOWER_PRICE) {
                         MachineGunTower t2 = new MachineGunTower(mouseX, mouseY, 50, 50);
+                        t2.buildTower();
                         t2.render(gc);
                         gameField.getTowers().add(t2);
 
@@ -216,17 +232,16 @@ public class Game {
                         TileMap.MAP_PATH[tileY][tileX] = 1;
                         root.getChildren().removeAll(machine_gun_preplace, circle_preplace_2);
                         gameStage.setMoney(gameStage.getMoney() - GameConfig.MACHINE_GUN_TOWER_PRICE);
-                        gameStage.update();
                     }
                     else if (gameField.isPlacingSniperTower() && gameStage.getMoney()>= GameConfig.SNIPER_TOWER_PRICE) {
                         SniperTower t3 = new SniperTower(mouseX, mouseY, 50, 50);
+                        t3.buildTower();
                         t3.render(gc);
                         gameField.getTowers().add(t3);
                         gameField.setPlacingSniperTower(false);
                         TileMap.MAP_PATH[tileY][tileX] = 1;
                         root.getChildren().removeAll(sniper_preplace, circle_preplace_3);
                         gameStage.setMoney(gameStage.getMoney() - GameConfig.SNIPER_TOWER_PRICE);
-                        gameStage.update();
                     }
                     gameField.setSellingTower(null);
                     upgrade.setDisable(true);
@@ -318,7 +333,7 @@ public class Game {
 
                 for (Tower tower : gameField.getTowers())
                 {
-                    //tower.drawCircle();
+                    tower.drawCircle();
                     if (!gameField.getEnemies().isEmpty())
                     {
                         for (int i = 0; i<gameField.getEnemies().size(); i++)
@@ -332,11 +347,11 @@ public class Game {
                             }
                             if (gameField.getEnemies().get(i).getHealth() <= 0)
                             {
+                                gameField.getEnemies().get(i).death();
+                                gameStage.getReward(gameField.getEnemies().get(i));
                                 gameField.getEnemies().remove(i);
                             }
                         }
-
-
                     }
                     if (tower.getTarget()!= null) {
                         tower.update();
@@ -345,82 +360,6 @@ public class Game {
                         tower.getBullet().Visible(false);
                     }
                 }
-
-
-//                if(gameField.getBullets().isEmpty()){
-//                    for (Tower tower : gameField.getTowers())
-//                        tower.setIs_Bullet( -1);
-//                }
-//                for (Tower tower : gameField.getTowers()) {
-//                    for (Enemy enemy : gameField.getEnemies()) {
-//                        if (tower.checkEnemyInRange(enemy) && tower.getIs_Bullet() == -1) {
-//                            tower.setTarget(enemy);
-//
-//                            gameField.getBullets().add(new Bullet(tower.image_Bullet(), tower.getPosX(), tower.getPosY(), enemy.getPosX() - tower.getPosX() , enemy.getPosY() - tower.getPosY() , tower.getSpeed(), tower.getDamage()));
-//                            tower.setIs_Bullet(gameField.getBullets().size() - 1);
-//                            tower.update();
-//                        }
-//                    }
-//                }
-//
-//                int k = -1;
-//                for (Bullet bullet : gameField.getBullets()) {
-//                    k++;
-//                    int j = -1;
-//                    for (Enemy enemy : gameField.getEnemies()) {
-//                        j++;
-//                        if (bullet.checkEnemyInRange(enemy.getPosX(), enemy.getPosY())) {
-//
-//                            enemy.setHealth();
-//                            bullet.setDelete(true);
-//
-//
-//                            if (enemy.getHealth() < 1) {
-//                                enemy.remove_Health();
-//                                enemy.delete();
-//                                gameField.getEnemies().remove(j);
-//
-//                            }
-//                        }
-//
-//                    }
-//                    if (!gameField.getBullets().isEmpty()) break;
-//                }
-//
-//                for (Tower tower : gameField.getTowers()) {
-//                    if (gameField.getBullets().isEmpty()) break;
-//
-//                    if (tower.getIs_Bullet() != -1 &&
-//                            tower.getIs_Bullet() < gameField.getBullets().size() &&(
-//                            tower.distanceTo(gameField.getBullets().get(tower.getIs_Bullet()).getPosX(),
-//                                    gameField.getBullets().get(tower.getIs_Bullet()).getPosY()) > tower.getRange() ||
-//                    gameField.getBullets().get(tower.getIs_Bullet()).isDelete())) {
-//
-//                        gameField.getBullets().get(tower.getIs_Bullet()).setDelete(true);
-//
-//                        tower.setIs_Bullet(-1);
-//                    }
-//                }
-//
-//                k = -1;
-//
-//                if (!gameField.getBullets().isEmpty()) {
-//                    for (Bullet bullet : gameField.getBullets()) {
-//                        k++;
-//                        if (bullet.isDelete() || bullet.getPosY() >=  GameConfig.CANVAS_HEIGHT || bullet.getPosY() <=0 || bullet.getPosX() <= 0 || bullet.getPosX() >= GameConfig.CANVAS_WIDTH) {
-//
-//                            bullet.delete();
-//                            gameField.getBullets().remove(k);
-//                            k--;
-//
-//
-//                        } else {
-//                            bullet.update();
-//                            bullet.render(gc);
-//                        }
-//                        if (gameField.getBullets().isEmpty()) break;
-//                    }
-//                }
 
                 if(!gameField.isWaveOver())
                 {
@@ -436,7 +375,6 @@ public class Game {
                     {
                         gameField.getEnemies().get(i).attack();
                         gameStage.takeDamage(gameField.getEnemies().get(i));
-                        gameStage.update();
                         gameField.getEnemies().remove(i);
 
                     }
@@ -454,16 +392,7 @@ public class Game {
                 if (gameField.isWaveOver())
                 {
                     next_wave.setVisible(true);
-                    next_wave.setOnMouseClicked(mouseEvent -> {
-                        gameField.setWaveCount();
-                        gameStage.update();
-                        gameStage.updateWave(gameField.getWaveCount());
-                        gameStage.getEndWaveReward(gameField.getWaveCount());
-                        gameField.calculateWavePower();
-                        gameField.setSpawning(true);
-                        next_wave.setVisible(false);
-
-                    });
+                    gameStage.getEndWaveReward(gameField.getWaveCount());
                 }
 
                 if (gameField.getEnemies().size() >= 5 && !gameField.isCallReinforcement()){
@@ -508,6 +437,10 @@ public class Game {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                }
+                else
+                {
+                    gameStage.update();
                 }
             }
         };

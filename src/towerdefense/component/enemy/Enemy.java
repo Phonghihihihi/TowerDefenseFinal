@@ -7,6 +7,8 @@ import towerdefense.component.GameEntity;
 public interface Enemy extends GameEntity {
     int getReward();
 
+    int getDamage();
+
     void takeDamage(int damage);
 
     void move(int path[][]);
@@ -23,8 +25,6 @@ public interface Enemy extends GameEntity {
 
     public void remove_Health();
 
-
-    void setHealth();
     double getHealth();
     public Rectangle getHealth_T_Rect();
 

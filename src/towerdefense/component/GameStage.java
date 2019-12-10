@@ -12,11 +12,20 @@ import towerdefense.ui.TowerDefense;;import java.util.Map.Entry;
 public class GameStage {
 
     private boolean waveOver;
+    private boolean endWaveReward = false;
     private long money;
     private long health;
     private Text moneyText;
     private Text healthText;
     private Text wave_text;
+
+    public boolean isEndWaveReward() {
+        return endWaveReward;
+    }
+
+    public void setEndWaveReward(boolean endWaveReward) {
+        this.endWaveReward = endWaveReward;
+    }
 
     public void setWaveOver(boolean waveOver) {
         this.waveOver = waveOver;
@@ -28,7 +37,10 @@ public class GameStage {
     }
 
     public void getEndWaveReward(int wave){
-        this.money += wave*50;
+        if (isEndWaveReward()) {
+            this.money += wave * 50;
+            endWaveReward = false;
+        }
     }
 
     private void renderWave(){
@@ -94,33 +106,11 @@ public class GameStage {
     }
 
     public void takeDamage(Enemy enemy){
-        if (enemy instanceof NormalEnemy){
-            this.health -= 10;
-        }
-        else if (enemy instanceof TankerEnemy){
-            this.health -= 15;
-        }
-        else if (enemy instanceof SmallerEnemy){
-            this.health -= 5;
-        }
-        else if (enemy instanceof BossEnemy){
-            this.health -= 25;
-        }
+        this.health -= enemy.getDamage();
     }
 
     public void getReward(Enemy enemy){
-        if (enemy instanceof NormalEnemy){
-            this.money += 20;
-        }
-        else if (enemy instanceof TankerEnemy){
-            this.money += 35;
-        }
-        else if (enemy instanceof SmallerEnemy){
-            this.money += 10;
-        }
-        else if (enemy instanceof BossEnemy){
-            this.money += 100;
-        }
+        this.money += enemy.getReward();
     }
 
     public boolean isGameOver(){

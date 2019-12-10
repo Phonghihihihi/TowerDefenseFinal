@@ -73,6 +73,7 @@ public class Reinforcements extends AbstractEntity implements GameEntity {
 
     public void tacticalNuke()
     {
+        nuke.setVolume(1.0);
         nuke.play();
     }
 

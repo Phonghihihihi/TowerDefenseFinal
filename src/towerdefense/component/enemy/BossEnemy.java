@@ -25,15 +25,6 @@ public class BossEnemy extends AbstractEnemy implements Enemy
         Game.root.getChildren().add(imageV);
     }
 
-    @Override
-    public int getReward() {
-        return 0;
-    }
-
-
-    public void setHealth() {
-        this.health -= 1;
-    }
 
     @Override
     public Rectangle getHealth_T_Rect() {
