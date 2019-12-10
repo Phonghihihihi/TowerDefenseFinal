@@ -153,18 +153,18 @@ public class GameField {
             smallerNumber = 0;
         }
 
-        if (waveCount % 5 == 0)
+        if (waveCount % 4 == 0)
         {
-            tankerNumber = GameConfig.TANKER_ENEMY_WAVE_NUMBER + waveCount/5 - 1;
+            tankerNumber = GameConfig.TANKER_ENEMY_WAVE_NUMBER + waveCount/4 - 1;
         }
         else
         {
             tankerNumber = 0;
         }
 
-        if (waveCount % 10 == 0)
+        if (waveCount % 5 == 0)
         {
-            bossNumber = GameConfig.BOSS_ENEMY_WAVE_NUMBER + waveCount/10 - 1;
+            bossNumber = GameConfig.BOSS_ENEMY_WAVE_NUMBER + waveCount/5 - 1;
         }
         else
         {

@@ -50,12 +50,6 @@ public class MachineGunTower extends AbstractTower {
         return damage;
     }
 
-    public void upgrade()
-    {
-        this.range +=5;
-        this.Speed += 5;
-        this.damage += 5;
-    }
 
     @Override
     public String image_Bullet() {

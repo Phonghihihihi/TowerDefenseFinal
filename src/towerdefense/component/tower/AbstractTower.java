@@ -10,6 +10,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import towerdefense.component.AbstractEntity;
 import towerdefense.component.GameConfig;
 import towerdefense.component.GameTile;
@@ -25,6 +27,7 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     protected Enemy target = null;
     protected int price;
     protected double fireSpeed;
+    protected int level = 1;
     protected double range;
     protected double damage;
     protected Image base;
@@ -35,7 +38,7 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     protected int is_Bullet;
     protected String image_Bullet;
     protected Bullet bullet;
-  
+
     public AbstractTower(double posX, double posY, double width, double height)
     {
         super(posX, posY, width, height);
@@ -45,9 +48,6 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     public Bullet getBullet() {
         return bullet;
     }
-
-
-
 
     @Override
     public double getDamage() {
@@ -193,5 +193,19 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     @Override
     public void buildTower() {
         build.play();
+    }
+
+    @Override
+    public void upgrade()
+    {
+        this.range += 4*level;
+        this.Speed += 4*level;
+        this.damage += 4*level;
+        this.level++;
+    }
+
+    @Override
+    public int getLevel() {
+        return level;
     }
 }

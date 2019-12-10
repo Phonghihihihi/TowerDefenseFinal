@@ -20,6 +20,7 @@ public class BossEnemy extends AbstractEnemy implements Enemy
         this.armor = GameConfig.BOSS_ENEMY_ARMOR;
         this.speed = GameConfig.BOSS_ENEMY_SPEED;
         this.reward = GameConfig.BOSS_ENEMY_REWARD;
+        this.damage = GameConfig.BOSS_ENEMY_DAMAGE;
         this.image = new Image(GameConfig.BOSS_ENEMY_URL);
         this.imageV = new ImageView(image);
         Game.root.getChildren().add(imageV);

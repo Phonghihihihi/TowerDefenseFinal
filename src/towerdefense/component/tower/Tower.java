@@ -27,4 +27,7 @@ public interface Tower extends GameTile {
      public String image_Bullet();
      public Bullet getBullet();
      public void resetBullet();
+
+     public int getLevel();
+
 }

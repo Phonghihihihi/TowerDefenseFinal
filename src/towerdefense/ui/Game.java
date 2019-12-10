@@ -187,7 +187,12 @@ public class Game {
         upgrade.relocate(1200,350);
         upgrade.setDisable(true);
         upgrade.setVisible(false);
-        upgrade.setOnAction(actionEvent -> gameField.getUpgradingTower().upgrade());
+        upgrade.setOnAction(actionEvent->{
+            if (gameStage.getMoney() >= gameField.getUpgradingTower().getPrice()*gameField.getUpgradingTower().getLevel()){
+                gameStage.setMoney(gameStage.getMoney() - gameField.getUpgradingTower().getPrice()*gameField.getUpgradingTower().getLevel());
+                gameField.getUpgradingTower().upgrade();
+            }
+        });
 
         Button sell = new Button ("Sell");
         sell.relocate(1200,450);
@@ -250,17 +255,22 @@ public class Game {
                     sell.setVisible(false);
                     root.getChildren().removeAll(normal_preplace, machine_gun_preplace);
                 } else if (TileMap.MAP_PATH[tileY][tileX] == 1) {
-                    for (Tower tower : gameField.getTowers())
-                    if (tower.getPosX() == mouseX && tower.getPosY() == mouseY)
-                    {
-                        gameField.setSellingTower(tower);
-                        gameField.setUpgradingTower(tower);
-                        upgrade.setDisable(false);
-                        upgrade.setVisible(true);
-                        sell.setDisable(false);
-                        sell.setVisible(true);
-                        root.getChildren().removeAll(normal_preplace, machine_gun_preplace);
+                    for (Tower tower : gameField.getTowers()){
+                        if (tower.getPosX() == mouseX && tower.getPosY() == mouseY)
+                        {
+                            gameField.setSellingTower(tower);
+                            gameField.setUpgradingTower(tower);
+                            upgrade.setDisable(false);
+                            upgrade.setVisible(true);
+//                            tower.updateLevel();
+//                            tower.setVisible(true);
+                            sell.setDisable(false);
+                            sell.setVisible(true);
+                            root.getChildren().removeAll(normal_preplace, machine_gun_preplace);
+                        }
                     }
+
+
                 }
             }
         });
@@ -382,6 +392,7 @@ public class Game {
                     if (!gameField.getEnemies().isEmpty()){
                         if (gameField.getReinforcements().isBoomFallIntoEnemy(gameField.getEnemies().get(i))){
                             gameField.getEnemies().get(i).destroyEnemy();
+                            gameField.getEnemies().get(i).remove_Health();
                             gameField.getEnemies().remove(i);
                         }
                     }
@@ -420,6 +431,7 @@ public class Game {
 
                     for (Enemy enemy: gameField.getEnemies()){
                         root.getChildren().remove(enemy.getImageV());
+                        enemy.remove_Health();
                     }
                     for (Tower tower: gameField.getTowers()){
                         tower.delete();

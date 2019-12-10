@@ -20,7 +20,7 @@ public final class GameConfig {
     public static final long CANVAS_HEIGHT = TILE_SIZE * TILE_VERTICAL;
 
 
-    public static final long START_MONEY = 500;
+    public static final long START_MONEY = 50;
 
     public static final long START_HEALTH = 100;
   
@@ -34,7 +34,7 @@ public final class GameConfig {
     public static final int NORMAL_ENEMY_SPEED = 2;
     public static final int NORMAL_ENEMY_ARMOR = 1;
     public static final int NORMAL_ENEMY_HEALTH = 80;
-    public static final int NORMAL_ENEMY_REWARD = 30;
+    public static final int NORMAL_ENEMY_REWARD = 5;
     public static final int NORMAL_ENEMY_WAVE_NUMBER = 5;
     public static final int NORMAL_ENEMY_DAMAGE = 10;
     public static final double NORMAL_ENEMY_WIDTH = 20;
@@ -45,7 +45,7 @@ public final class GameConfig {
     public static final int SMALLER_ENEMY_SPEED = 4;
     public static final int SMALLER_ENEMY_ARMOR = 1;
     public static final int SMALLER_ENEMY_HEALTH = 60;
-    public static final int SMALLER_ENEMY_REWARD = 30;
+    public static final int SMALLER_ENEMY_REWARD = 10;
     public static final int SMALLER_ENEMY_WAVE_NUMBER = 3;
     public static final int SMALLER_ENEMY_DAMAGE = 5;
     public static final double SMALLER_ENEMY_WIDTH = 18;
@@ -56,7 +56,7 @@ public final class GameConfig {
     public static final int TANKER_ENEMY_SPEED = 1;
     public static final int TANKER_ENEMY_ARMOR = 20;
     public static final int TANKER_ENEMY_HEALTH = 100;
-    public static final int TANKER_ENEMY_REWARD = 100;
+    public static final int TANKER_ENEMY_REWARD = 25;
     public static final int TANKER_ENEMY_WAVE_NUMBER = 3;
     public static final int TANKER_ENEMY_DAMAGE = 15;
     public static final double TANKER_ENEMY_WIDTH = 53;
@@ -67,7 +67,7 @@ public final class GameConfig {
     public static final int BOSS_ENEMY_SPEED = 1;
     public static final int BOSS_ENEMY_ARMOR = 100;
     public static final int BOSS_ENEMY_HEALTH = 200;
-    public static final int BOSS_ENEMY_REWARD = 1000;
+    public static final int BOSS_ENEMY_REWARD = 200;
     public static final int BOSS_ENEMY_WAVE_NUMBER = 1;
     public static final int BOSS_ENEMY_DAMAGE = 25;
     public static final double BOSS_ENEMY_WIDTH = 1;
@@ -94,8 +94,8 @@ public final class GameConfig {
 
     //Sniper Tower
     public static final int SNIPER_TOWER_PRICE = 50;
-    public static final double SNIPER_TOWER_DAMAGE = 100;
-    public static final double SNIPER_TOWER_FIRESPEED = 20;
+    public static final double SNIPER_TOWER_DAMAGE = 40;
+    public static final double SNIPER_TOWER_FIRESPEED = 4;
     public static final double SNIPER_TOWER_RANGE = 300;
     public static final String SNIPER_TOWER_IMAGE_URL = "file:src/Assets/Tower/Sniper.png";
 
@@ -106,7 +106,7 @@ public final class GameConfig {
     public int TIME_BULLET = 20;
     public static String MACHINE_GUN_BULLET = "file:src/Assets/Bullet/towerDefense_tile272.png";
     public static String NORMAL_BULLET = "file:src/Assets/Bullet/towerDefense_tile295.png";
-    public static String SNIPER_BULLET = "file:src/Assets/Bullet/towerDefense_tile251.png";
+    public static String SNIPER_BULLET = "file:src/Assets/Bullet/towerDefense_tile252.png";
     //UI CONTROL
     public static volatile int UI_CUR = 1;
 

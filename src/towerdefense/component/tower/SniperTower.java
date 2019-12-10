@@ -52,12 +52,6 @@ public class SniperTower extends AbstractTower {
         return damage;
     }
 
-    public void upgrade()
-    {
-        this.damage += 5;
-        this.range += 5;
-        this.Speed +=5;
-    }
 
     @Override
     public String image_Bullet() {
