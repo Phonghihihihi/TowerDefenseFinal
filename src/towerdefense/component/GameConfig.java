@@ -33,7 +33,7 @@ public final class GameConfig {
     //Normal
     public static final int NORMAL_ENEMY_SPEED = 2;
     public static final int NORMAL_ENEMY_ARMOR = 1;
-    public static final int NORMAL_ENEMY_HEALTH = 60;
+    public static final int NORMAL_ENEMY_HEALTH = 80;
     public static final int NORMAL_ENEMY_REWARD = 30;
     public static final int NORMAL_ENEMY_WAVE_NUMBER = 5;
     public static final double NORMAL_ENEMY_WIDTH = 20;
@@ -43,7 +43,7 @@ public final class GameConfig {
     //Smaller
     public static final int SMALLER_ENEMY_SPEED = 4;
     public static final int SMALLER_ENEMY_ARMOR = 1;
-    public static final int SMALLER_ENEMY_HEALTH = 45;
+    public static final int SMALLER_ENEMY_HEALTH = 60;
     public static final int SMALLER_ENEMY_REWARD = 30;
     public static final int SMALLER_ENEMY_WAVE_NUMBER = 3;
     public static final double SMALLER_ENEMY_WIDTH = 18;

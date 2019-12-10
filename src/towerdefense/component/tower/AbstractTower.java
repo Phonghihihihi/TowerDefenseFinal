@@ -185,7 +185,5 @@ public abstract class AbstractTower extends AbstractEntity implements Tower {
     {
         Game.root.getChildren().removeAll(imageV, baseV, bullet.getImageV());
     }
-    
-
 
 }
