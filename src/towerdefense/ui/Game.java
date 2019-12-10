@@ -12,6 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -19,6 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import towerdefense.component.*;
 import towerdefense.component.enemy.Enemy;
 import towerdefense.component.tower.MachineGunTower;
@@ -26,6 +29,7 @@ import towerdefense.component.tower.NormalTower;
 import towerdefense.component.tower.SniperTower;
 import towerdefense.component.tower.Tower;
 
+import java.io.File;
 import java.io.IOException;
 
 public class Game {
@@ -37,6 +41,7 @@ public class Game {
     }
     private GameStage gameStage;
     private GameField gameField;
+    private MediaPlayer theme = new MediaPlayer(new Media(new File("src/Assets/Music/Theme.mp3").toURI().toString()));
     boolean isResetGame = false;
 
     public void startGame(){
@@ -56,6 +61,15 @@ public class Game {
         TileMap.drawMap(gc);
         gameStage = new GameStage();
         gameField = new GameField();
+
+        theme.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                theme.seek(Duration.ZERO);
+            }
+        });
+        //theme.setVolume(0.1);
+        theme.play();
 
         Button next_wave = new Button("Next Wave");
         next_wave.relocate(1200,400);
@@ -180,6 +194,7 @@ public class Game {
                     if (TileMap.MAP_PATH[tileY][tileX] == 0) {
                         if (gameField.isPlacingNormalTower() && gameStage.getMoney() >= GameConfig.NORMAL_TOWER_PRICE) {
                             NormalTower t1 = new NormalTower(mouseX, mouseY, 50, 50);
+                            t1.buildTower();
                             t1.render(gc);
                             gameField.getTowers().add(t1);
                             gameField.setPlacingNormalTower(false);
@@ -189,6 +204,7 @@ public class Game {
                             gameStage.update();
                         } else if (gameField.isPlacingMachineGunTower() && gameStage.getMoney()>= GameConfig.MACHINE_GUN_TOWER_PRICE) {
                             MachineGunTower t2 = new MachineGunTower(mouseX, mouseY, 50, 50);
+                            t2.buildTower();
                             t2.render(gc);
                             gameField.getTowers().add(t2);
                             gameField.setPlacingMachineGunTower(false);
@@ -199,6 +215,7 @@ public class Game {
                         }
                         else if (gameField.isPlacingSniperTower() && gameStage.getMoney()>= GameConfig.SNIPER_TOWER_PRICE) {
                             SniperTower t3 = new SniperTower(mouseX, mouseY, 50, 50);
+                            t3.buildTower();
                             t3.render(gc);
                             gameField.getTowers().add(t3);
                             gameField.setPlacingSniperTower(false);
@@ -364,6 +381,7 @@ public class Game {
                     gameStage.reset();
                     stage.close();
                     timer.stop();
+                    theme.stop();
 //                    resetGame(gameStage, gameField);
                     EndGame endGame = new EndGame();
                     try {

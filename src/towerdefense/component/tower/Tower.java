@@ -19,5 +19,6 @@ public interface Tower extends GameTile {
      //void rotateTower();
      boolean checkEnemyInRange(Enemy enemy);
      void upgrade();
+     void buildTower();
 
 }

@@ -3,9 +3,12 @@ package towerdefense.component;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import towerdefense.ui.Game;
 import towerdefense.ui.TowerDefense;
 
+import java.io.File;
 import java.util.Map;
 
 public class Reinforcements extends AbstractEntity implements GameEntity {
@@ -16,6 +19,7 @@ public class Reinforcements extends AbstractEntity implements GameEntity {
     private double angle = 45;
     private double speedX = GameConfig.PLANE_SPEED;
     private double speedY = GameConfig.PLANE_SPEED;
+    private MediaPlayer nuke = new MediaPlayer(new Media(new File("src/Assets/Music/Nuke.mp3").toURI().toString()));
 
     public Reinforcements(double posX, double posY, double width, double height) {
         super(posX, posY, width, height);
@@ -26,6 +30,11 @@ public class Reinforcements extends AbstractEntity implements GameEntity {
 
     public boolean isReachedEndPoint() {
         return this.getPosX() >= GameConfig.GAME_WIDTH - 32;
+    }
+
+    public void tacticalNuke()
+    {
+        nuke.play();
     }
 
     @Override
